@@ -49,6 +49,5 @@
 
 * [dev-architecture](broken-link/dev-architecture.md)
 * [resources](broken-link/resources.md)
-* [roadmap](broken-link/roadmap.md)
 * [ui\_guide](broken-link/ui_guide.md)
 
