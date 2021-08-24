@@ -1,4 +1,4 @@
-# dev-architecture
+# Architecture
 
 Pinpoint is comprised of 3 main components \(Agent, Collector, Web UI\), and a HBase storage.
 

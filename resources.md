@@ -7,7 +7,7 @@ permalink: resources.html
 disqus: false
 ---
 
-# resources
+# Resources
 
 If you have created informative posts on pinpoint and want the link to be added. Feel free to contact us anytime. We are glad to add more links.
 
