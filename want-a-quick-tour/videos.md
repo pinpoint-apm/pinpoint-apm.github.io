@@ -29,3 +29,5 @@ Date : June 15, 2019
 
 Video introducing Pinpoint
 
+{% embed url="https://youtu.be/U4EwnB34Dus" %}
+
