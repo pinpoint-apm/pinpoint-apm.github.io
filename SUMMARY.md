@@ -29,7 +29,7 @@
 * [Marking Transaction as Fail](documents/http-status-code-failure.md)
 * [Monitoring Proxy Server](documents/proxy-http-header.md)
 * [Upgrade Database Hbase2](documents/hbase-upgrade.md)
-* [Architecture](documents/dev-architecture.md)
+* [Architecture and Components](documents/dev-architecture.md)
 
 ## Contribution <a id="contribution-1"></a>
 
@@ -45,5 +45,6 @@
 * [Powered by Pinpoint](powered-by.md)
 * [Questions and answers](https://github.com/pinpoint-apm/pinpoint/issues)
 * [Fork me at Github](https://github.com/pinpoint-apm/pinpoint)
+* [Earlier documents](https://pinpoint-apm.github.io/pinpoint/)
 * [Resources](resources.md)
 
