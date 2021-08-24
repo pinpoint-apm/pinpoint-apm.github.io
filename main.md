@@ -7,7 +7,7 @@ sidebar: mydoc_sidebar
 
 # What's New
 
-## What's New in 2.2.2
+## What's New in 2.2
 
 v2.2.2 is a bug fix release of 2.2.1
 
