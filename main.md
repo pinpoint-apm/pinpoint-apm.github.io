@@ -7,11 +7,14 @@ sidebar: mydoc_sidebar
 
 # What's New
 
-## What's New in 2.2
+## What's New in Pinpoint v2.0
 
-v2.2.2 is a bug fix release of 2.2.1
+* Support gRPC tranport
+* Support for JAVA12, 13
+* Maximum throughput limit feature
+* renew UI
 
-There is a bug in the Reactor-netty plugin \(v2.0.0 ~ 2.2.1\) which inserts incorrect endPoint value. It only occurs in certain circumstances relating the high overload in Pinpoint-Collector To prevent this, it is recommended to upgrade to version 2.2.2 or higher when using the Reactor-netty plugin.
+[Releases](https://github.com/pinpoint-apm/pinpoint/releases)
 
 ## Upgrade consideration
 
