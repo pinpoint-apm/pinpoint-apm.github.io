@@ -23,6 +23,8 @@ Speaking at HongKong's largest open source conference
 Title : [How we started an open source APM project and troubleshooting with it](https://hkoscon.org/2019/topics/how-we-started-open-source-apm-project-and-troubleshooting-it)  
 Date : June 15, 2019
 
+{% embed url="https://youtu.be/9-Kf87k4sEA" %}
+
 ## Introduction to Pinpoint v1.5.0
 
 Video introducing Pinpoint
