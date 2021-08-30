@@ -1,7 +1,6 @@
 # Modules updater javascript action
 
 Modules markdown updater. 
-[markscribe](https://github.com/muesli/markscribe)
 [markscribe](https://github.com/basicBrogrammer/crosspost-markdown)
 
 ## Inputs
