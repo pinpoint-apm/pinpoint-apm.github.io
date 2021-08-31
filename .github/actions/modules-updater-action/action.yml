@@ -1,10 +1,12 @@
 name: 'modules markdown file updater'
 description: 'modules markdown file updater'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  template-markdown-file:
+    description: 'template markdown file'
     required: true
-    default: 'World'
+  included-markdown-url:
+    description: 'included markdown files github url'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
