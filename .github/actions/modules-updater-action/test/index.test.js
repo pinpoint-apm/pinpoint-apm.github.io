@@ -5,3 +5,9 @@
  */
 
 'use strict'
+
+const test = require('tape')
+
+test('index.js', (t) => {
+    t.end()
+})
