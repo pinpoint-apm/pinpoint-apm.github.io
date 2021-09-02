@@ -20,7 +20,7 @@ You should definitely check **Pinpoint** out If you want to
 
 ## Want a quick tour?
 
-* [Overview](want-a-quick-tour/overview.md)/[History](want-a-quick-tour/history.md)/[Tech Details](want-a-quick-tour/techdetail.md) to get to know more about Pinpoint 
+* [Overview](want-a-quick-tour/overview.md) / [History](want-a-quick-tour/history.md) / [Tech Details](want-a-quick-tour/techdetail.md) to get to know more about Pinpoint 
 * [Videos](want-a-quick-tour/videos.md) - Checkout our videos on Pinpoint
 
 {% embed url="https://youtu.be/U4EwnB34Dus" %}
