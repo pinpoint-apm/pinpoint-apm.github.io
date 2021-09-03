@@ -13,5 +13,8 @@ const test = require('tape')
 
 test('index.js', (t) => {
     process.env['INPUT_TEMPLATE_PAGE'] = ''
+    console.log(process.env)
+    const ip = path.join(__dirname, '../', 'index.js');
+    console.log(cp.execSync(`node ${ip}`, { env: process.env }).toString());
     t.end()
 })
