@@ -30,3 +30,5 @@ jobs:
       #   cache: 'npm'
     - name: Update main.md by Markdown template engin
       uses: ./.github/actions/modules-updater-action
+      with:
+        template_markdown_file: 'main.md'
