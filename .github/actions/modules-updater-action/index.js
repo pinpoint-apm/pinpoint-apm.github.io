@@ -8,6 +8,7 @@
 
 const core = require('@actions/core')
 const github = require('@actions/github')
+const fs = require("fs-extra")
 
 const run = async () => {
   try {
