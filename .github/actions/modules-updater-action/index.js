@@ -13,13 +13,13 @@ const fs = require("fs-extra")
 const run = async () => {
   try {
     // `who-to-greet` input defined in action metadata file
-    const templateMarkdownFile = core.getInput('template_markdown_file')
+    const templateMarkdownFile = './' + core.getInput('template_markdown_file')
     console.log(`Hello ${templateMarkdownFile}!`)
 
     const env = JSON.stringify(process.env)
     console.log(`process.env: ${env}`)
 
-    const result = await fs.readFile(templateMarkdownFile, "utf-8")
+    const result = await fs.readFile(templateMarkdownFile, 'utf8')
     console.log(`readfile result: ${result}`)
 
     // Get the JSON webhook payload for the event that triggered the workflow
