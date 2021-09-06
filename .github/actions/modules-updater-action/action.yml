@@ -1,10 +1,10 @@
 name: 'modules markdown file updater'
 description: 'modules markdown file updater'
 inputs:
-  template-markdown-file:
+  template_markdown_file:
     description: 'template markdown file'
     required: true
-  included-markdown-url:
+  included_markdown_url:
     description: 'included markdown files github url'
     required: true
 outputs:
