@@ -21,6 +21,7 @@ const run = async () => {
 
     const markdownContent = await fs.readFile(templateMarkdownFile, 'utf8')
     console.log(`readfile result: ${markdownContent}`)
+    core.setOutput('data', markdownContent)
 
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)

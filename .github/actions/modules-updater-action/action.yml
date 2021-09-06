@@ -10,6 +10,8 @@ inputs:
 outputs:
   time: # id of output
     description: 'The time we greeted you'
+  data:
+    description: data of the file from file-name
 runs:
   using: 'node12'
   main: 'index.js'
