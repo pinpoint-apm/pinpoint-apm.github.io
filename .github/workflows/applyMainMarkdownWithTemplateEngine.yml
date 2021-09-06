@@ -29,4 +29,4 @@ jobs:
       #   node-version: ${{ matrix.node-version }}
       #   cache: 'npm'
     - name: Update main.md by Markdown template engin
-    - uses: ./.github/actions/modules-updater-action
+      uses: ./.github/actions/modules-updater-action
