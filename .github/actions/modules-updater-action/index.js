@@ -19,8 +19,8 @@ const run = async () => {
     const env = JSON.stringify(process.env)
     console.log(`process.env: ${env}`)
 
-    const result = await fs.readFile(templateMarkdownFile, 'utf8')
-    console.log(`readfile result: ${result}`)
+    const markdownContent = await fs.readFile(templateMarkdownFile, 'utf8')
+    console.log(`readfile result: ${markdownContent}`)
 
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)
