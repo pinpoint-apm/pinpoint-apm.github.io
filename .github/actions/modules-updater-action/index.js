@@ -13,8 +13,8 @@ const fs = require("fs-extra")
 const run = async () => {
   try {
     // `who-to-greet` input defined in action metadata file
-    const templateMarkdownFile = './' + core.getInput('template_markdown_file')
-    console.log(`Hello ${templateMarkdownFile}!`)
+    const templateMarkdownFile = core.getInput('template_markdown_file')
+    console.log(`Hello ${templateMarkdownFile}`)
 
     const env = JSON.stringify(process.env)
     console.log(`process.env: ${env}`)
