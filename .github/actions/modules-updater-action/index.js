@@ -11,7 +11,7 @@ const github = require('@actions/github')
 
 try {
   // `who-to-greet` input defined in action metadata file
-  const templateMarkdownFile = core.getInput('template-markdown-file')
+  const templateMarkdownFile = core.getInput('template_markdown_file')
   console.log(`Hello ${templateMarkdownFile}!`)
   const time = (new Date()).toTimeString()
   core.setOutput("time", time)
