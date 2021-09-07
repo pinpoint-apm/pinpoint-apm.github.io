@@ -9,16 +9,15 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const fs = require("fs-extra")
+const TemplateEngine = require('./lib/template-engine')
 
 const run = async () => {
   try {
     // `who-to-greet` input defined in action metadata file
     const templateMarkdownFile = core.getInput('template_markdown_file')
-    const markdownContent = await fs.readFile(templateMarkdownFile, 'utf8')
-    console.log(`readfile result: ${markdownContent}`)
+    const engine = new TemplateEngine(templateMarkdownFile)
 
-
-    core.setOutput('data', markdownContent)
+    core.setOutput('data', engine.markdownContent())
   } catch (error) {
     core.setFailed(error.message)
   }
