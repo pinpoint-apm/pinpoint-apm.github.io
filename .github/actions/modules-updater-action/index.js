@@ -27,8 +27,8 @@ const run = async () => {
     const payload = JSON.stringify(github.context.payload, undefined, 2)
     console.log(`The event payload: ${payload}`)
 
-    const time = (new Date()).toTimeString()
-    core.setOutput("time", time)
+    // const time = (new Date()).toTimeString()
+    // core.setOutput("time", time)
   } catch (error) {
     core.setFailed(error.message)
   }
