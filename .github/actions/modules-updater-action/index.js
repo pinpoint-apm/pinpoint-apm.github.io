@@ -17,7 +17,7 @@ const run = async () => {
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const engine = new TemplateEngine(templateMarkdownFile)
 
-    core.setOutput('data', engine.markdownContent())
+    core.setOutput('data', await engine.markdownContent())
   } catch (error) {
     core.setFailed(error.message)
   }

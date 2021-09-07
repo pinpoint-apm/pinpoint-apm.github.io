@@ -11,11 +11,12 @@ const fs = require("fs-extra")
 
 class TemplateEngine {
     constructor(templateFile) {
-        this.template = await fs.readFile(templateFile, 'utf8')
+        this.templateFile = templateFile
     }
 
-    markdownContent() {
-        return this.template
+    async markdownContent() {
+        const template = await fs.readFile(this.templateFile, 'utf8')
+        return template
     }
 }
 
