@@ -15,8 +15,8 @@ class TemplateEngine {
     }
 
     async markdownContent() {
-        const template = await fs.readFile(this.templateFile, 'utf8')
-        return template
+        const file = this.templateFile
+        const template = await fs.readFile(file, 'utf8')
     }
 }
 
