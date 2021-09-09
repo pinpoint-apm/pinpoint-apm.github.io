@@ -19,7 +19,7 @@ const run = async () => {
     const engine = new TemplateEngine(template)
 
     fs.outputFileSync(templateMarkdownFile, 'utf8')
-    core.setOutput('data', await engine.markdownContent())
+    core.setOutput('markdown', await engine.markdownContent())
   } catch (error) {
     core.setFailed(error.message)
   }
