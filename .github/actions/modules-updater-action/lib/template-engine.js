@@ -14,8 +14,25 @@ class TemplateEngine {
         this.template = template
     }
 
+    // https://regex101.com/r/Sgd2aq/1/
     async markdownContent() {
-        return this.template
+        const startTagRegExpression = /<!--\s<(?<markdownfile>[^/]*\.md)>\s-->/gm
+        let openTag
+        let result = this.template
+        while ((openTag = startTagRegExpression.exec(this.template)) !== null) {
+            const closeTag = RegExp(`<!--\\s<\\/${openTag[1]}>\\s-->`, 'gm').exec(this.template)
+            if (!closeTag) {
+                continue
+            }
+
+            const markdownFile = this.getContent(openTag[1])
+            result = result.replace(closeTag, `${markdownFile}\n<!-- </${openTag[1]}> -->`)
+        }
+        return result
+    }
+
+    async getContent(file) {
+        return await fs.readFile('./' + file, 'utf8')
     }
 }
 
