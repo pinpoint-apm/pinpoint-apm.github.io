@@ -4,9 +4,6 @@ inputs:
   template_markdown_file:
     description: 'template markdown file'
     required: true
-  included_markdown_url:
-    description: 'included markdown files github url'
-    required: true
 outputs:
   # time: # id of output
   #   description: 'The time we greeted you'
