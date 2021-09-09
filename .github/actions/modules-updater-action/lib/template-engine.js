@@ -10,13 +10,12 @@ const github = require('@actions/github')
 const fs = require("fs-extra")
 
 class TemplateEngine {
-    constructor(templateFile) {
-        this.templateFile = templateFile
+    constructor(template) {
+        this.template = template
     }
 
     async markdownContent() {
-        const file = this.templateFile
-        const template = await fs.readFile(file, 'utf8')
+        return this.template
     }
 }
 

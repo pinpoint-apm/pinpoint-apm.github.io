@@ -7,8 +7,9 @@
 'use strict'
 
 const test = require('tape')
+const TemplateEngine = require('../lib/template-engine')
 
-const mainMarkdownFile = `---
+const actualMD = `---
 title: Pinpoint 2.2.2
 keywords: 'pinpoint release, 2.2.2'
 permalink: main.html
@@ -50,6 +51,9 @@ Additionally, the required Java version to run each Pinpoint component is given 
 <!-- <modules.md> -->
 <!-- </modules.md> -->`
 
-test('tempalte engine', (t) => {
-
+test('tempalte engine', async (t) => {
+    const dut = new TemplateEngine(actualMD)
+    const actual = await dut.markdownContent()
+    t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
+    t.end()
 })
