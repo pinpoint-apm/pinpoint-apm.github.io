@@ -15,7 +15,8 @@ const run = async () => {
   try {
     // `who-to-greet` input defined in action metadata file
     const templateMarkdownFile = core.getInput('template_markdown_file')
-    const engine = new TemplateEngine(templateMarkdownFile)
+    const template = await fs.readFile(templateMarkdownFile, 'utf8')
+    const engine = new TemplateEngine(template)
 
     core.setOutput('data', await engine.markdownContent())
   } catch (error) {
