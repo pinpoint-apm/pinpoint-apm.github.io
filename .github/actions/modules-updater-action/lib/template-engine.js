@@ -8,6 +8,7 @@
 const core = require('@actions/core')
 const github = require('@actions/github')
 const fs = require("fs-extra")
+const axios = require('axios')
 
 class TemplateEngine {
     constructor(template) {
@@ -25,14 +26,15 @@ class TemplateEngine {
                 continue
             }
 
-            const markdownFile = this.getContent(openTag[1])
+            const markdownFile = await this.getContent(openTag[1])
             result = result.replace(closeTag, `${markdownFile}\n<!-- </${openTag[1]}> -->`)
         }
         return result
     }
 
     async getContent(file) {
-        return await fs.readFile('./' + file, 'utf8')
+        const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${file}`, { responseType: 'text' })
+        return data
     }
 }
 
