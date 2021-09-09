@@ -53,6 +53,9 @@ Additionally, the required Java version to run each Pinpoint component is given 
 
 test('tempalte engine', async (t) => {
     const dut = new TemplateEngine(actualMD)
+    dut.getContent = () => {
+        return 'test  test'
+    }
     const actual = await dut.markdownContent()
     t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
     t.end()
