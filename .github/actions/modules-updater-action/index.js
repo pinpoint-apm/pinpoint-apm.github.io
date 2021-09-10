@@ -12,7 +12,7 @@ const fs = require("fs-extra")
 const TemplateEngine = require('./lib/template-engine')
 
 const path = require('path')
-const baseDir = path.join(process.cwd(), core.getInput('cwd') || '')
+const baseDir = process.cwd()
 const simpleGit = require('simple-git')
 const git = simpleGit({ baseDir })
 console.log(`baseDir: ${baseDir}`)
