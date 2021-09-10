@@ -25,7 +25,7 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent()
     core.debug(`markdownContent ${markdownContent}`)
-    fs.outputFileSync(templateMarkdownFile, 'utf8')
+    // fs.outputFileSync(templateMarkdownFile, 'utf8')
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
