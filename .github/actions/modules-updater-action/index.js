@@ -23,6 +23,12 @@ const run = async () => {
 
     fs.outputFileSync(templateMarkdownFile, 'utf8')
     core.setOutput('markdown', await engine.markdownContent())
+
+    core.info('> Checking for uncommitted changes in the git working tree...')
+    const changedFiles = (await git.diffSummary(['--cached'])).files.length
+    if (changedFiles > 0) {
+      core.info(`> Found ${changedFiles} changed files.`)
+    }
   } catch (error) {
     core.setFailed(error.message)
   }
