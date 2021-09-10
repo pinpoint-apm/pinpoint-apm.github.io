@@ -25,3 +25,6 @@ jobs:
         template_markdown_file: ./main.md
     - name: Echo main.md
       run: echo "${{ steps.package.outputs.markdown }}"
+    - name : machine ls $HOME
+      working-directory : "."
+      run : "ls -la $HOME"
