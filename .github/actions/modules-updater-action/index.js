@@ -30,7 +30,7 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent()
     console.log(`markdownContent ${markdownContent}`)
-    // fs.outputFileSync(templateMarkdownFile, 'utf8')
+    fs.outputFileSync(templateMarkdownFile, '')
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
