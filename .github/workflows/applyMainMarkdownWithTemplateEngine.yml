@@ -28,3 +28,6 @@ jobs:
     - name : machine ls $HOME
       working-directory : "."
       run : "ls -la $HOME"
+    - name : machine ls -al
+      working-directory : "."
+      run : "ls -la"      
