@@ -23,10 +23,12 @@ const run = async () => {
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
     const engine = new TemplateEngine(template)
 
+    const markdownContent = await engine.markdownContent()
+    core.debug(`markdownContent ${markdownContent}`)
     fs.outputFileSync(templateMarkdownFile, 'utf8')
-    core.setOutput('markdown', await engine.markdownContent())
+    core.setOutput('markdown', markdownContent)
 
-    core.info('> Checking for uncommitted changes in the git working tree...')
+    core.info('Checking for changes')
     const changedFiles = (await git.diffSummary(['--cached'])).files.length
     if (changedFiles > 0) {
       core.info(`> Found ${changedFiles} changed files.`)
