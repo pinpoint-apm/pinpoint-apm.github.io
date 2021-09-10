@@ -11,6 +11,9 @@ const github = require('@actions/github')
 const fs = require("fs-extra")
 const TemplateEngine = require('./lib/template-engine')
 
+const baseDir = path.join(process.cwd(), getInput('cwd') || '')
+const git = simpleGit({ baseDir })
+
 const run = async () => {
   try {
     // `who-to-greet` input defined in action metadata file
