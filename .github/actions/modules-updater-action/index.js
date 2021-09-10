@@ -24,7 +24,7 @@ const run = async () => {
     const engine = new TemplateEngine(template)
 
     const markdownContent = await engine.markdownContent()
-    core.debug(`markdownContent ${markdownContent}`)
+    console.log(`markdownContent ${markdownContent}`)
     // fs.outputFileSync(templateMarkdownFile, 'utf8')
     core.setOutput('markdown', markdownContent)
 
