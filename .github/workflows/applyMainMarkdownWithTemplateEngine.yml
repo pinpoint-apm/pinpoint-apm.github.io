@@ -35,5 +35,4 @@ jobs:
       working-directory : "."
       run : "pwd"
     - name : git diff
-      working-directory : "."
-      run : "git diff --stat --cached"      
+      run : "git diff --stat --cached"
