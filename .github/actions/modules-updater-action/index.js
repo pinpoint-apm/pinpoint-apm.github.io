@@ -15,7 +15,6 @@ const path = require('path')
 const baseDir = process.cwd()
 const simpleGit = require('simple-git')
 const git = simpleGit({ baseDir })
-console.log(`baseDir: ${baseDir}`)
 
 const run = async () => {
   try {
@@ -25,7 +24,8 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent()
     fs.outputFileSync(templateMarkdownFile, '')
-    git.add(templateMarkdownFile)
+    await git.add(templateMarkdownFile)
+    console.log(`await git.add(templateMarkdownFile) : ${templateMarkdownFile}`)
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
