@@ -25,7 +25,6 @@ const run = async () => {
     const markdownContent = await engine.markdownContent()
     fs.outputFileSync(templateMarkdownFile, '')
     await git.add(templateMarkdownFile)
-    console.log(`await git.add(templateMarkdownFile) : ${templateMarkdownFile}`)
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
