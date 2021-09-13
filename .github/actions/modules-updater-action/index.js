@@ -36,7 +36,7 @@ const run = async () => {
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary(['--cached'])).files.length
-    console.log(`(await git.diffSummary(['--cached'])).files: ${(await git.diffSummary(['--cached'])).files}`)
+    console.log(`(await git.diffSummary(['--cached'])).files: ${changedFiles}`)
     if (changedFiles > 0) {
       core.info(`> Found ${changedFiles} changed files.`)
     }
