@@ -33,4 +33,7 @@ jobs:
       run : "ls -la"      
     - name : machine pwd
       working-directory : "."
-      run : "pwd"            
+      run : "pwd"
+    - name : git diff
+      working-directory : "."
+      run : "git diff --stat --cached"      
