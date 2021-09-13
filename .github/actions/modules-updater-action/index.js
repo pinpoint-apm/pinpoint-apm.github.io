@@ -19,17 +19,11 @@ console.log(`baseDir: ${baseDir}`)
 
 const run = async () => {
   try {
-
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
-
-    // `who-to-greet` input defined in action metadata file
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
     const engine = new TemplateEngine(template)
 
     const markdownContent = await engine.markdownContent()
-    console.log(`markdownContent ${markdownContent}`)
     fs.outputFileSync(templateMarkdownFile, '')
     git.add(templateMarkdownFile)
     core.setOutput('markdown', markdownContent)
