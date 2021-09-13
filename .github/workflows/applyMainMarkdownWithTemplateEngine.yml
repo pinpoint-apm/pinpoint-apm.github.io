@@ -26,13 +26,11 @@ jobs:
     - name: Echo main.md
       run: echo "${{ steps.package.outputs.markdown }}"
     - name : machine ls $HOME
-      working-directory : "."
       run : "ls -la $HOME"
     - name : machine ls -al
       working-directory : "."
       run : "ls -la"      
     - name : machine pwd
-      working-directory : "."
       run : "pwd"
     - name : git diff
       run : "git diff --stat --cached"
