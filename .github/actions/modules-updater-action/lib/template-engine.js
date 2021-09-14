@@ -17,17 +17,12 @@ class TemplateEngine {
 
     // https://regex101.com/r/Sgd2aq/1/
     async markdownContent() {
-        const startTagRegExpression = /<!--\s<(?<markdownfile>[^/]*\.md)>\s-->/gm
-        let openTag
+        let tagExpression = /<!--\s<(?<markdownfile>.*.md)>\s-->\n.*<!--\s<\/[^.]*.md>\s-->/gm
+        let tag
         let result = this.template
-        while ((openTag = startTagRegExpression.exec(this.template)) !== null) {
-            const closeTag = RegExp(`<!--\\s<\\/${openTag[1]}>\\s-->`, 'gm').exec(this.template)
-            if (!closeTag) {
-                continue
-            }
-
-            const markdownFile = await this.getContent(openTag[1])
-            result = result.replace(closeTag, `${markdownFile}\n<!-- </${openTag[1]}> -->`)
+        while ((tag = tagExpression.exec(this.template)) !== null) {
+            const markdownFile = await this.getContent(tag[1])
+            result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n.*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
         }
         return result
     }
