@@ -30,6 +30,8 @@ const run = async () => {
     const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
       await git
+        .addConfig('user.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com')
+        .addConfig('user.name', core.getInput('author_name') || 'Yongseok Kang')
         .addConfig('author.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com')
         .addConfig('author.name', core.getInput('author_name') || 'Yongseok Kang')
 
