@@ -23,7 +23,7 @@ const run = async () => {
     const engine = new TemplateEngine(template)
 
     const markdownContent = await engine.markdownContent()
-    fs.outputFileSync(templateMarkdownFile, '')
+    fs.outputFileSync(templateMarkdownFile, markdownContent)
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
