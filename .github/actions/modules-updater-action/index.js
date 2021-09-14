@@ -24,13 +24,14 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent()
     fs.outputFileSync(templateMarkdownFile, '')
-    // await git.add(templateMarkdownFile)
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
       core.info(`> Found ${changedFiles} changed files.`)
+      await git.add(templateMarkdownFile)
+      core.info(`> git add ${templateMarkdownFile} file.`)
     }
   } catch (error) {
     core.setFailed(error.message)
