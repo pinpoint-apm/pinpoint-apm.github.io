@@ -29,6 +29,10 @@ const run = async () => {
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
+      await git
+        .addConfig('author.email', getInput('author_email') || 'yongseok.kang@navercorp.com', undefined, log)
+        .addConfig('author.name', getInput('author_name') || 'Yongseok Kang', undefined, log)
+
       core.info(`> Found ${changedFiles} changed files.`)
       await git.add(templateMarkdownFile)
       core.info(`> git add ${templateMarkdownFile} file.`)
