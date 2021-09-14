@@ -30,8 +30,8 @@ const run = async () => {
     const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
       await git
-        .addConfig('author.email', getInput('author_email') || 'yongseok.kang@navercorp.com', undefined, log)
-        .addConfig('author.name', getInput('author_name') || 'Yongseok Kang', undefined, log)
+        .addConfig('author.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com', undefined, log)
+        .addConfig('author.name', core.getInput('author_name') || 'Yongseok Kang', undefined, log)
 
       core.info(`> Found ${changedFiles} changed files.`)
       await git.add(templateMarkdownFile)
