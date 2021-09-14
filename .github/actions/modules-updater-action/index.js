@@ -24,12 +24,11 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent()
     fs.outputFileSync(templateMarkdownFile, '')
-    await git.add(templateMarkdownFile)
+    // await git.add(templateMarkdownFile)
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
-    const changedFiles = (await git.diffSummary(['--cached'])).files.length
-    console.log(`(await git.diffSummary(['--cached'])).files: ${changedFiles}`)
+    const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
       core.info(`> Found ${changedFiles} changed files.`)
     }
