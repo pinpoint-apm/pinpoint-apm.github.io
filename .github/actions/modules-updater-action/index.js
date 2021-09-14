@@ -32,6 +32,10 @@ const run = async () => {
       core.info(`> Found ${changedFiles} changed files.`)
       await git.add(templateMarkdownFile)
       core.info(`> git add ${templateMarkdownFile} file.`)
+      await git.commit('Update ${templateMarkdownFile} file.')
+      core.info(`> git commit ${templateMarkdownFile} file.`)
+      await git.push()
+      core.info(`> git push.`)
     }
   } catch (error) {
     core.setFailed(error.message)
