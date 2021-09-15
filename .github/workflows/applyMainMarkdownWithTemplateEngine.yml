@@ -6,7 +6,7 @@ name: Node.js CI
 on:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
   repository_dispatch:
-    types: [opened, deleted]
+    types: [my-event]
 
 jobs:
   build:
@@ -21,12 +21,10 @@ jobs:
         template_markdown_file: ./main.md
     - name: Echo main.md
       run: echo "${{ steps.package.outputs.markdown }}"
-    - name : machine ls $HOME
-      run : "ls -la $HOME"
-    - name : machine ls -al
-      working-directory : "."
-      run : "ls -la"      
-    - name : machine pwd
-      run : "pwd"
-    - name : git diff
-      run : "git diff --stat --cached"
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        repository: pinpoint-apm/pinpoint
+        event-type: my-event
+        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
