@@ -19,8 +19,6 @@ jobs:
       uses: ./.github/actions/modules-updater-action
       with:
         template_markdown_file: ./main.md
-    - name: Echo main.md
-      run: echo "${{ steps.package.outputs.markdown }}"
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
