@@ -14,6 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Update main.md by Markdown template engin
-      uses: ./.github/actions/modules-updater-action
+      uses: ./.github/actions/markdown-template-engine
       with:
         template_markdown_file: ./main.md
