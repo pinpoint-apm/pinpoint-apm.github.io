@@ -1,7 +1,7 @@
 {
-  "name": "modules-updater-action",
+  "name": "markdown-template-engine-action",
   "version": "1.0.0",
-  "description": "Updater for Pinpoint official website form pinpoint/docs/modules.md",
+  "description": "Updater for Pinpoint official website from pinpoint/docs/modules.md",
   "main": "index.js",
   "scripts": {
     "test": "jest",
