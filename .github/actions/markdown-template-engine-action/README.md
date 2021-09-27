@@ -1,8 +1,5 @@
 # Modules updater javascript action
 
-Modules markdown updater. 
-[markscribe](https://github.com/basicBrogrammer/crosspost-markdown)
-
 ## Inputs
 
 ## `who-to-greet`
