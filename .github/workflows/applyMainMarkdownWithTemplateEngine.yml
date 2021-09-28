@@ -7,7 +7,6 @@ on:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
   repository_dispatch:
     types: [updated-pinpoint-respository]
-  push:
 
 jobs:
   build:
