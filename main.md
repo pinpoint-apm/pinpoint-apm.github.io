@@ -20,6 +20,7 @@ sidebar: mydoc_sidebar
 
 HBase compatibility table:
 
+<!-- <compatibilityHbase.md> -->
 | Pinpoint Version | HBase 0.98.x | HBase 1.0.x | HBase 1.2.x | HBase 2.0.x |
 | :--- | :--- | :--- | :--- | :--- |
 | 1.5.x | not tested | yes | not tested | no |
@@ -27,9 +28,11 @@ HBase compatibility table:
 | 1.7.x | not tested | not tested | yes | no |
 | 1.8.x | not tested | not tested | yes | no |
 | 2.0.x | not tested | not tested | yes | optional |
+<!-- </compatibilityHbase.md> -->
 
 Agent compatibility to Collector table:
 
+<!-- <compatibilityPinpoint.md> -->
 | Agent Version | Collector 1.5.x | Collector 1.6.x | Collector 1.7.x | Collector 1.8.x | Collector 2.0.x |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | 1.5.x | yes | yes | yes | yes | yes |
@@ -37,9 +40,11 @@ Agent compatibility to Collector table:
 | 1.7.x | no | no | yes | yes | yes |
 | 1.8.x | no | no | no | yes | yes |
 | 2.0.x | no | no | no | no | yes |
+<!-- </compatibilityPinpoint.md> -->
 
 Additionally, the required Java version to run each Pinpoint component is given below:
 
+<!-- <compatibilityJava.md> -->
 | Pinpoint Version | Agent | Collector | Web |
 | :--- | :--- | :--- | :--- |
 | 1.5.x | 6-8 | 7-8 | 7-8 |
@@ -48,12 +53,14 @@ Additionally, the required Java version to run each Pinpoint component is given 
 | 1.8.0 | 6-10 | 8 | 8 |
 | 1.8.1+ | 6-11 | 8 | 8 |
 | 2.0.x | 6-11 | 8 | 8 |
+<!-- </compatibilityJava.md> -->
 
 ## Supported Modules
 
 * JDK 6+
 * Supported versions of the \* indicated library may differ from the actual version.
 
+<!-- <modules.md> -->
 | Title | Instrumented Library | Min | Max | Comment |  |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | [Tomcat](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/tomcat) |  | 6.x | 9.x |  |  |
@@ -139,4 +146,4 @@ Additionally, the required Java version to run each Pinpoint component is given 
 | postgresql | postgresql | 9.4.1208 | 42.2.19 |  |  |
 | ojdbc8 | ojdbc8 | 12.2.0.1 | 21.1.0.0 |  |  |
 | ojdbc10 | ojdbc10 | 19.3.0.0 | 19.10.0.0 |  |  |
-
+<!-- </modules.md> -->
