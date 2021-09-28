@@ -1,16 +1,16 @@
-# Modules updater javascript action
+# Markdown Template Engine action
 
 ## Inputs
 
-## `who-to-greet`
+## `template_markdown_file`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** a markdown file by markdown template engine.
 
 ## Outputs
 
-## `time`
+## `markdown`
 
-The time we greeted you.
+markdown println by markdown template engine.
 
 ## Example usage
 
