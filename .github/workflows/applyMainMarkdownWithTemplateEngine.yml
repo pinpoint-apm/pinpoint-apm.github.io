@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
     - name: Update main.md by Markdown template engin
       uses: ./.github/actions/markdown-template-engine-action
       with:
