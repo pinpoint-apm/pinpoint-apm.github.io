@@ -29,7 +29,7 @@ const run = async () => {
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
     const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`)
+    core.info(`The event payload: ${payload}`)
     if (changedFiles > 0) {
       await git
         .addConfig('user.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com')
