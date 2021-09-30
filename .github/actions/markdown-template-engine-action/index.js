@@ -28,14 +28,17 @@ const run = async () => {
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    core.info(`The event payload: ${payload}`)
     if (changedFiles > 0) {
+      const payload = github.context.payload['client_payload'] || {}
+      core.info(`The event payload: ${payload}`)
+      const email = payload['author-email'] || 'yongseok.kang@navercorp.com'
+      const authorName = payload['author_name'] || 'feelform'
+      core.info(`email: ${email}, authorName: ${authorName}`)
       await git
-        .addConfig('user.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com')
-        .addConfig('user.name', core.getInput('author_name') || 'Yongseok Kang')
-        .addConfig('author.email', core.getInput('author_email') || 'yongseok.kang@navercorp.com')
-        .addConfig('author.name', core.getInput('author_name') || 'Yongseok Kang')
+        .addConfig('user.email', email)
+        .addConfig('user.name', authorName)
+        .addConfig('author.email', email)
+        .addConfig('author.name', authorName)
 
       core.info(`> Found ${changedFiles} changed files.`)
       await git.add(templateMarkdownFile)
