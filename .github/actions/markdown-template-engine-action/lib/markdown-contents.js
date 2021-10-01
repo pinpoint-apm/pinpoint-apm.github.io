@@ -5,6 +5,11 @@
  */
 
 const axios = require('axios')
+
+
+const whatsNewTempate = `# What's New in __VERSION__
+__BODY__
+`
 class MarkdownContents {
     async markdownContentsFromPinpointGithub(fileName) {
         const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
@@ -13,7 +18,9 @@ class MarkdownContents {
 
     async markdownContentsFromPinpointLatestReleaseNotes() {
         const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
-        return data
+        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', data.tag_name)
+            .replace('__BODY__', data.body)
+        return latestReleaseNotes
     }
 }
 

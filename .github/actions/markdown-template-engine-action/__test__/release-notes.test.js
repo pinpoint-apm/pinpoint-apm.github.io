@@ -12,6 +12,6 @@ const MarkdownContents = require('../lib/markdown-contents')
 test('release notes', async (t) => {
     const dut = new MarkdownContents()
     const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
-    t.true(/##  Key Features\r\n/.test(actual.body), '`##  Key Features` match error')
+    t.true(/# What's New in/.test(actual), '`# What"s New in tagname` match error')
     t.end()
 })
