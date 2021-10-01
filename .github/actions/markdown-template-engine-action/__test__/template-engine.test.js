@@ -16,16 +16,8 @@ permalink: main.html
 sidebar: mydoc_sidebar
 ---
 
-# What's New
-
-## What's New in Pinpoint v2.0
-
-* Support gRPC tranport
-* Support for JAVA12, 13
-* Maximum throughput limit feature
-* renew UI
-
-[Releases](https://github.com/pinpoint-apm/pinpoint/releases)
+<!-- <latestReleaseNotes.md> -->
+<!-- </latestReleaseNotes.md> -->
 
 ## Upgrade consideration
 
