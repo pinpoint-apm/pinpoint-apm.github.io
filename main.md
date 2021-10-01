@@ -1,4 +1,140 @@
 <!-- <latestReleaseNotes.md> -->
+# What's New in v2.3.0
+##  Key Features
+### Support Dark Mode 
+* Servermap 
+![image](https://user-images.githubusercontent.com/14918660/123748950-d955e300-d8ef-11eb-981a-3fd79ece9276.png)
+* Distributed callstack
+![dark-call](https://user-images.githubusercontent.com/10057874/126583513-8d8f3cb9-d411-4a20-a312-6dacc7722341.jpg)
+* Inspector 
+![darkinspector](https://user-images.githubusercontent.com/10057874/126583523-851c5cc6-a456-4e66-8d38-17f4aa3004d3.jpg)
+* Issue : #7990 
+<br>
+
+### Support Avg & Max response summary
+* Servermap 
+![avgmax](https://user-images.githubusercontent.com/10057874/126583693-d5642ab7-d1bb-48dd-ad40-ea8a7e1e031c.jpg)
+* Issue : #7559 
+(Thank you @yjqg6666  for your contribution)
+<br>
+
+### Support Async SDK support
+* Distributed callstack
+![async](https://user-images.githubusercontent.com/10057874/126584403-152f547d-0937-4512-a915-1c7a23bfb3d9.jpg)
+* Document
+https://github.com/pinpoint-apm/pinpoint/blob/master/agent-sdk/README.md
+* Issue : #7654, #7750 
+(Thank you @zhangyinhao1234   for your contribution)
+<br>
+
+### Support Agent Name 
+* Description 
+Pinpoint has been resolved 24 character limit via agentName.
+```
+# Pinpoint OPTS 
+-javaagent:${PINPOINT_BOOTSTRAP} -Dpinpoint.agentName=pinpoint_has_been_resolved_24_character_limit_agentName -Dpinpoint.applicationName=${APPLICATION_NAME}
+```
+<br>
+
+* Servermap
+![image](https://user-images.githubusercontent.com/1879641/113987104-95b78400-9880-11eb-80d6-32683cd67940.png)
+* Distributed callstack
+![image](https://user-images.githubusercontent.com/1879641/112813099-71092280-90b0-11eb-912f-5b9c798b990f.png)
+* Inspector
+![image](https://user-images.githubusercontent.com/1879641/112812867-2d161d80-90b0-11eb-85cc-f9380d6cbb03.png)
+* Issue : #7788  
+(Thank you @yjqg6666  for your contribution)
+<br>
+
+### Separated into batch logic module
+In the future, the module is separated so that the batch is operated as a separate process instead of running the batch job in the web.
+Please refer to the guide document below for how to run batch.
+* issue : #7808
+* Document
+https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/alarm.md
+
+
+### Support webhook notifications for alarms
+![alarm_figure06](https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/images/alarm/alarm_figure06.png)
+* Document
+https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/alarm.md
+* Issue : #7142
+(Thank you @cwJohnPark, @doll6777, @imbf  for your contribution)
+<br>
+
+### Support Hbase2 
+* Issue : #7808 
+
+<br>
+
+## Release Notes
+### Plugins
+* [Plugins issues](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aplugin)
+
+### Enhancements
+* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aagent)
+
+* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aplugin)
+
+* [Collector](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Acollector)
+
+* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aweb)
+
+* [Batch](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Abatch)
+
+* [Flink](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aflink)
+
+* [Common](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aproject-common)
+
+### Bugs
+* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Aagent)
+
+* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Aplugin)
+
+* [Collector](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Acollector)
+
+* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+label%3Abug+is%3Aclosed+label%3Amodule%3Aweb)
+
+* [Batch](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+label%3Abug+is%3Aclosed+label%3Amodule%3Abatch)
+
+* [Test](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Atest)
+
+### Cleanup
+* [Agent](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Acleanup+label%3Amodule%3Aagent)
+
+* [Plugin](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Acleanup+label%3Amodule%3Aplugin)
+
+### Dependency
+* [All](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Adependencies)
+
+### Document
+* [All](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Adocument)
+
+
+<br>
+
+## Thank You
+to
+whom provided or suggested valuable features
+whom fixed or reported bugs
+whom showed interest in Pinpoint and shared it to others.
+
+Thank you all.
+If there is someone who was inadvertently excluded, please let me know.
+@brito-wang
+@cwJohnPark 
+@davide-parini
+@doll6777
+@hoverwinter
+@imbf 
+@kkojaeh
+@linux0x5c 
+@messi-gao 
+@stanvl
+@tankilo 
+@theLazyCat775
+
+
 <!-- </latestReleaseNotes.md> -->
 
 ## Upgrade consideration
