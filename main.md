@@ -1,10 +1,3 @@
----
-title: Pinpoint 2.2.2
-keywords: 'pinpoint release, 2.2.2'
-permalink: main.html
-sidebar: mydoc_sidebar
----
-
 <!-- <latestReleaseNotes.md> -->
 <!-- </latestReleaseNotes.md> -->
 
