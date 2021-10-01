@@ -26,13 +26,14 @@ const run = async () => {
     fs.outputFileSync(templateMarkdownFile, markdownContent)
     core.setOutput('markdown', markdownContent)
 
-    core.info('Checking for changes')
-    const changedFiles = (await git.diffSummary()).files.length
     const payload = github.context.payload['client_payload'] || {}
     core.info(`The event payload: ${payload}`)
     const email = payload['author-email'] || 'yongseok.kang@navercorp.com'
     const authorName = payload['author_name'] || 'feelform'
     core.info(`email: ${email}, authorName: ${authorName}`)
+
+    core.info('Checking for changes')
+    const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
       await git
         .addConfig('user.email', email)
