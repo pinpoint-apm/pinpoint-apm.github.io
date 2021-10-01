@@ -6,7 +6,7 @@ sidebar: mydoc_sidebar
 ---
 
 <!-- <latestReleaseNotes.md> -->
-<!-- <latestReleaseNotes.md> -->
+<!-- </latestReleaseNotes.md> -->
 
 ## Upgrade consideration
 
