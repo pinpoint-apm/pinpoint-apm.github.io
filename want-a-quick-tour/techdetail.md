@@ -1,12 +1,3 @@
----
-title: Technical Details
-keywords: 'tech, technology'
-last_updated: 'Feb 1, 2018'
-sidebar: mydoc_sidebar
-permalink: techdetail.html
-disqus: false
----
-
 # Tech Details
 
 In this article, we describe the Pinpoint's techniques such as transaction tracing and bytecode instrumentation. And we explain the optimization method applied to Pinpoint Agent, which modifies bytecode and record performance data.
@@ -17,9 +8,9 @@ Pinpoint traces distributed requests in a single transaction, modeled after Goog
 
 ### How Distributed Transaction Tracing Works in Google's Dapper
 
-The purpose of a distributed tracing system is to identify relationships between Node 1 and Node 2 in a distributed system when a message is sent from Node 1 to Node 2 \(Figure 1\).
+The purpose of a distributed tracing system is to identify relationships between Node 1 and Node 2 in a distributed system when a message is sent from Node 1 to Node 2 (Figure 1).
 
-![Figure 1. Message relationship in a distributed system](../.gitbook/assets/td_figure1.png)
+![Figure 1. Message relationship in a distributed system](../.gitbook/assets/td\_figure1.png)
 
 Figure 1. Message relationship in a distributed system
 
@@ -37,12 +28,12 @@ Pinpoint is modeled on the tracing technique of Google's Dapper but has been mod
 
 In Pinpoint, the core of data structure consists of Spans, Traces, and TraceIds.
 
-* Span: The basic unit of RPC \(remote procedure call\) tracing; it indicates work processed when an RPC arrives and contains trace data. To ensure the code-level visibility, a Span has children labeled SpanEvent as a data structure. Each Span contains a TraceId.
-* Trace: A collection of Spans; it consists of associated RPCs \(Spans\). Spans in the same trace share the same TransactionId. A Trace is sorted as a hierarchical tree structure through SpanIds and ParentSpanIds.
-* TraceId: A collections of keys consisting of TransactionId, SpanId, and ParentSpanId. The TransactionId indicates the message ID, and both the SpanId and the ParentSpanId represent the parent-child relationship of RPCs. 
-  * TransactionId \(TxId\): The ID of the message sent/received across distributed systems from a single transaction; it must be globally unique across the entire group of servers.
+* Span: The basic unit of RPC (remote procedure call) tracing; it indicates work processed when an RPC arrives and contains trace data. To ensure the code-level visibility, a Span has children labeled SpanEvent as a data structure. Each Span contains a TraceId.
+* Trace: A collection of Spans; it consists of associated RPCs (Spans). Spans in the same trace share the same TransactionId. A Trace is sorted as a hierarchical tree structure through SpanIds and ParentSpanIds.
+* TraceId: A collections of keys consisting of TransactionId, SpanId, and ParentSpanId. The TransactionId indicates the message ID, and both the SpanId and the ParentSpanId represent the parent-child relationship of RPCs.&#x20;
+  * TransactionId (TxId): The ID of the message sent/received across distributed systems from a single transaction; it must be globally unique across the entire group of servers.
   * SpanId: The ID of a job processed when receiving RPC messages; it is generated when an RPC arrives at a node.
-  * ParentSpanId \(pSpanId\): The SpanId of the parent span which generated the RPC. If a node is the starting point of a transaction, there will not be a parent span - for these cases, we use a value of -1 to denote that the span is the root span of a transaction.
+  * ParentSpanId (pSpanId): The SpanId of the parent span which generated the RPC. If a node is the starting point of a transaction, there will not be a parent span - for these cases, we use a value of -1 to denote that the span is the root span of a transaction.
 
 > Differences in terms between Google's Dapper and NAVER's Pinpoint
 >
@@ -52,23 +43,23 @@ In Pinpoint, the core of data structure consists of Spans, Traces, and TraceIds.
 
 The figure below illustrates the behavior of a TraceId in which RPCs were made 3 times within 4 nodes.
 
-![Figure 2. Example of a TraceId behavior](../.gitbook/assets/td_figure2.png)
+![Figure 2. Example of a TraceId behavior](../.gitbook/assets/td\_figure2.png)
 
 Figure 2. Example of a TraceId behavior
 
-A TransactionId \(TxId\) represents that three different RPCs are associated with each other as a single transaction in Figure 2. However, a TransactionId itself can't explicitly describe the relationship between RPCs. To identify the relationships between RPCs, a SpanId and a ParentSpanId \(pSpanId\) are required. Suppose that a node is Tomcat. You can think of a SpanId as a thread which handles HTTP requests. A ParentSpanId indicates the SpainId of a parent that makes RPC calls.
+A TransactionId (TxId) represents that three different RPCs are associated with each other as a single transaction in Figure 2. However, a TransactionId itself can't explicitly describe the relationship between RPCs. To identify the relationships between RPCs, a SpanId and a ParentSpanId (pSpanId) are required. Suppose that a node is Tomcat. You can think of a SpanId as a thread which handles HTTP requests. A ParentSpanId indicates the SpainId of a parent that makes RPC calls.
 
 Pinpoint can find associated n Spans using a TransactionId and can sort them as a hierarchical tree structure using a SpanId and a ParentSpanId.
 
 A SpanId and a ParentSpanId are 64-bit long integers. A conflict might arise because the number is generated arbitrarily, but considering the range of value from -9223372036854775808 to 9223372036854775807, this is unlikely to happen. If there is a conflict between keys, Pinpoint as well as Google's Dapper lets developers know what happened, instead of resolving the conflict.
 
-A TransactionId consists of AgentIds, JVM \(Java virtual machine\) startup time, and SequenceNumbers.
+A TransactionId consists of AgentIds, JVM (Java virtual machine) startup time, and SequenceNumbers.
 
-* AgentId: A user-created ID when JVM starts; it must be globally unique across the entire group of servers where Pinpoint has been installed. The easiest way to make it unique is to use a hostname \($HOSTNAME\) because the hostname is not duplicate in general. If you need to run multiple JVMs within the server group, add a postfix to the hostname to avoid duplicates.
+* AgentId: A user-created ID when JVM starts; it must be globally unique across the entire group of servers where Pinpoint has been installed. The easiest way to make it unique is to use a hostname ($HOSTNAME) because the hostname is not duplicate in general. If you need to run multiple JVMs within the server group, add a postfix to the hostname to avoid duplicates.
 * JVM startup time: Required to guarantee a unique SequenceNumber which starts with zero. This value is used to prevent ID conflicts when a user creates duplicate AgentId by mistake.
 * SequenceNumber: ID issued by the Pinpoint Agent, with sequentially increasing numbers that start with zero; it is issued per message.
 
-Dapper and [Zipkin](https://github.com/twitter/zipkin), a distributed systems tracing platform at Twitter, generate random TraceIds \(TransactionIds in Pinpoint\) and consider conflict situations as a normal case. However, we wanted to avoid this conflict as much as possible in Pinpoint. We had two available options for this; one with a method in which the amount of data is small but the probability of conflict is high; the other is a method in which the amount of data is large but the probability of conflict is low; We chose the second option.
+Dapper and [Zipkin](https://github.com/twitter/zipkin), a distributed systems tracing platform at Twitter, generate random TraceIds (TransactionIds in Pinpoint) and consider conflict situations as a normal case. However, we wanted to avoid this conflict as much as possible in Pinpoint. We had two available options for this; one with a method in which the amount of data is small but the probability of conflict is high; the other is a method in which the amount of data is large but the probability of conflict is low; We chose the second option.
 
 There may be a better ways to handle transactions. We came up with several ideas such as key issue by a central key server. But we didn't implement this in the system due to performance issues and network errors. We are still considering issuing keys in bulk as an alternative Solution. So maybe later in the future, such methods can be developed; But for now, a simple method is adopted. In Pinpoint, a TransactionId is regarded as changeable data.
 
@@ -76,27 +67,27 @@ There may be a better ways to handle transactions. We came up with several ideas
 
 Earlier, we explained distributed transaction tracing. One way for implementing this is that developers to modify their code by themselves. Allow developers to add tag information when an RPC is made. However, it could be a burden to modify code even though such functionality is useful to developers.
 
-Twitter's Zipkin provides the functionality of distributed transaction tracing using modified libraries and its container \(Finagle\). However, it requires the code to be modified if needed. We wanted the functionality to work without code modifications and desired to ensure code-level visibility. To solve such problems, the bytecode instrumentation technique was adopted in Pinpoint. The Pinpoint Agent intervenes code to make RPCs so as to automatically handle tag information.
+Twitter's Zipkin provides the functionality of distributed transaction tracing using modified libraries and its container (Finagle). However, it requires the code to be modified if needed. We wanted the functionality to work without code modifications and desired to ensure code-level visibility. To solve such problems, the bytecode instrumentation technique was adopted in Pinpoint. The Pinpoint Agent intervenes code to make RPCs so as to automatically handle tag information.
 
 ### Overcoming Disadvantages of Bytecode Instrumentation
 
 There are two ways for distributed transaction tracing as below. Bytecode instrumentation is one of an automatic method.
 
 * Manual method: Developers develop code that records data at important points using APIs provided by Pinpoint.
-* Automatic method: Developers do not involve code modifications because Pinpoint decides which API is to be intervened and developed. 
+* Automatic method: Developers do not involve code modifications because Pinpoint decides which API is to be intervened and developed.&#x20;
 
 Advantages and disadvantages of each method are as follows:
 
 Table 1 Advantages and disadvantage of each method
 
-| Item | Advantage | Disadvantage |
-| :--- | :--- | :--- |
-| **Manual Tracing** | - Requires less development resources. - An API can become simpler and consequently the number of bugs can be reduced. | - Developers must modify the code. - Tracing level is low. |
-| **Automatic Tracing** | - Developers are not required to modify the code. - More precise data can be collected due to more information in bytecode. | - It would cost 10 times more to develop Pinpoint with automatic method. - Requires highly competent developers who can instantly recognize the library code to be traced and make decisions on the tracing points. - Can increase the possibility of a bug due to high-level development skills such as bytecode instrumentation. |
+| Item                  | Advantage                                                                                                                             | Disadvantage                                                                                                                                                                                                                                                                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Manual Tracing**    | <p>- Requires less development resources.<br>- An API can become simpler and consequently the number of bugs can be reduced.</p>      | <p>- Developers must modify the code.<br>- Tracing level is low.</p>                                                                                                                                                                                                                                                                            |
+| **Automatic Tracing** | <p>- Developers are not required to modify the code.<br>- More precise data can be collected due to more information in bytecode.</p> | <p>- It would cost 10 times more to develop Pinpoint with automatic method.<br>- Requires highly competent developers who can instantly recognize the library code to be traced and make decisions on the tracing points.<br>- Can increase the possibility of a bug due to high-level development skills such as bytecode instrumentation.</p> |
 
 Bytecode instrumentation is a technique that includes high difficulty level and risks. Nevertheless, using this technique has many benefits.
 
-Although it requires a large number of development resources, it requires almost none for applying the service. For example, the following shows the costs between an automatic method which uses bytecode instrumentation and a manual method which uses libraries \(in this context, costs are random numbers assumed for clarity\).
+Although it requires a large number of development resources, it requires almost none for applying the service. For example, the following shows the costs between an automatic method which uses bytecode instrumentation and a manual method which uses libraries (in this context, costs are random numbers assumed for clarity).
 
 * Automatic method: Total of 100
   * Cost of Pinpoint development: 100
@@ -115,7 +106,7 @@ We are lucky to have many developers who are highly competent and specialized in
 
 ### The Value of Bytecode Instrumentation
 
-The reason we chose to implement bytecode instrumentation\(Automatic method\) is not only those that we have already explained but also the following points.
+The reason we chose to implement bytecode instrumentation(Automatic method) is not only those that we have already explained but also the following points.
 
 #### Hidden API
 
@@ -129,9 +120,9 @@ With bytecode instrumentation, we don't have to worry about the problems caused 
 
 The disadvantage of using bytecode instrumentation is that it could affect your applications when a problem occurs in the profiling section of a library or Pinpoint itself. However, you can easily solve it by just disabling the Pinpoint since you don't have to change any code.
 
-You can easily enable Pinpoint for your applications by adding the three lines \(associated with the configuration of the Pinpoint Agent\) below into your JVM startup script:
+You can easily enable Pinpoint for your applications by adding the three lines (associated with the configuration of the Pinpoint Agent) below into your JVM startup script:
 
-```text
+```
 -javaagent:$AGENT_PATH/pinpoint-bootstrap-$VERSION.jar
 -Dpinpoint.agentId=<Agent's UniqueId>
 -Dpinpoint.applicationName=<The name indicating a same service (AgentId collection)>
@@ -143,19 +134,19 @@ If any problem occurs due to Pinpoint, you can just delete the configuration dat
 
 Since bytecode instrumentation technique has to deal with Java bytecode, it tends to increase the risk of development while it decreases productivity. In addition, developers are prone to make mistakes. In Pinpoint, we improved productivity and accessibility by abstraction with the interceptor. Pinpoint injects necessary codes to track distributed transactions and performance information by intervening application code at class loading time. This increases performance since tracking codes are directly injected into the application code.
 
-![Figure 3. Behavior of bytecode instrumentation](../.gitbook/assets/td_figure3.png)
+![Figure 3. Behavior of bytecode instrumentation](../.gitbook/assets/td\_figure3.png)
 
 Figure 3. Basic principle of bytecode instrumentation
 
-In Pinpoint, the API intercepting part and data recording part are separated. Interceptor is injected into the method that we'd like to track and calls before\(\) and after\(\) methods where data recording is taken care of. Through bytecode instrumentation, Pinpoint Agent can record data only from the necessary method which makes the size of profiling data compact.
+In Pinpoint, the API intercepting part and data recording part are separated. Interceptor is injected into the method that we'd like to track and calls before() and after() methods where data recording is taken care of. Through bytecode instrumentation, Pinpoint Agent can record data only from the necessary method which makes the size of profiling data compact.
 
 ## Optimizing Performance of the Pinpoint Agent
 
 Finally, we will describe how to optimize the performance of Pinpoint Agent.
 
-### Using Binary Format \(Thrift\)
+### Using Binary Format (Thrift)
 
-You can increase encoding speed by using a binary format \([Thrift](https://thrift.apache.org/)\). Although it is difficult to use and debug, It can improve the efficiency of network usage by reducing the size of data generated.
+You can increase encoding speed by using a binary format ([Thrift](https://thrift.apache.org)). Although it is difficult to use and debug, It can improve the efficiency of network usage by reducing the size of data generated.
 
 ### Optimize Recorded Data for Variable-Length Encoding and Format
 
@@ -165,13 +156,13 @@ If you convert a long integer into a fixed-length string, the data size will be 
 >
 > For more information on the variable-length encoding, see "[Base 128 Varints](https://developers.google.com/protocol-buffers/docs/encoding#varints)" in Google Developers.
 
-![Figure 4. Comparison between fixed-length encoding and variable-length encoding](../.gitbook/assets/td_figure4.png)
+![Figure 4. Comparison between fixed-length encoding and variable-length encoding](../.gitbook/assets/td\_figure4.png)
 
 Figure 4. Comparison between fixed-length encoding and variable-length encoding
 
-As you can see in Figure 4, you need to measure the time of 6 different points to get information of when three different methods are called and finished\(Figure 4\); With fixed-length encoding, this process requires 48 bytes \(6points × 8bytes\).
+As you can see in Figure 4, you need to measure the time of 6 different points to get information of when three different methods are called and finished(Figure 4); With fixed-length encoding, this process requires 48 bytes (6points × 8bytes).
 
-Meanwhile, Pinpoint Agent uses variable-length encoding and records the data according to its corresponding format. And calculate time information on other points with the difference\(in vector value\) based on the start time of the root method. Since vector value is a small number, it consumes a small number of bytes resulting only 13 bytes consumed rather than 48bytes.
+Meanwhile, Pinpoint Agent uses variable-length encoding and records the data according to its corresponding format. And calculate time information on other points with the difference(in vector value) based on the start time of the root method. Since vector value is a small number, it consumes a small number of bytes resulting only 13 bytes consumed rather than 48bytes.
 
 If it takes more time to execute a method, it will increase the number of bytes even though variable-length encoding is used. However, it is still more efficient than fixed-length encoding.
 
@@ -185,7 +176,7 @@ To solve such a problem, we adopted a strategy by creating a constant table in a
 
 The requests to online portal services which Naver is providing are huge. A single service handles more than 20 billion requests a day. A simple way to trace such request is by expanding network infrastructure and servers as much as needed to suit the number of requests. However, this is not a cost-effective way to handle such situations.
 
-In Pinpoint, you can collect only sampling data rather than tracking every request. In a development environment where requests are few, every data is collected. While in the production environment where requests are large, only 1~5% out of whole data is collected which is sufficient to analyze the status of entire applications. With sampling, you can minimize network overhead in applications and reduce costs of infrastructure such as networks and servers.
+In Pinpoint, you can collect only sampling data rather than tracking every request. In a development environment where requests are few, every data is collected. While in the production environment where requests are large, only 1\~5% out of whole data is collected which is sufficient to analyze the status of entire applications. With sampling, you can minimize network overhead in applications and reduce costs of infrastructure such as networks and servers.
 
 > Sampling method in Pinpoint
 >
@@ -209,7 +200,7 @@ Here is an example of how to get data from your application so that you can comp
 
 Figure 5 shows what you can see when you install Pinpoint in TomcatA and TomcatB. You can see the trace data of an individual node as a single transaction, which represents the flow of distributed transaction tracing.
 
-![Figure 5. Example 1: Pinpoint applied](../.gitbook/assets/td_figure5.png)
+![Figure 5. Example 1: Pinpoint applied](../.gitbook/assets/td\_figure5.png)
 
 Figure 5. Example of Pinpoint in action
 
@@ -218,28 +209,27 @@ The following describes what Pinpoint does for each method.
 1. Pinpoint Agent issues a TraceId when a request arrives at TomcatA.
    * TX\_ID: TomcatA^TIME^1
    * SpanId: 10
-   * ParentSpanId: -1\(Root\)
+   * ParentSpanId: -1(Root)
 2. Records data from Spring MVC controllers.
-3. Intervene the calls of HttpClient.execute\(\) method and configure the TraceId in HttpGet.
+3. Intervene the calls of HttpClient.execute() method and configure the TraceId in HttpGet.
    * Creates a child TraceId.
-     * TX\_ID: TomcatA^TIME^1 -&gt; TomcatA^TIME^1
-     * SPAN\_ID: 10 -&gt; 20
-     * PARENT\_SPAN\_ID: -1 -&gt; 10 \(parent SpanId\)
-   * Configures the child TraceId in the HTTP header. 
-     * HttpGet.setHeader\(PINPOINT\_TX\_ID, "TomcatA^TIME^1"\)
-     * HttpGet.setHeader\(PINPOINT\_SPAN\_ID, "20"\)
-     * HttpGet.setHeader\(PINPOINT\_PARENT\_SPAN\_ID, "10"\)
+     * TX\_ID: TomcatA^TIME^1 -> TomcatA^TIME^1
+     * SPAN\_ID: 10 -> 20
+     * PARENT\_SPAN\_ID: -1 -> 10 (parent SpanId)
+   * Configures the child TraceId in the HTTP header.&#x20;
+     * HttpGet.setHeader(PINPOINT\_TX\_ID, "TomcatA^TIME^1")
+     * HttpGet.setHeader(PINPOINT\_SPAN\_ID, "20")
+     * HttpGet.setHeader(PINPOINT\_PARENT\_SPAN\_ID, "10")
 4. Transfer tagged request to TomcatB.
-   * TomcatB checks the header from the transferred request. 
-     * HttpServletRequest.getHeader\(PINPOINT\_TX\_ID\)
-   * TomcatB becomes a child node as it identifies a TraceId in the header.  
+   * TomcatB checks the header from the transferred request.&#x20;
+     * HttpServletRequest.getHeader(PINPOINT\_TX\_ID)
+   * TomcatB becomes a child node as it identifies a TraceId in the header. &#x20;
      * TX\_ID: TomcatA^TIME^1
      * SPAN\_ID: 20
      * PARENT\_SPAN\_ID: 10
-5. Records data from Spring MVC controllers and completes the request.
+5.  Records data from Spring MVC controllers and completes the request.
 
-   ![Figure 6. Example 2: Pinpoint applied ](../.gitbook/assets/td_figure6.png)
-
+    ![Figure 6. Example 2: Pinpoint applied ](../.gitbook/assets/td\_figure6.png)
 6. Pinpoint Agent sends trace data to Pinpoint Collector to store it in HBase when the request from TomcatB is completed.
 7. After the HTTP calls from TomcatB is terminated, then the request from TomcatA is complete. The Pinpoint Agent sends trace data to Pinpoint Collector to store it in HBase.
 8. UI reads the trace data from HBase and creates a call stack by sorting trees.
@@ -253,4 +243,3 @@ We still have a large amount of work to be done to improve Pinpoint. Despite its
 > Written by Woonduk Kang
 >
 > In 2011, I wrote about myself like this—As a developer, I would like to make a software program that users are willing to pay for, like those of Microsoft or Oracle. As Pinpoint was launched as an open-source project, it seems that my dreams somewhat came true. For now, my desire is to make Pinpoint more valuable and attractive to users.
-
