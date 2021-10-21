@@ -17,10 +17,15 @@ class MarkdownContents {
     }
 
     async markdownContentsFromPinpointLatestReleaseNotes() {
-        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
+        const data = await this.getLatestReleaseNotes()
         const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', data.tag_name)
             .replace('__BODY__', data.body)
         return latestReleaseNotes
+    }
+
+    async getLatestReleaseNotes() {
+        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
+        return data
     }
 }
 
