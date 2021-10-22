@@ -7,7 +7,7 @@
 const axios = require('axios')
 
 
-const whatsNewTempate = `# What's New in __VERSION__
+const whatsNewTempate = `# What's New in v__VERSION__
 __BODY__
 `
 class MarkdownContents {
@@ -18,7 +18,8 @@ class MarkdownContents {
 
     async markdownContentsFromPinpointLatestReleaseNotes() {
         const data = await this.getLatestReleaseNotes()
-        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', data.tag_name)
+        const tagName = data.tag_name.startsWith('v') ? data.tag_name.substring(1) : data.tag_name
+        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
             .replace('__BODY__', data.body)
         return latestReleaseNotes
     }
