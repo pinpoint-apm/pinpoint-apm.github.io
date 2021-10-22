@@ -16,7 +16,7 @@ test('release notes', async (t) => {
     t.end()
 })
 
-test('tagname check with or without "v"', async (t) => {
+test('tagname check with "v"', async (t) => {
     const dut = new MarkdownContents()
     dut.getLatestReleaseNotes = async () => {
         return {
@@ -26,5 +26,18 @@ test('tagname check with or without "v"', async (t) => {
     }
     const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
     t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname with "v"')
+    t.end()
+})
+
+test('tagname check without "v"', async (t) => {
+    const dut = new MarkdownContents()
+    dut.getLatestReleaseNotes = async () => {
+        return {
+            tag_name: '1.0',
+            body: ''
+        }
+    }
+    const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
+    t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname without "v"')
     t.end()
 })
