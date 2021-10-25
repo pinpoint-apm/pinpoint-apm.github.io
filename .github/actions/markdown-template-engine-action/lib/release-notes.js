@@ -11,26 +11,17 @@ __BODY__
 `
 
 class ReleaseNotes {
-    constructor(data) {
-        this.data = data
+    constructor(contents) {
+        this.contents = contents
     }
 
-    async static makeReleaseNotes() {
-        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
-        return new ReleaseNotes(data)
-    }
+    static async makeLatestReleaseNotes(releaseClass) {
+        const data = await releaseClass.latest()
 
-    async markdownContentsFromPinpointLatestReleaseNotes() {
-        const data = await this.getLatestReleaseNotes()
         const tagName = data.tag_name.startsWith('v') ? data.tag_name.substring(1) : data.tag_name
         const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
             .replace('__BODY__', data.body)
-        return latestReleaseNotes
-    }
-
-    async getLatestReleaseNotes() {
-        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
-        return data
+        return new ReleaseNotes(latestReleaseNotes)
     }
 }
 
