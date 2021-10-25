@@ -8,23 +8,17 @@
 
 const test = require('tape')
 const MarkdownContents = require('../lib/markdown-contents')
-
-test('release notes', async (t) => {
-    const dut = new MarkdownContents()
-    const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
-    t.true(/# What's New in/.test(actual), '`# What"s New in tagname` match error')
-    t.end()
-})
+const ReleaseNotes = require('../lib/release-notes')
 
 test('tagname check with "v"', async (t) => {
-    const dut = new MarkdownContents()
-    dut.getLatestReleaseNotes = async () => {
-        return {
-            tag_name: 'v1.0',
-            body: ''
+    const actual = (await ReleaseNotes.makeLatestReleaseNotes({
+        latest: function () {
+            return {
+                tag_name: 'v1.0',
+                body: ''
+            }
         }
-    }
-    const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
+    })).contents
     t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname with "v"')
     t.end()
 })
@@ -37,7 +31,14 @@ test('tagname check without "v"', async (t) => {
             body: ''
         }
     }
-    const actual = await dut.markdownContentsFromPinpointLatestReleaseNotes()
+    const actual = (await ReleaseNotes.makeLatestReleaseNotes({
+        latest: function () {
+            return {
+                tag_name: '1.0',
+                body: ''
+            }
+        }
+    })).contents
     t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname without "v"')
     t.end()
 })
