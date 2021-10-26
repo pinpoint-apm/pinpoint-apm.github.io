@@ -22,7 +22,7 @@ class MarkdownContents {
     }
 
     static async makeMarkdownContentsFromPinpointLatestReleaseNotes() {
-        return new MarkdownContents((await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)).contents)
+        return await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)
     }
 }
 

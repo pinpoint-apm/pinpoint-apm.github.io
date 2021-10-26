@@ -11,8 +11,13 @@ __BODY__
 `
 
 class ReleaseNotes {
-    constructor(contents) {
+    constructor(contents, version) {
         this.contents = contents
+        this.version = version
+    }
+
+    getVersion() {
+        return `v${this.version}`
     }
 
     static async makeLatestReleaseNotes(releaseClass) {
@@ -21,7 +26,7 @@ class ReleaseNotes {
         const tagName = data.tag_name.startsWith('v') ? data.tag_name.substring(1) : data.tag_name
         const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
             .replace('__BODY__', data.body)
-        return new ReleaseNotes(latestReleaseNotes)
+        return new ReleaseNotes(latestReleaseNotes, tagName)
     }
 }
 
