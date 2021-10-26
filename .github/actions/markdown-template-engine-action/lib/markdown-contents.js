@@ -12,13 +12,17 @@ const whatsNewTempate = `# What's New in v__VERSION__
 __BODY__
 `
 class MarkdownContents {
-    async markdownContentsFromPinpointGithub(fileName) {
-        const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
-        return data
+    constructor(contents) {
+        this.contents = contents
     }
 
-    async markdownContentsFromPinpointLatestReleaseNotes() {
-        return (await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)).contents
+    static async makeMarkdownContentsFromPinpointGithub(fileName) {
+        const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
+        return new MarkdownContents(data)
+    }
+
+    static async makeMarkdownContentsFromPinpointLatestReleaseNotes() {
+        return new MarkdownContents((await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)).contents)
     }
 }
 
