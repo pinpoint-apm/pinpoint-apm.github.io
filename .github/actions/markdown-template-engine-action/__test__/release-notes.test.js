@@ -24,13 +24,6 @@ test('tagname check with "v"', async (t) => {
 })
 
 test('tagname check without "v"', async (t) => {
-    const dut = new MarkdownContents()
-    dut.getLatestReleaseNotes = async () => {
-        return {
-            tag_name: '1.0',
-            body: ''
-        }
-    }
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
         latest: function () {
             return {
