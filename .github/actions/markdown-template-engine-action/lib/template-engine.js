@@ -14,7 +14,6 @@ const MarkdownContents = require('./markdown-contents')
 class TemplateEngine {
     constructor(template) {
         this.template = template
-        this.markdownContents = new MarkdownContents()
     }
 
     // https://regex101.com/r/Sgd2aq/1/
@@ -31,9 +30,9 @@ class TemplateEngine {
 
     async markdownContentFromGithub(filename) {
         if (filename === 'latestReleaseNotes.md') {
-            return this.markdownContents.markdownContentsFromPinpointLatestReleaseNotes()
+            return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
         }
-        return this.markdownContents.markdownContentsFromPinpointGithub(filename)
+        return (await MarkdownContents.makeMarkdownContentsFromPinpointGithub(filename)).contents
     }
 }
 
