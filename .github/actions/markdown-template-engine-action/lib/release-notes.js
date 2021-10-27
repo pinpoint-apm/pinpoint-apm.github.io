@@ -23,10 +23,14 @@ class ReleaseNotes {
     static async makeLatestReleaseNotes(releaseClass) {
         const data = await releaseClass.latest()
 
-        const tagName = data.tag_name.startsWith('v') ? data.tag_name.substring(1) : data.tag_name
+        const tagName = ReleaseNotes.tagName(data.tag_name)
         const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
             .replace('__BODY__', data.body)
         return new ReleaseNotes(latestReleaseNotes, tagName)
+    }
+
+    static tagName(version) {
+        return version.startsWith('v') ? version.substring(1) : version
     }
 }
 
