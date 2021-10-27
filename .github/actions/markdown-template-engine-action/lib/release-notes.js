@@ -33,11 +33,12 @@ class ReleaseNotes {
         return version.startsWith('v') ? version.substring(1) : version
     }
 
-    static async makeOfMarkdownContents(contents) {
-        const tagName = ReleaseNotes.tagName(data.tag_name)
-        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
-            .replace('__BODY__', data.body)
-        return new ReleaseNotes(latestReleaseNotes, tagName)
+    static makeOfMarkdownContents(contents) {
+        const match = /# What's New in v(?<version>[0-9.]+)/gm.exec(contents)
+        if (!match) {
+            return new ReleaseNotes(contents)
+        }
+        return new ReleaseNotes(contents, match.groups.version)
     }
 }
 
