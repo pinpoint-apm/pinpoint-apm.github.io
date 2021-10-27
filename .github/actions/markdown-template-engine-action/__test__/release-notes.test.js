@@ -302,3 +302,10 @@ Additionally, the required Java version to run each Pinpoint component is given 
 | ojdbc8 | ojdbc8 | 12.2.0.1 | 21.1.0.0 |  |  |
 | ojdbc10 | ojdbc10 | 19.3.0.0 | 19.10.0.0 |  |  |
 <!-- </modules.md> -->`
+
+test('tagname check without "v"', async (t) => {
+    const actual = ReleaseNotes.makeOfMarkdownContents(main_md)
+    t.equal(actual.getVersion(), '2.3.0', 'parsing version matcher')
+    t.equal(actual.getVersionWithV(), 'v2.3.0', 'parsing version with v matcher')
+    t.end()
+})

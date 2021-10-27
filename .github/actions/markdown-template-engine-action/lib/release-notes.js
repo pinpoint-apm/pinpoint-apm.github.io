@@ -17,6 +17,10 @@ class ReleaseNotes {
     }
 
     getVersion() {
+        return `${this.version}`
+    }
+
+    getVersionWithV() {
         return `v${this.version}`
     }
 
