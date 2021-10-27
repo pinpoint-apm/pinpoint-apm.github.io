@@ -32,6 +32,13 @@ class ReleaseNotes {
     static tagName(version) {
         return version.startsWith('v') ? version.substring(1) : version
     }
+
+    static async makeOfMarkdownContents(contents) {
+        const tagName = ReleaseNotes.tagName(data.tag_name)
+        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
+            .replace('__BODY__', data.body)
+        return new ReleaseNotes(latestReleaseNotes, tagName)
+    }
 }
 
 module.exports = ReleaseNotes
