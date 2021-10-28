@@ -17,6 +17,7 @@ const simpleGit = require('simple-git')
 const git = simpleGit({ baseDir })
 const ReleaseNotes = require('./lib/release-notes')
 
+// https://github.com/steveukx/git-js/blob/main/test/integration/branches.spec.ts
 const run = async () => {
   try {
     const templateMarkdownFile = core.getInput('template_markdown_file')
@@ -24,7 +25,7 @@ const run = async () => {
 
     const version = (new ReleaseNotes(template)).version()
     if (version) {
-      await git.branch()
+      await git.branch([version])
       await git.push()
     }
 
