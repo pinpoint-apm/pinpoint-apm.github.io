@@ -24,7 +24,8 @@ const run = async () => {
 
     const version = (new ReleaseNotes(template)).version()
     if (version) {
-      git.branch()
+      await git.branch()
+      await git.push()
     }
 
     const engine = new TemplateEngine(template)
