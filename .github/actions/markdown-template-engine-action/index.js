@@ -23,7 +23,9 @@ const run = async () => {
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
     const version = (new ReleaseNotes(template)).version()
-
+    if (version) {
+      git.branch()
+    }
 
     const engine = new TemplateEngine(template)
     const markdownContent = await engine.markdownContent()
