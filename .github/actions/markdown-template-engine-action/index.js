@@ -40,8 +40,6 @@ const run = async () => {
     const authorName = payload['author_name'] || 'feelform'
     core.info(`email: ${email}, authorName: ${authorName}`)
 
-    const releaseNote = engine.markdownContents.markdownContentsFromPinpointLatestReleaseNotes()
-
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
     if (changedFiles > 0) {
