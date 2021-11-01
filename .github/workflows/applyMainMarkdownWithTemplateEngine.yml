@@ -18,3 +18,4 @@ jobs:
       uses: ./.github/actions/markdown-template-engine-action
       with:
         template_markdown_file: ./main.md
+        section_markdown_file: https://github.com/feelform/pinpoint-apm.github.io
