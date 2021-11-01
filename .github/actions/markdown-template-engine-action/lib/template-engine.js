@@ -30,7 +30,7 @@ class TemplateEngine {
 
     async markdownContentFromGithub(filename) {
         if (githubs.hasOwnProperty(filename)) {
-            return githubs[filename]()
+            return githubs[filename](filename)
         }
         return (await MarkdownContents.makeMarkdownContentsFromPinpointGithub(filename)).contents
     }
@@ -40,8 +40,8 @@ const githubs = {
     'latestReleaseNotes.md': async function () {
         return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
     },
-    'compatibilityHbase.md': async function () {
-        return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme()).contents
+    'compatibilityHbase.md': async function (filename) {
+        return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
     }
 }
 
