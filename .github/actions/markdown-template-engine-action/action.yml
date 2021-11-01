@@ -4,8 +4,8 @@ inputs:
   template_markdown_file:
     description: 'template markdown file'
     required: true
-  section_markdown_file:
-    description: 'section markdown file'
+  section_github_path:
+    description: 'section github path'
     required: true
 outputs:
   markdown:

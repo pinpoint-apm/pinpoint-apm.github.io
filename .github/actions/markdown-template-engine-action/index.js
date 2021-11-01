@@ -21,8 +21,8 @@ const MarkdownContents = require('./lib/markdown-contents')
 // https://github.com/steveukx/git-js/blob/main/test/integration/branches.spec.ts
 const run = async () => {
   try {
-    const sectionMarkdownFile = core.getInput('section_markdown_file')
-    MarkdownContents.setPinpointReadmePrefixURL(sectionMarkdownFile)
+    const sectionGithubPath = core.getInput('section_github_path')
+    MarkdownContents.setPinpointReadmeGithubPath(sectionGithubPath)
 
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')

@@ -7,6 +7,7 @@
 'use strict'
 
 const test = require('tape')
+const MarkdownContents = require('../lib/markdown-contents')
 const TemplateEngine = require('../lib/template-engine')
 
 const actualMD = `---
@@ -40,6 +41,8 @@ Additionally, the required Java version to run each Pinpoint component is given 
 
 <!-- <modules.md> -->
 <!-- </modules.md> -->`
+
+MarkdownContents.setPinpointReadmeGithubPath('feelform/pinpoint')
 
 test('tempalte engine', async (t) => {
     const dut = new TemplateEngine(actualMD)
