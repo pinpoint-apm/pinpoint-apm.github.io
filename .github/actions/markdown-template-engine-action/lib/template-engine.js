@@ -39,6 +39,9 @@ class TemplateEngine {
 const githubs = {
     'latestReleaseNotes.md': async function () {
         return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
+    },
+    'compatibilityHbase.md': async function () {
+        return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme()).contents
     }
 }
 
