@@ -54,3 +54,9 @@ test('markdown section test', async (t) => {
     t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
     t.end()
 })
+
+test('markdown from pinpoint index', async (t) => {
+    const dut = new TemplateEngine(actualMD)
+    const actual = await dut.markdownContent()
+    t.end()
+})
