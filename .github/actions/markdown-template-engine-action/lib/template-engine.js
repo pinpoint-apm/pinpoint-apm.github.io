@@ -29,10 +29,16 @@ class TemplateEngine {
     }
 
     async markdownContentFromGithub(filename) {
-        if (filename === 'latestReleaseNotes.md') {
-            return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
+        if (githubs.hasOwnProperty(filename)) {
+            return githubs[filename]()
         }
         return (await MarkdownContents.makeMarkdownContentsFromPinpointGithub(filename)).contents
+    }
+}
+
+const githubs = {
+    'latestReleaseNotes.md': async function () {
+        return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
     }
 }
 
