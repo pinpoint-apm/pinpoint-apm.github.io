@@ -8,6 +8,7 @@ const axios = require('axios')
 const ReleaseNotes = require('./release-notes')
 const GithubRelease = require('./github-release')
 
+let readmePrefixURL
 const whatsNewTempate = `# What's New in v__VERSION__
 __BODY__
 `
@@ -27,6 +28,11 @@ class MarkdownContents {
 
     static async makeMarkdownContentsFromPinpointReadme(filename) {
         const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
+        return new MarkdownContents(data)
+    }
+
+    static setPinpointReadmePrefixURL(url) {
+        readmePrefixURL = url
     }
 }
 
