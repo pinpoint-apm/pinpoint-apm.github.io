@@ -4,6 +4,9 @@ inputs:
   template_markdown_file:
     description: 'template markdown file'
     required: true
+  section_markdown_file:
+    description: 'section markdown file'
+    required: true
 outputs:
   markdown:
     description: mardown content by template engine

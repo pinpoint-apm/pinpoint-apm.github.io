@@ -24,6 +24,10 @@ class MarkdownContents {
     static async makeMarkdownContentsFromPinpointLatestReleaseNotes() {
         return await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)
     }
+
+    static async makeMarkdownContentsFromPinpointReadme(filename) {
+        const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
+    }
 }
 
 module.exports = MarkdownContents
