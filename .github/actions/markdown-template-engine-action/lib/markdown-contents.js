@@ -33,7 +33,11 @@ class MarkdownContents {
             const { data } = await axios.get(`https://raw.githubusercontent.com/${readmeGithubPath}/master/README.md`, { responseType: 'text' })
             readmeGithubBody = data
         }
-        return new MarkdownContents(readmeGithubBody)
+        const match = RegExp(`^<!--\\s<${filename}>\\s-->$\\s(?<body>[\\s\\S]*)^<!--\\s<\\/${filename}>\\s-->`, 'gm').exec(readmeGithubBody)
+        if (!match) {
+            return { contents: '' }
+        }
+        return new MarkdownContents(match.groups.body)
     }
 
     static setPinpointReadmeGithubPath(path) {
