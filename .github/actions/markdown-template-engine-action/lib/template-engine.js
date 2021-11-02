@@ -29,20 +29,23 @@ class TemplateEngine {
     }
 
     async markdownContentFromGithub(filename) {
-        if (githubs.hasOwnProperty(filename)) {
-            return githubs[filename](filename)
+        if (githubs.keys.includes(filename)) {
+            return githubs.valueOfFilename(filename)
         }
         return (await MarkdownContents.makeMarkdownContentsFromPinpointGithub(filename)).contents
     }
 }
 
 const githubs = {
-    'latestReleaseNotes.md': async function () {
-        return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
+    valueOfFilename: async function (filename) {
+        switch (filename) {
+            case 'latestReleaseNotes.md':
+                return (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).contents
+            default:
+                return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
+        }
     },
-    'compatibilityHbase.md': async function (filename) {
-        return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
-    }
+    keys: ['latestReleaseNotes.md', 'compatibilityHbase.md', 'compatibilityJava.md', 'compatibilityPinpoint.md']
 }
 
 module.exports = TemplateEngine
