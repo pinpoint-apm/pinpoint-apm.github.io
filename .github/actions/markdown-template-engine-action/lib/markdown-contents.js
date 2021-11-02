@@ -35,7 +35,7 @@ class MarkdownContents {
         }
         const match = RegExp(`^<!--\\s<${filename}>\\s-->$\\s(?<body>[\\s\\S]*)^<!--\\s<\\/${filename}>\\s-->`, 'gm').exec(readmeGithubBody)
         if (!match) {
-            return { contents: '' }
+            return new MarkdownContents('')
         }
         return new MarkdownContents(match.groups.body)
     }
