@@ -27,7 +27,7 @@ const run = async () => {
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
-    const version = (new ReleaseNotes(template)).version()
+    const version = (new ReleaseNotes(template)).getVersionWithV()
     if (version) {
       await git.branch([version])
       await git.push()
