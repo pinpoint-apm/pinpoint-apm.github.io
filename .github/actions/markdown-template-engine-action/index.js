@@ -42,12 +42,15 @@ const run = async () => {
 
     const engine = new TemplateEngine(template)
     const markdownContent = await engine.markdownContent(githubRelease)
-    fs.outputFileSync(templateMarkdownFile, markdownContent)
+
+    const disableChanges = core.getInput('disable_sync_changes')
+    if (disableChanges.length == 0) {
+      fs.outputFileSync(templateMarkdownFile, markdownContent)
+    }
     core.setOutput('markdown', markdownContent)
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
-    const disableChanges = core.getInput('disable_sync_changes')
     if (changedFiles > 0 && disableChanges.length == 0) {
       await git
         .addConfig('user.email', email)

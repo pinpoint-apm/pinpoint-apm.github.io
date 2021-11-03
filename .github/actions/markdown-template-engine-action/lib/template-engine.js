@@ -23,7 +23,7 @@ class TemplateEngine {
         let result = this.template
         while ((tag = tagExpression.exec(this.template)) !== null) {
             const markdownFile = await this.markdownContentFromGithub(tag[1], release)
-            result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n.*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
+            result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n[\\s\\S]*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
         }
         return result
     }
