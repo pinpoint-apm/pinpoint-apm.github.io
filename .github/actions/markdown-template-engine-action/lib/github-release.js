@@ -48,6 +48,10 @@ class GithubRelease {
     commitLog() {
         return `${this.name} tag: ${this.tagName} ${this.htmlURL}`
     }
+
+    getTagName() {
+        return this.tagName
+    }
 }
 
 module.exports = GithubRelease

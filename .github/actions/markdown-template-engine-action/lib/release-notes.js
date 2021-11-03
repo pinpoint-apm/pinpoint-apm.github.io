@@ -24,12 +24,10 @@ class ReleaseNotes {
         return `v${this.version}`
     }
 
-    static async makeLatestReleaseNotes(releaseClass) {
-        const data = await releaseClass.latest()
-
-        const tagName = ReleaseNotes.tagName(data.tag_name)
+    static makeLatestReleaseNotes(release) {
+        const tagName = ReleaseNotes.tagName(release.getTagName())
         const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
-            .replace('__BODY__', data.body)
+            .replace('__BODY__', release.getBody())
         return new ReleaseNotes(latestReleaseNotes, tagName)
     }
 
