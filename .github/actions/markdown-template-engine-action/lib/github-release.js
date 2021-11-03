@@ -24,6 +24,8 @@ class GithubRelease {
         this.name = payload.release.name
         this.body = payload.release.body
         this.author = author
+        this.tagName = payload.release.tag_name
+        this.htmlURL = payload.release.html_url
     }
 
     getName() {
@@ -40,6 +42,10 @@ class GithubRelease {
 
     getAuthorEmail() {
         return this.author.email
+    }
+
+    commitLog() {
+        return `${this.name} tag: ${this.tagName} ${this.htmlURL}`
     }
 }
 
