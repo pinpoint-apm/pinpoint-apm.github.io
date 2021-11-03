@@ -17,6 +17,7 @@ const simpleGit = require('simple-git')
 const git = simpleGit({ baseDir })
 const ReleaseNotes = require('./lib/release-notes')
 const MarkdownContents = require('./lib/markdown-contents')
+const GithubRelease = require('./lib/github-release')
 
 // https://github.com/steveukx/git-js/blob/main/test/integration/branches.spec.ts
 const run = async () => {
@@ -28,8 +29,8 @@ const run = async () => {
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
     const version = (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).getVersionWithV()
-    const disableBranch = core.getInput('disable_branch')
-    if (version && (disableBranch && disableBranch.length > 0)) {
+    const disableBranch = process.env['DISABLE_BRANCH']
+    if (version && !disableBranch) {
       await git.branch([version])
       await git.push('origin', version)
     }
@@ -39,15 +40,15 @@ const run = async () => {
     fs.outputFileSync(templateMarkdownFile, markdownContent)
     core.setOutput('markdown', markdownContent)
 
-    const payload = github.context.payload['client_payload'] || {}
-    core.info(`The event payload: ${payload}`)
-    const email = payload['author-email'] || 'yongseok.kang@navercorp.com'
-    const authorName = payload['author_name'] || 'feelform'
+    const githubRelease = await GithubRelease.make()
+    const email = githubRelease.getAuthorEmail()
+    const authorName = githubRelease.getAuthorName()
     core.info(`email: ${email}, authorName: ${authorName}`)
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
-    if (changedFiles > 0) {
+    const disableChanges = process.env['DISABLE_SYNC_CHANGES']
+    if (changedFiles > 0 && !disableChanges) {
       await git
         .addConfig('user.email', email)
         .addConfig('user.name', authorName)
