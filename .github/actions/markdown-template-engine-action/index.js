@@ -28,7 +28,7 @@ const run = async () => {
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
-    const version = (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).getVersionWithV()
+    const version = ReleaseNotes.makeOfMarkdownContents(template).getVersionWithV()
     const disableBranch = core.getInput('disable_branch')
     if (version && disableBranch.length == 0) {
       await git.branch([version])

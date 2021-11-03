@@ -24,10 +24,6 @@ class MarkdownContents {
         return new MarkdownContents(data)
     }
 
-    static async makeMarkdownContentsFromPinpointLatestReleaseNotes() {
-        return await ReleaseNotes.makeLatestReleaseNotes(GithubRelease)
-    }
-
     static async makeMarkdownContentsFromPinpointReadme(filename) {
         if (!readmeGithubBody) {
             const { data } = await axios.get(`https://raw.githubusercontent.com/${readmeGithubPath}/master/README.md`, { responseType: 'text' })
