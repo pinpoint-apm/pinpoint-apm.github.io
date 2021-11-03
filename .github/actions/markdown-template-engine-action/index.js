@@ -27,10 +27,11 @@ const run = async () => {
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
-    const version = (new ReleaseNotes(template)).getVersionWithV()
-    if (version) {
+    const version = (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).getVersionWithV()
+    const disableBranch = core.getInput('disable_branch')
+    if (version && (disableBranch && disableBranch.length > 0)) {
       await git.branch([version])
-      await git.push()
+      await git.push('origin', version)
     }
 
     const engine = new TemplateEngine(template)
@@ -62,6 +63,7 @@ const run = async () => {
       core.info(`> git push.`)
     }
   } catch (error) {
+    console.error(error)
     core.setFailed(error.message)
   }
 }
