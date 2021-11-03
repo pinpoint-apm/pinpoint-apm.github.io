@@ -27,10 +27,10 @@ test.skip('index.js error case', (t) => {
 
 test('index.js client payload test', (t) => {
     process.env['INPUT_TEMPLATE_MARKDOWN_FILE'] = './.github/actions/markdown-template-engine-action/__test__/main.test.md'
-    process.env['SECTION_GITHUB_PATH'] = 'feelform/pinpoint'
-    process.env['DISABLE_BRANCH'] = 'YES'
-    process.env['DISABLE_SYNC_CHANGES'] = 'YES'
-    process.env['ENV_CLIENT_PAYLOAD'] = JSON.stringify({
+    process.env['INPUT_SECTION_GITHUB_PATH'] = 'feelform/pinpoint'
+    process.env['INPUT_DISABLE_BRANCH'] = 'YES'
+    process.env['INPUT_DISABLE_SYNC_CHANGES'] = 'YES'
+    process.env['INPUT_CLIENT_PAYLOAD'] = JSON.stringify({
         "username": "feelform", "release": {
             "assets": [],
             "assets_url": "https://api.github.com/repos/feelform/pinpoint/releases/52568229/assets",

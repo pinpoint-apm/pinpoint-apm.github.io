@@ -29,26 +29,26 @@ const run = async () => {
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
     const version = (await MarkdownContents.makeMarkdownContentsFromPinpointLatestReleaseNotes()).getVersionWithV()
-    const disableBranch = process.env['DISABLE_BRANCH']
-    if (version && !disableBranch) {
+    const disableBranch = core.getInput('disable_branch')
+    if (version && disableBranch.length == 0) {
       await git.branch([version])
       await git.push('origin', version)
     }
-
-    const engine = new TemplateEngine(template)
-    const markdownContent = await engine.markdownContent()
-    fs.outputFileSync(templateMarkdownFile, markdownContent)
-    core.setOutput('markdown', markdownContent)
 
     const githubRelease = await GithubRelease.make()
     const email = githubRelease.getAuthorEmail()
     const authorName = githubRelease.getAuthorName()
     core.info(`email: ${email}, authorName: ${authorName}`)
 
+    const engine = new TemplateEngine(template)
+    const markdownContent = await engine.markdownContent(githubRelease)
+    fs.outputFileSync(templateMarkdownFile, markdownContent)
+    core.setOutput('markdown', markdownContent)
+
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length
-    const disableChanges = process.env['DISABLE_SYNC_CHANGES']
-    if (changedFiles > 0 && !disableChanges) {
+    const disableChanges = core.getInput('disable_sync_changes')
+    if (changedFiles > 0 && disableChanges.length == 0) {
       await git
         .addConfig('user.email', email)
         .addConfig('user.name', authorName)

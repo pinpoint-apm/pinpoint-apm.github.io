@@ -6,6 +6,7 @@
 
 const axios = require('axios')
 const github = require('@actions/github')
+const core = require('@actions/core')
 
 class GithubRelease {
     static async latest() {
@@ -14,8 +15,8 @@ class GithubRelease {
     }
 
     static async make() {
-        const envClientPayload = process.env['ENV_CLIENT_PAYLOAD']
-        const payload = envClientPayload ? JSON.parse(envClientPayload) : github.context.payload['client_payload']
+        const envClientPayload = core.getInput('client_payload')
+        const payload = envClientPayload.length > 0 ? JSON.parse(envClientPayload) : github.context.payload['client_payload']
         const { data } = await axios.get(`https://api.github.com/users/${payload.username}`)
         return new GithubRelease(payload, { name: data.name, email: `${payload.username}@users.noreply.github.com` })
     }
