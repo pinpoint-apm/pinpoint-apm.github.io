@@ -10,6 +10,7 @@ const github = require('@actions/github')
 const fs = require("fs-extra")
 const axios = require('axios')
 const MarkdownContents = require('./markdown-contents')
+const ReleaseNotes = require('./release-notes')
 
 class TemplateEngine {
     constructor(template) {
@@ -40,7 +41,7 @@ const githubs = {
     valueOfFilename: async function (filename, release) {
         switch (filename) {
             case 'latestReleaseNotes.md':
-                return release.getBody()
+                return ReleaseNotes.makeLatestReleaseNotes(release).contents
             default:
                 return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
         }
