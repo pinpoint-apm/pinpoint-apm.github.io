@@ -20,7 +20,7 @@ class MarkdownContents {
     }
 
     static async makeMarkdownContentsFromPinpointGithub(fileName) {
-        const { data } = await axios.get(`https://raw.githubusercontent.com/pinpoint-apm/pinpoint/master/doc/${fileName}`, { responseType: 'text' })
+        const { data } = await axios.get(`https://raw.githubusercontent.com/${readmeGithubPath}/master/doc/${fileName}`, { responseType: 'text' })
         return new MarkdownContents(data)
     }
 
