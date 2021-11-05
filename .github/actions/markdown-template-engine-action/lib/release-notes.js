@@ -5,6 +5,7 @@
  */
 
 const axios = require('axios')
+const GithubRelease = require('./github-release')
 
 const whatsNewTempate = `# What's New in v__VERSION__
 __BODY__
@@ -33,6 +34,18 @@ class ReleaseNotes {
 
     static tagName(version) {
         return version.startsWith('v') ? version.substring(1) : version
+    }
+
+    static async makeByLatestGithubReleaseNotes() {
+        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
+        const tagName = ReleaseNotes.tagName(data.tag_name)
+        const latestReleaseNotes = whatsNewTempate.replace('__VERSION__', tagName)
+            .replace('__BODY__', data.body)
+        return makeLatestReleaseNotes(new GithubRelease({
+            release: {
+
+            }
+        }))
     }
 
     static makeOfMarkdownContents(contents) {
