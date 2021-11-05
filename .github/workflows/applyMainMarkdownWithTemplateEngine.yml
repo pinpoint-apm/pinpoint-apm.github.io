@@ -3,6 +3,16 @@
 
 name: Node.js CI
 
+inputs:
+  template_markdown_file:
+    description: 'template markdown file'
+    required: true
+    default: './main.md'
+  section_github_path:
+    description: 'section github path'
+    required: true
+    default: 'feelform/pinpoint'
+
 on:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
   repository_dispatch:
