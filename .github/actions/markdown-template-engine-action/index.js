@@ -35,14 +35,23 @@ const run = async () => {
       await git.push('origin', version)
     }
 
-    const githubRelease = await GithubRelease.make()
-    const email = githubRelease.getAuthorEmail()
-    const authorName = githubRelease.getAuthorName()
+    let githubRelease = await GithubRelease.make()
+    let engine
+    let email
+    let authorName
+    if (githubRelease) {
+      email = githubRelease.getAuthorEmail()
+      authorName = githubRelease.getAuthorName()
+      engine = new TemplateEngine(template, githubRelease)
+    } else {
+      email = '41898282+github-actions[bot]@users.noreply.github.com'
+      authorName = 'github-actions[bot]'
+      githubRelease = await ReleaseNotes.makeByLatestGithubReleaseNotes()
+      engine = new TemplateEngine(template, githubRelease)
+    }
     core.info(`email: ${email}, authorName: ${authorName}`)
 
-    const engine = new TemplateEngine(template)
     const markdownContent = await engine.markdownContent(githubRelease)
-
     const disableChanges = core.getInput('disable_sync_changes')
     if (disableChanges.length == 0) {
       fs.outputFileSync(templateMarkdownFile, markdownContent)

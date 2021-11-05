@@ -13,11 +13,11 @@ const MarkdownContents = require('./markdown-contents')
 const ReleaseNotes = require('./release-notes')
 
 class TemplateEngine {
-    constructor(template) {
+    constructor(template, releaseNotes) {
         this.template = template
+        this.releaseNotes = releaseNotes
     }
 
-    // https://regex101.com/r/Sgd2aq/1/
     async markdownContent(release) {
         let tagExpression = /<!--\s<(?!\/)(?<markdownfile>.*.md)>\s-->\n/gm
         let tag
@@ -41,7 +41,7 @@ const githubs = {
     valueOfFilename: async function (filename, release) {
         switch (filename) {
             case 'latestReleaseNotes.md':
-                return ReleaseNotes.makeLatestReleaseNotes(release).contents
+                return this.releaseNotes.contents
             default:
                 return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
         }
