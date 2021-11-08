@@ -76,5 +76,20 @@ test('index.js client payload test', (t) => {
     const regex = /name=markdown::<!--\s<latestReleaseNotes\.md>/gm
     const match = regex.exec(node)
     t.true(match.length > 0, 'match markdown')
+
+    delete process.env['INPUT_CLIENT_PAYLOAD']
+    t.end()
+})
+
+test('index.js schedule test', (t) => {
+    process.env['INPUT_TEMPLATE_MARKDOWN_FILE'] = './.github/actions/markdown-template-engine-action/__test__/main.test.md'
+    process.env['INPUT_SECTION_GITHUB_PATH'] = 'feelform/pinpoint'
+    process.env['INPUT_DISABLE_BRANCH'] = 'YES'
+    process.env['INPUT_DISABLE_SYNC_CHANGES'] = 'YES'
+    const ip = path.join(__dirname, '../', 'index.js')
+    const node = cp.execSync(`node ${ip}`, { env: process.env }).toString()
+    const regex = /name=markdown::<!--\s<latestReleaseNotes\.md>/gm
+    const match = regex.exec(node)
+    t.true(match.length > 0, 'match markdown')
     t.end()
 })

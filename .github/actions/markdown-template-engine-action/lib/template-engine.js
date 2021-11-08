@@ -17,30 +17,30 @@ class TemplateEngine {
         this.template = template
     }
 
-    async markdownContent(release) {
+    async markdownContent(githubRelease) {
         let tagExpression = /<!--\s<(?!\/)(?<markdownfile>.*.md)>\s-->\n/gm
         let tag
         let result = this.template
         while ((tag = tagExpression.exec(this.template)) !== null) {
-            const markdownFile = await this.markdownContentFromGithub(tag[1], release)
+            const markdownFile = await this.markdownContentFromGithub(tag[1], githubRelease)
             result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n[\\s\\S]*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
         }
         return result
     }
 
-    async markdownContentFromGithub(filename, release) {
+    async markdownContentFromGithub(filename, githubRelease) {
         if (githubs.keys.includes(filename)) {
-            return githubs.valueOfFilename(filename, release)
+            return githubs.valueOfFilename(filename, githubRelease)
         }
         return (await MarkdownContents.makeMarkdownContentsFromPinpointGithub(filename)).contents
     }
 }
 
 const githubs = {
-    valueOfFilename: async function (filename, release) {
+    valueOfFilename: async function (filename, githubRelease) {
         switch (filename) {
             case 'latestReleaseNotes.md':
-                return ReleaseNotes.makeLatestReleaseNotes(release).contents
+                return ReleaseNotes.makeLatestReleaseNotes(githubRelease).contents
             default:
                 return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
         }
