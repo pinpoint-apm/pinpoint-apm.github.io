@@ -7,6 +7,7 @@
 const axios = require('axios')
 const github = require('@actions/github')
 const core = require('@actions/core')
+const ReleaseNotes = require('./release-notes')
 
 class GithubRelease {
     static async latest() {
@@ -22,6 +23,22 @@ class GithubRelease {
         const payload = envClientPayload.length > 0 ? JSON.parse(envClientPayload) : github.context.payload['client_payload']
         const { data } = await axios.get(`https://api.github.com/users/${payload.username}`)
         return new GithubRelease(payload, { name: data.name, email: `${payload.username}@users.noreply.github.com` })
+    }
+
+    static async makeByLatestGithubReleaseNotes() {
+        const { data } = await axios.get(`https://api.github.com/repos/pinpoint-apm/pinpoint/releases/latest`)
+        const tagName = ReleaseNotes.tagName(data.tag_name)
+        return new GithubRelease({
+            release: {
+                name: data.name,
+                body: ReleaseNotes.formattedReleaseNotes(tagName, data.body),
+                tag_name: tagName,
+                html_url: data.url
+            }
+        }, {
+            name: 'github-actions[bot]',
+            email: '41898282+github-actions[bot]@users.noreply.github.com'
+        })
     }
 
     constructor(payload, author) {

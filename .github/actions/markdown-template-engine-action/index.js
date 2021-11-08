@@ -36,19 +36,12 @@ const run = async () => {
     }
 
     let githubRelease = await GithubRelease.make()
-    let engine
-    let email
-    let authorName
-    if (githubRelease) {
-      email = githubRelease.getAuthorEmail()
-      authorName = githubRelease.getAuthorName()
-      engine = new TemplateEngine(template, githubRelease)
-    } else {
-      email = '41898282+github-actions[bot]@users.noreply.github.com'
-      authorName = 'github-actions[bot]'
-      githubRelease = await ReleaseNotes.makeByLatestGithubReleaseNotes()
-      engine = new TemplateEngine(template, githubRelease)
+    if (!githubRelease) {
+      githubRelease = await GithubRelease.makeByLatestGithubReleaseNotes()
     }
+    let engine = new TemplateEngine(template)
+    const email = githubRelease.getAuthorEmail()
+    const authorName = githubRelease.getAuthorName()
     core.info(`email: ${email}, authorName: ${authorName}`)
 
     const markdownContent = await engine.markdownContent(githubRelease)
