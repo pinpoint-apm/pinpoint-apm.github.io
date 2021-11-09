@@ -17,6 +17,9 @@ class GithubRelease {
 
     static async make() {
         const payload = github.context.payload['client_payload']
+        if (!payload) {
+            return
+        }
         const { data } = await axios.get(`https://api.github.com/users/${payload.username}`)
         return new GithubRelease(payload, { name: data.name, email: `${payload.username}@users.noreply.github.com` })
     }
@@ -43,6 +46,7 @@ class GithubRelease {
         this.author = author
         this.tagName = payload.release.tag_name
         this.htmlURL = payload.release.html_url
+        this.version = ReleaseNotes.tagName(payload.release.tag_name)
     }
 
     getName() {
@@ -67,6 +71,14 @@ class GithubRelease {
 
     getTagName() {
         return this.tagName
+    }
+
+    getVersion() {
+        return `v${this.version}`
+    }
+
+    needsBranch(other) {
+        return this.getVersion() !== other
     }
 }
 
