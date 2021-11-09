@@ -12,11 +12,11 @@ const ReleaseNotes = require('../lib/release-notes')
 
 test('tagname check with "v"', async (t) => {
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
-        latest: function () {
-            return {
-                tag_name: 'v1.0',
-                body: ''
-            }
+        getTagName: function () {
+            return 'v1.0'
+        },
+        getBody: function () {
+            return ''
         }
     })).contents
     t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname with "v"')
@@ -25,11 +25,11 @@ test('tagname check with "v"', async (t) => {
 
 test('tagname check without "v"', async (t) => {
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
-        latest: function () {
-            return {
-                tag_name: '1.0',
-                body: ''
-            }
+        getTagName: function () {
+            return 'v1.0'
+        },
+        getBody: function () {
+            return ''
         }
     })).contents
     t.true(/# What's New in v1.0/.test(actual), '`# What"s New in tagname without "v"')
