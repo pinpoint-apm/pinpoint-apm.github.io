@@ -16,11 +16,7 @@ class GithubRelease {
     }
 
     static async make() {
-        const envClientPayload = core.getInput('client_payload')
-        if (!envClientPayload) {
-            return
-        }
-        const payload = envClientPayload.length > 0 ? JSON.parse(envClientPayload) : github.context.payload['client_payload']
+        const payload = github.context.payload['client_payload']
         const { data } = await axios.get(`https://api.github.com/users/${payload.username}`)
         return new GithubRelease(payload, { name: data.name, email: `${payload.username}@users.noreply.github.com` })
     }
