@@ -46,7 +46,7 @@ const run = async () => {
 
     const markdownContent = await engine.markdownContent(githubRelease)
     const disableChanges = core.getInput('disable_sync_changes')
-    if (disableChanges.length == 0) {
+    if (markdownContent && disableChanges.length == 0) {
       fs.outputFileSync(templateMarkdownFile, markdownContent)
     }
     core.setOutput('markdown', markdownContent)
