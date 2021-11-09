@@ -8,7 +8,7 @@ inputs:
   section_github_path:
     description: 'section github path'
     required: true
-    default: 'feelform/pinpoint'
+    default: 'pinpoint-apm/pinpoint'
 outputs:
   markdown:
     description: mardown content by template engine
