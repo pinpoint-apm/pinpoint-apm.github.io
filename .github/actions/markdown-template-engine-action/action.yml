@@ -4,9 +4,11 @@ inputs:
   template_markdown_file:
     description: 'template markdown file'
     required: true
+    default: './main.md'
   section_github_path:
     description: 'section github path'
     required: true
+    default: 'feelform/pinpoint'
 outputs:
   markdown:
     description: mardown content by template engine
