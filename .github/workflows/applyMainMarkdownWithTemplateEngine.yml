@@ -1,17 +1,7 @@
 # This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
-
-inputs:
-  template_markdown_file:
-    description: 'template markdown file'
-    required: true
-    default: './main.md'
-  section_github_path:
-    description: 'section github path'
-    required: true
-    default: 'feelform/pinpoint'
+name: Publish Pinpoint website
 
 on:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
