@@ -46,21 +46,42 @@ MarkdownContents.setPinpointReadmeGithubPath('feelform/pinpoint')
 
 test('tempalte engine', async (t) => {
     const dut = new TemplateEngine(actualMD)
-    const actual = await dut.markdownContent()
+    const actual = await dut.markdownContent({
+        getTagName: function () {
+            return 'v1.0'
+        },
+        getBody: function () {
+            return ''
+        }
+    })
     t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
     t.end()
 })
 
 test('markdown section test', async (t) => {
     const dut = new TemplateEngine(actualMD)
-    const actual = await dut.markdownContent()
+    const actual = await dut.markdownContent({
+        getTagName: function () {
+            return 'v1.0'
+        },
+        getBody: function () {
+            return ''
+        }
+    })
     t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
     t.end()
 })
 
 test('markdown from pinpoint index', async (t) => {
     const dut = new TemplateEngine(actualMD)
-    const actual = await dut.markdownContent()
+    const actual = await dut.markdownContent({
+        getTagName: function () {
+            return 'v1.0'
+        },
+        getBody: function () {
+            return ''
+        }
+    })
     t.true(/<!-- <compatibilityHbase\.md> -->/.test(actual), 'compatibilityHbase.md matches')
     t.true(/<!-- <compatibilityJava\.md> -->/.test(actual), 'compatibilityJava.md matches')
     t.true(/<!-- <compatibilityPinpoint\.md> -->/.test(actual), 'compatibilityPinpoint.md matches')
