@@ -1,0 +1,26 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Publish Pinpoint website
+
+on:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
+  repository_dispatch:
+    types: [release-pinpoint]
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '00 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: echo "Print all environment variables"
+    - run: env
+    - name: Update main.md by Markdown template engin
+      uses: ./.github/actions/markdown-template-engine-action
+      with:
+        template_markdown_file: ./main.md
+        section_github_path: pinpoint-apm/pinpoint

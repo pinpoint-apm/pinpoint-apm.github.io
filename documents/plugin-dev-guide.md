@@ -19,7 +19,7 @@ In Pinpoint, a transaction consists of a group of `Spans`. Each `Span` represent
 
 To aid in visualization, let's suppose that there is a system like below. The _FrontEnd_ server receives requests from users, then sends request to the _BackEnd_ server, which queries a DB. Among these nodes, let's assume only the _FrontEnd_ and _BackEnd_ servers are profiled by the Pinpoint Agent.
 
-![trace](https://cloud.githubusercontent.com/assets/8037461/13870778/0073df06-ed22-11e5-97a3-ebe116186947.jpg)
+![trace](https://user-images.githubusercontent.com/10043788/133535491-adafcd89-c04e-49af-9ad7-f7746bb9c95c.PNG)
 
 When a request arrives at the _FrontEnd_ server, Pinpoint Agent generates a new transaction id and creates a `Span` with it. To handle the request, the _FrontEnd_ server then invokes the _BackEnd_ server. At this point, Pinpoint Agent injects the transaction id \(plus a few other values for propagation\) into the invocation message. When the _BackEnd_ server receives this message, it extracts the transaction id \(and the other values\) from the message and creates a new `Span` with them. Resulting, all `Spans` in a single transaction share the same transaction id.
 
