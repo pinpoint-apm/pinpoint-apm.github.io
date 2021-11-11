@@ -1,5 +1,6 @@
 <!-- <latestReleaseNotes.md> -->
 # What's New in v2.3.1
+# What's New in v2.3.1
 ## Notice
 We have moved our documentation to Gitbook.
 https://pinpoint-apm.gitbook.io/pinpoint
@@ -8,19 +9,11 @@ https://pinpoint-apm.gitbook.io/pinpoint
 
 ## Experimental Features
 How to enable the experimental function
-
-
 ![8c272f00-4175-11ec-8c2b-488815d51670](https://user-images.githubusercontent.com/10057874/141051187-7cb6fba8-c28e-4d24-aa27-c96630c1065e.gif)
-
-
 <br>
 
 ### ServerMap realtime mode (#6980)
-
-
 ![servermap](https://user-images.githubusercontent.com/10057874/141051235-e31c3221-568c-4ac3-b0f8-26744ee17257.gif)
-
-
 <br>
 
 ### Scatter chart heatmap mode (#8218)
@@ -32,20 +25,12 @@ with data sampling, better memory usage, better performance, and more intuitive 
 ## Key Features
 ###  New Timeline (#7664) 
 To provide more features via appling perfetto(https://ui.perfetto.dev/).
-
-
 ![timeline](https://user-images.githubusercontent.com/10057874/141051729-a8483a09-3dae-4bc0-8a14-b4dffbde63d3.jpeg)
-
-
 <br>
 ###  Support webhook menus (#8132)
 Please refer to pinpoint [gitbook](https://pinpoint-apm.gitbook.io/pinpoint/documents/alarm)
-
-
 ![webhook2](https://user-images.githubusercontent.com/10057874/141051986-102d90cd-a6f3-4f3f-863b-757e4b0d59fb.gif)
-
-
-
+<br>
 ### Support percent sampler (#6617)
 (Thank you @yjqg6666 for your contribution)
 * pinpoint.config
@@ -67,11 +52,7 @@ Support TLS Connection for agent and collector
 <br>
 
 ### Add user proxy plugin(#8122)
-
-
 ![user-proxy](https://user-images.githubusercontent.com/10057874/141052463-adb9b129-2571-4185-9730-d3b99d3304b0.png)
-
-
 
 <br><br>
 
@@ -136,6 +117,7 @@ If there is someone who was inadvertently excluded, please let me know.
 @Duytq7
 @mariusssi
 @yjqg6666
+
 
 
 <!-- </latestReleaseNotes.md> -->
