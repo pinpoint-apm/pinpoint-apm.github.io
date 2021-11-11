@@ -30,7 +30,7 @@ class GithubRelease {
         return new GithubRelease({
             release: {
                 name: data.name,
-                body: ReleaseNotes.formattedReleaseNotes(tagName, data.body),
+                body: data.body,
                 tag_name: tagName,
                 html_url: data.url
             }
