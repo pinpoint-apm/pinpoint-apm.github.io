@@ -45,7 +45,7 @@ Please refer to pinpoint [gitbook](https://pinpoint-apm.gitbook.io/pinpoint/docu
 ![webhook2](https://user-images.githubusercontent.com/10057874/141051986-102d90cd-a6f3-4f3f-863b-757e4b0d59fb.gif)
 
 
-<br>
+
 ### Support percent sampler (#6617)
 (Thank you @yjqg6666 for your contribution)
 * pinpoint.config
