@@ -11,7 +11,7 @@ const path = require('path')
 const test = require('tape')
 const github = require('@actions/github')
 
-test.skip('index.js error case', (t) => {
+test('index.js error case', (t) => {
     process.env['INPUT_TEMPLATE_MARKDOWN_FILE'] = ''
     const ip = path.join(__dirname, '../', 'index.js')
 
