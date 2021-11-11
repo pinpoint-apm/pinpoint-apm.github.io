@@ -1,117 +1,109 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.3.0
-##  Key Features
-### Support Dark Mode 
-* Servermap 
-![image](https://user-images.githubusercontent.com/14918660/123748950-d955e300-d8ef-11eb-981a-3fd79ece9276.png)
-* Distributed callstack
-![dark-call](https://user-images.githubusercontent.com/10057874/126583513-8d8f3cb9-d411-4a20-a312-6dacc7722341.jpg)
-* Inspector 
-![darkinspector](https://user-images.githubusercontent.com/10057874/126583523-851c5cc6-a456-4e66-8d38-17f4aa3004d3.jpg)
-* Issue : #7990 
+# What's New in v2.3.1
+# What's New in v2.3.1
+## Notice
+We have moved our documentation to Gitbook.
+https://pinpoint-apm.gitbook.io/pinpoint
+
+<br><br>
+
+## Experimental Features
+How to enable the experimental function
+![8c272f00-4175-11ec-8c2b-488815d51670](https://user-images.githubusercontent.com/10057874/141051187-7cb6fba8-c28e-4d24-aa27-c96630c1065e.gif)
 <br>
 
-### Support Avg & Max response summary
-* Servermap 
-![avgmax](https://user-images.githubusercontent.com/10057874/126583693-d5642ab7-d1bb-48dd-ad40-ea8a7e1e031c.jpg)
-* Issue : #7559 
-(Thank you @yjqg6666  for your contribution)
+### ServerMap realtime mode (#6980)
+![servermap](https://user-images.githubusercontent.com/10057874/141051235-e31c3221-568c-4ac3-b0f8-26744ee17257.gif)
 <br>
 
-### Support Async SDK support
-* Distributed callstack
-![async](https://user-images.githubusercontent.com/10057874/126584403-152f547d-0937-4512-a915-1c7a23bfb3d9.jpg)
-* Document
-https://github.com/pinpoint-apm/pinpoint/blob/master/agent-sdk/README.md
-* Issue : #7654, #7750 
-(Thank you @zhangyinhao1234   for your contribution)
-<br>
+### Scatter chart heatmap mode (#8218)
+with data sampling, better memory usage, better performance, and more intuitive visualization
+<img width="457" alt="heatmap" src="https://user-images.githubusercontent.com/10057874/141051277-0571fcc5-54ff-4c4f-a5d8-9bcbab506126.png">
 
-### Support Agent Name 
-* Description 
-Pinpoint has been resolved 24 character limit via agentName.
+<br><br>
+
+## Key Features
+###  New Timeline (#7664) 
+To provide more features via appling perfetto(https://ui.perfetto.dev/).
+![timeline](https://user-images.githubusercontent.com/10057874/141051729-a8483a09-3dae-4bc0-8a14-b4dffbde63d3.jpeg)
+<br>
+###  Support webhook menus (#8132)
+Please refer to pinpoint [gitbook](https://pinpoint-apm.gitbook.io/pinpoint/documents/alarm)
+![webhook2](https://user-images.githubusercontent.com/10057874/141051986-102d90cd-a6f3-4f3f-863b-757e4b0d59fb.gif)
+<br>
+### Support percent sampler (#6617)
+(Thank you @yjqg6666 for your contribution)
+* pinpoint.config
 ```
-# Pinpoint OPTS 
--javaagent:${PINPOINT_BOOTSTRAP} -Dpinpoint.agentName=pinpoint_has_been_resolved_24_character_limit_agentName -Dpinpoint.applicationName=${APPLICATION_NAME}
+# support 2 types, COUNTING(default) and PERCENT.
+# If this value set to COUNTING(default), sampling rate is 1/n.
+# If this value set to PERCENT, sampling rate is n%.
+profiler.sampling.type=PERCENT
+
+# if it's PERCENT, then first x transactions out of y transactions will be sampled.
+# Support from 100% to 0.01%
+# eg. 100: 100%    50: 50%    0.01: 0.01%
+profiler.sampling.percent.sampling-rate=100
 ```
 <br>
 
-* Servermap
-![image](https://user-images.githubusercontent.com/1879641/113987104-95b78400-9880-11eb-80d6-32683cd67940.png)
-* Distributed callstack
-![image](https://user-images.githubusercontent.com/1879641/112813099-71092280-90b0-11eb-912f-5b9c798b990f.png)
-* Inspector
-![image](https://user-images.githubusercontent.com/1879641/112812867-2d161d80-90b0-11eb-85cc-f9380d6cbb03.png)
-* Issue : #7788  
-(Thank you @yjqg6666  for your contribution)
+### Support TLS (#8128)
+Support TLS Connection for agent and collector 
 <br>
 
-### Separated into batch logic module
-In the future, the module is separated so that the batch is operated as a separate process instead of running the batch job in the web.
-Please refer to the guide document below for how to run batch.
-* issue : #7808
-* Document
-https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/alarm.md
+### Add user proxy plugin(#8122)
+![user-proxy](https://user-images.githubusercontent.com/10057874/141052463-adb9b129-2571-4185-9730-d3b99d3304b0.png)
 
-
-### Support webhook notifications for alarms
-![alarm_figure06](https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/images/alarm/alarm_figure06.png)
-* Document
-https://github.com/pinpoint-apm/pinpoint/blob/v2.3.0/doc/alarm.md
-* Issue : #7142
-(Thank you @cwJohnPark, @doll6777, @imbf  for your contribution)
-<br>
-
-### Support Hbase2 
-* Issue : #7808 
-
-<br>
+<br><br>
 
 ## Release Notes
 ### Plugins
-* [Plugins issues](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aplugin)
+* [Plugins issues](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+is%3Aclosed+label%3Amodule%3Aplugin+milestone%3A2.3.1)
 
 ### Enhancements
-* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aagent)
+* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.1+is%3Aclosed+label%3Amodule%3Aagent)
 
-* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aplugin)
+* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.1+is%3Aclosed+label%3Amodule%3Aplugin)
 
-* [Collector](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Acollector)
+* [Collector](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.1+is%3Aclosed+label%3Amodule%3Acollector)
 
-* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.0+is%3Aclosed+label%3Amodule%3Aweb)
+* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+label%3Aenhancement+milestone%3A2.3.1+is%3Aclosed+label%3Amodule%3Aweb)
 
-* [Batch](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Abatch)
+* [Batch](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Abatch)
 
-* [Flink](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aflink)
+* [Flink](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aflink)
 
-* [Common](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aproject-common)
+* [Common](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Aproject-common)
+
+* [Test](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aenhancement+label%3Amodule%3Atest)
 
 ### Bugs
-* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Aagent)
+* [Agent](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Abug+label%3Amodule%3Aagent)
 
-* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Aplugin)
+* [Plugin](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Abug+label%3Amodule%3Aplugin)
 
-* [Collector](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Acollector)
+* [Collector](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Abug+label%3Amodule%3Acollector)
 
-* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+label%3Abug+is%3Aclosed+label%3Amodule%3Aweb)
+* [Web](https://github.com/naver/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+label%3Abug+is%3Aclosed+label%3Amodule%3Aweb)
 
-* [Batch](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+label%3Abug+is%3Aclosed+label%3Amodule%3Abatch)
+* [Test](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Abug+label%3Amodule%3Atest)
 
-* [Test](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Abug+label%3Amodule%3Atest)
+### Configuration
+* [Agent](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aconfiguration+label%3Amodule%3Aagent)
+
+* [Collector](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aconfiguration+label%3Amodule%3Acollector)
+
+* [Web](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aconfiguration+label%3Amodule%3Aweb)
+
+* [Common](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Aconfiguration+label%3Amodule%3Aproject-common)
 
 ### Cleanup
-* [Agent](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Acleanup+label%3Amodule%3Aagent)
-
-* [Plugin](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Acleanup+label%3Amodule%3Aplugin)
+* [Agent](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Acleanup+label%3Amodule%3Aagent)
 
 ### Dependency
-* [All](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Adependencies)
+* [All](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.1+is%3Aclosed+label%3Adependencies)
 
-### Document
-* [All](https://github.com/pinpoint-apm/pinpoint/issues?q=is%3Aissue+milestone%3A2.3.0+is%3Aclosed+label%3Adocument)
-
-
-<br>
+<br><br>
 
 ## Thank You
 to
@@ -121,18 +113,11 @@ whom showed interest in Pinpoint and shared it to others.
 
 Thank you all.
 If there is someone who was inadvertently excluded, please let me know.
-@brito-wang
-@cwJohnPark 
-@davide-parini
-@doll6777
-@hoverwinter
-@imbf 
-@kkojaeh
-@linux0x5c 
-@messi-gao 
-@stanvl
-@tankilo 
-@theLazyCat775
+@aalinyu
+@Duytq7
+@mariusssi
+@yjqg6666
+
 
 
 <!-- </latestReleaseNotes.md> -->
@@ -142,38 +127,44 @@ If there is someone who was inadvertently excluded, please let me know.
 HBase compatibility table:
 
 <!-- <compatibilityHbase.md> -->
-| Pinpoint Version | HBase 0.98.x | HBase 1.0.x | HBase 1.2.x | HBase 2.0.x |
-| :--- | :--- | :--- | :--- | :--- |
-| 1.5.x | not tested | yes | not tested | no |
-| 1.6.x | not tested | not tested | yes | no |
-| 1.7.x | not tested | not tested | yes | no |
-| 1.8.x | not tested | not tested | yes | no |
-| 2.0.x | not tested | not tested | yes | optional |
+Pinpoint Version | HBase 1.0.x | HBase 1.2.x | HBase 1.4.x | HBase 2.0.x
+---------------- | ----------- | ----------- | ----------- | -----------
+1.7.x | not tested | yes | yes | no
+1.8.x | not tested | yes | yes | no
+2.0.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
+2.1.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
+2.2.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
+2.3.x | not tested | yes | yes | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)
+
 <!-- </compatibilityHbase.md> -->
 
 Agent compatibility to Collector table:
 
 <!-- <compatibilityPinpoint.md> -->
-| Agent Version | Collector 1.5.x | Collector 1.6.x | Collector 1.7.x | Collector 1.8.x | Collector 2.0.x |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| 1.5.x | yes | yes | yes | yes | yes |
-| 1.6.x | not tested | yes | yes | yes | yes |
-| 1.7.x | no | no | yes | yes | yes |
-| 1.8.x | no | no | no | yes | yes |
-| 2.0.x | no | no | no | no | yes |
+Agent Version | Collector 1.7.x | Collector 1.8.x | Collector 2.0.x | Collector 2.1.x | Collector 2.2.x | Collector 2.3.x |
+------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+1.7.x | yes | yes | yes | yes | yes | yes 
+1.8.x | no  | yes | yes | yes | yes | yes 
+2.0.x | no  | no  | yes | yes | yes | yes 
+2.1.x | no  | no  | no  | yes | yes | yes 
+2.2.x | no  | no  | no  | no  | yes | yes
+2.3.x | no  | no  | no  | no  | no  | yes
+
 <!-- </compatibilityPinpoint.md> -->
 
 Additionally, the required Java version to run each Pinpoint component is given below:
 
 <!-- <compatibilityJava.md> -->
-| Pinpoint Version | Agent | Collector | Web |
-| :--- | :--- | :--- | :--- |
-| 1.5.x | 6-8 | 7-8 | 7-8 |
-| 1.6.x | 6-8 | 7-8 | 7-8 |
-| 1.7.x | 6-8 | 8 | 8 |
-| 1.8.0 | 6-10 | 8 | 8 |
-| 1.8.1+ | 6-11 | 8 | 8 |
-| 2.0.x | 6-11 | 8 | 8 |
+Pinpoint Version | Agent | Collector | Web
+---------------- | ----- | --------- | ---
+1.7.x  | 6-8  | 8   | 8
+1.8.0  | 6-10 | 8   | 8 
+1.8.1+ | 6-11 | 8   | 8 
+2.0.x  | 6-13 | 8   | 8
+2.1.x  | 6-14 | 8   | 8
+2.2.x  | 7-14 | 8   | 8
+2.3.x  | 7-17 | 8   | 8
+
 <!-- </compatibilityJava.md> -->
 
 ## Supported Modules
@@ -182,6 +173,9 @@ Additionally, the required Java version to run each Pinpoint component is given 
 * Supported versions of the \* indicated library may differ from the actual version.
 
 <!-- <modules.md> -->
+<!-- DO NOT add/remove column. `Min/Max version` columns will be automatically updated for the rows marked with `<AG>` at the end, via Integration test from 'agent-it' -->
+<!-- Contents can be modified at will, key value for the update is column 'Instrumented Library' -->
+
 | Title | Instrumented Library | Min | Max | Comment |  |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | [Tomcat](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/tomcat) |  | 6.x | 9.x |  |  |
