@@ -28,6 +28,17 @@ class TemplateEngine {
             }
             result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n[\\s\\S]*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
         }
+
+        let imageRegex = /(?<image>!\[.*]\([^)]*\))/gm
+        let imageMatch;
+        while ((imageMatch = imageRegex.exec(result)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (imageMatch.index === imageRegex.lastIndex) {
+                imageRegex.lastIndex++;
+            }
+
+            result = result.replace(imageMatch[1], `\n\n${imageMatch[1]}\n\n`)
+        }
         return result
     }
 
