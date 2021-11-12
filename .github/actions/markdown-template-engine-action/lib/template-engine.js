@@ -30,7 +30,7 @@ class TemplateEngine {
         }
 
         let imageRegex = /(?<image>!\[.*]\([^)]*\))/gm
-        let imageMatch;
+        let imageMatch
         while ((imageMatch = imageRegex.exec(result)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
             if (imageMatch.index === imageRegex.lastIndex) {
@@ -38,6 +38,17 @@ class TemplateEngine {
             }
 
             result = result.replace(imageMatch[1], `\n\n${imageMatch[1]}\n\n`)
+        }
+
+        let brRegex = /(?<br><br>)\n[\S]+/gm
+        let brMatch
+        while ((brMatch = brRegex.exec(result)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (brMatch.index === brRegex.lastIndex) {
+                brRegex.lastIndex++;
+            }
+
+            result = result.replace(brMatch[1], `${brMatch[1]}\n\n`)
         }
         return result
     }
