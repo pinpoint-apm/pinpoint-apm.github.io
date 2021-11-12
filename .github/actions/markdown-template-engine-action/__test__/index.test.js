@@ -83,7 +83,7 @@ test('index.js client payload test', (t) => {
 
 test('index.js schedule test', (t) => {
     process.env['INPUT_TEMPLATE_MARKDOWN_FILE'] = './.github/actions/markdown-template-engine-action/__test__/main.test.md'
-    process.env['INPUT_SECTION_GITHUB_PATH'] = 'feelform/pinpoint'
+    process.env['INPUT_SECTION_GITHUB_PATH'] = 'pinpoint-apm/pinpoint'
     process.env['INPUT_DISABLE_BRANCH'] = 'YES'
     process.env['INPUT_DISABLE_SYNC_CHANGES'] = 'YES'
     const ip = path.join(__dirname, '../', 'index.js')
