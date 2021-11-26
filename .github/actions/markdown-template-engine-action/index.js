@@ -28,15 +28,10 @@ const run = async () => {
     const templateMarkdownFile = core.getInput('template_markdown_file')
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
+    const templateVersion = ReleaseNotes.makeOfMarkdownContents(template).getVersionWithV()
+
     let githubRelease = await GithubRelease.make()
-    if (githubRelease) {
-      const version = ReleaseNotes.makeOfMarkdownContents(template).getVersionWithV()
-      const disableBranch = core.getInput('disable_branch')
-      if (version && githubRelease.needsBranch(version) && disableBranch.length == 0) {
-        await git.branch([version])
-        await git.push('origin', version)
-      }
-    } else {
+    if (!githubRelease) {
       githubRelease = await GithubRelease.makeByLatestGithubReleaseNotes()
     }
     let engine = new TemplateEngine(template)
@@ -67,6 +62,13 @@ const run = async () => {
       core.info(`> git commit ${templateMarkdownFile} file.`)
       await git.push()
       core.info(`> git push.`)
+
+      const disableBranch = core.getInput('disable_branch')
+      const version = githubRelease.getVersion()
+      if (version && githubRelease.needsBranch(templateVersion) && disableBranch.length == 0) {
+        await git.branch([version])
+        await git.push('origin', version)
+      }
     }
   } catch (error) {
     console.error(error)
