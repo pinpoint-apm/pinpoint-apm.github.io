@@ -81,7 +81,7 @@ There are two options:
 
     * JDK 7 installed ([jdk1.7.0\_80](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html#jdk-7u80-oth-JPR) recommended)
     * JDK 8 installed
-    * JDK 9 installed
+    * JDK 11 installed
     * JAVA\_HOME environment variable set to JDK 8 home directory.
     * JAVA\_7\_HOME environment variable set to JDK 7 home directory.
     * JAVA\_8\_HOME environment variable set to JDK 8 home directory.
