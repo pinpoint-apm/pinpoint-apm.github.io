@@ -1,8 +1,27 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.3.2
+# What's New in v2.3.3
 ## Security Patch Release
-- Fix Log4j2 Security Vulnerabilities
-  #8489 CVE-2021-44228 
+* Fix Log4j2 Security Vulnerabilities
+  * CVE-2021-45105, CVE-2021-45046
+  * Agent : log4j 2.12.3
+  * Server module : log4j 2.17.0
+
+## Release Notes
+* [#8510] Backport: Bump Log4j 2.17.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8531
+* [#8521] Backport: Bump log4j 2.12.3 for JDK7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8537
+* [#8507] Fix malformed logging configuration for agent by @kjkmadness in https://github.com/pinpoint-apm/pinpoint/pull/8508
+* [#8313] Add null check to kafka header values to prevent NPE by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/8529
+* [#8515] Backport: Fix https in jdk-http-plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/commit/a7f50bed3fd569c07e534d3fe4737e47411fa7c2
+* [#8501] Disable unnecessary JNDI by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8506
+* [#8547] Backport fix app proxy header by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8548
+* [#8541] Backport: Enhanced Pinpoint header validation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8546
+
+## Thank You
+Thank you all.
+If there is someone who was inadvertently excluded, please let me know.
+@kjkmadness
+
+
 
 <!-- </latestReleaseNotes.md> -->
 
