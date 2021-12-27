@@ -1,85 +1,27 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.3.4-SNAPSHOT
-## What's Changed
-* [#release] prepare for v2.3.2-SNAPSHOT by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8386
-* [#release] prepare for v2.4.0-SNAPSHOT by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8387
-* [#noissue] Fix grpc it by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8388
-* [#8376] web ui, highlight exception rows in call tree by @yjqg6666 in https://github.com/pinpoint-apm/pinpoint/pull/8377
-* Repository Dispatch for pinpoint-apm.github.io and update compatibility table by @feelform in https://github.com/pinpoint-apm/pinpoint/pull/8275
-* [#8394] Fix the collector for Hbase2 does not work by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8396
-* [#8399] fix broken image link by @feelform in https://github.com/pinpoint-apm/pinpoint/pull/8400
-* [#noissue] Fix grpc it by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8401
-* [#8402] Add ServletFilter based ErrorHandler by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8403
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8404
-* [#noissue] Support grpc 1.42.x version test by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8405
-* [#8372] Replace HTableMultiplexer with BufferedMutator by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8373
-* 8372 Replace HTableMultiplexer with BufferedMutator by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8406
-* [#noissue] Cleanup File path of Agent by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8266
-* [#noissue] Polishing by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8409
-* [#8372] Add AutoFlush for Testcase by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8410
-* [#8407] Upgrade Spring Lib by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8408
-* [#8372] Polishing by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8412
-* [#8407] Fix IT-Test failure by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8413
-* [#noissue] Set default as true some experimental options by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/8414
-* [#noissue] Set default as true for other options by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/8415
-* [#noissue] Set header response type as text in certain api by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/8416
-* [#8372] Disable BufferedMutator by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8417
-* [#noissue] Set default as false on agent statistic option by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/8420
-* [#noissue] Cleanup commons-logging dependency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8422
-* [#8407] Update Spring-boot 2.5.6->2.4.13 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8423
-* [#8407] Update Spring-boot 2.4.13 - > 2.5.7 by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8426
-* Fix show progress when complete in callstack by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8430
-* [#8305] Upgrade java11 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8306
-* [#8222] replace logger pattern automatically by @yjqg6666 in https://github.com/pinpoint-apm/pinpoint/pull/8228
-* [#noissue] Remove compile dependency of log4j1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8432
-* [#8434] Update log4j2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8435
-* [#8436] Update ASM 9.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8437
-* [#8438] Update Jackson 2.12.5 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8439
-* [#8440] Update frontend-maven-plugin 1.12.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8441
-* [#noissue] Update httpcomponents by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8442
-* [#8222] Fix testcase failure by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8443
-* [#noissue] Reduce memory usage of DisableTrace by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8448
-* [#NOISSUE] cache name constant, fix typo by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/8451
-* [#NOISSUE] cache name constant, fix typo in flink by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/8453
-* [#8452] Update gRpc by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8454
-* [#noissue] Remove unnecessary header for test by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/8466
-* [#6821] Fix servermap instance list factory by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8447
-* [#8463] Replace slf4j with log4j2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8464
-* [#8470] Update Java11 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8471
-* [#8472] Support Kotlin Coroutines Plugin by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8475
-* [#noissue] Bump spotbugs & pmd by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8474
-* [#8472] Update description for Coroutines plugin by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8479
-* [#8472] Support Kotlin Coroutines Plugin IT by @koo-taejin in https://github.com/pinpoint-apm/pinpoint/pull/8482
-* [#noissue] Bump javax.mail from 1.4.7 to jakarta.mail 1.6.7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8484
-* [#8472] Fix pinpoint-kotlin-coroutines-plugin-it failure by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8485
-* [#noissue] Change default value of it-module to true by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8488
-* [#8491] Fix Log4j2 RCE vulnerability by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8492
-* [#8491] Add log4j2.formatMsgNoLookups=true based on SystemProperteis to Agent by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8493
-* [#8491] Update 2.3.2 release by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8497
-* [#noissue] Add jakarta.activation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8498
-* [#noissue] Fix testweb pom by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8500
-* [#8501] Disable unnecessary JNDI by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8502
-* [#noissue] Cleanup javax.mail by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8499
-* [#8509] Bump Log4j 2.16.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8512
-* [#8513] Fix https in jdk-http-plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8514
-* [#8519] Bump log4j 2.12.3 for JDK7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8520
-* [#noissue] Polishing pom.xml by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8525
-* [#8313] Add null check to kafka header values to prevent NPE by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/8527
-* [#8503] Fix malformed logging configuration for agent by @kjkmadness in https://github.com/pinpoint-apm/pinpoint/pull/8476
-* [#8509] Bump Log4j 2.17.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8530
-* [#noissue] [WEB/UI] add webhook url & alias validation; max length by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/8504
-* [#8519] Bump log4j 2.12.3 for JDK7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8535
-* [#8543] Fix app proxy header by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8545
-* [#8544] Enhanced Pinpoint header validation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8546
-* [#8539] Update 2.3.3 release notice by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8552
-* [#noissue] Update setup-java v2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8555
-* [#noissue] Update setup-java v2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8558
-* [#noissue] Add maven-central-deploy.yml by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8559
+# What's New in v2.3.3
+## Security Patch Release
+* Fix Log4j2 Security Vulnerabilities
+  * CVE-2021-45105, CVE-2021-45046
+  * Agent : log4j 2.12.3
+  * Server module : log4j 2.17.0
 
-## New Contributors
-* @kjkmadness made their first contribution in https://github.com/pinpoint-apm/pinpoint/pull/8476
+## Release Notes
+* [#8510] Backport: Bump Log4j 2.17.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8531
+* [#8521] Backport: Bump log4j 2.12.3 for JDK7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8537
+* [#8507] Fix malformed logging configuration for agent by @kjkmadness in https://github.com/pinpoint-apm/pinpoint/pull/8508
+* [#8313] Add null check to kafka header values to prevent NPE by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/8529
+* [#8515] Backport: Fix https in jdk-http-plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/commit/a7f50bed3fd569c07e534d3fe4737e47411fa7c2
+* [#8501] Disable unnecessary JNDI by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8506
+* [#8547] Backport fix app proxy header by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/8548
+* [#8541] Backport: Enhanced Pinpoint header validation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8546
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.3.1...v2.3.4-SNAPSHOT
+## Thank You
+Thank you all.
+If there is someone who was inadvertently excluded, please let me know.
+@kjkmadness
+
+
 
 <!-- </latestReleaseNotes.md> -->
 
