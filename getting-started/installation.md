@@ -47,10 +47,11 @@ To try out a simple quickstart project, please refer to the [quick-start guide](
 5. Pinpoint Agent ([details](installation.md#5-pinpoint-agent))
    1. Extract/move _pinpoint-agent/_ to a convenient location (`$AGENT_PATH`).
    2. Set `-javaagent:$AGENT_PATH/pinpoint-bootstrap-$VERSION.jar` JVM argument to attach the agent to a java application.
-   3.  Set `-Dpinpoint.agentId` and `-Dpinpoint.applicationName` command-line arguments.
-
-       a) If you're launching an agent in a containerized environment with dynamically changing _agent id_, consider adding `-Dpinpoint.container` command-line argument.
-   4. Launch java application with the options above.
+   3. Set `-Dpinpoint.agentId` and `-Dpinpoint.applicationName` command-line arguments.
+      * If you're launching an agent in a containerized environment with dynamically changing _agent id_, consider adding `-Dpinpoint.container` command-line argument.
+   4. Set `-Dprofiler.sampling.type=PERCENT` and `-Dprofiler.sampling.percent.sampling-rate=100` command-line arguments.
+      * You can adjust the sampling rate with the above option.
+   5. Launch java application with the options above.
 
 ## 1. HBase
 
@@ -297,6 +298,9 @@ Additionally, Pinpoint Agent requires 2 command-line arguments in order to ident
 * `-Dpinpoint.applicationName` - groups a number of identical application instances as a single service
 
 Note that _pinpoint.agentId_ must be globally unique to identify an application instance, and all applications that share the same _pinpoint.applicationName_ are treated as multiple instances of a single service.
+
+* `-Dprofiler.sampling.type=PERCENT` - sampler type
+* `-Dprofiler.sampling.percent.sampling-rate=100` - support from 100% to 0.01%
 
 If you're launching the agent in a containerized environment, you might have set your _agent id_ to be auto-generated every time the container is launched. With frequent deployment and auto-scaling, this will lead to the Web UI being cluttered with all the list of agents that were launched and destroyed previously. For such cases, you might want to add `-Dpinpoint.container` in addition to the 2 required command-line arguments above when launching the agent.
 
