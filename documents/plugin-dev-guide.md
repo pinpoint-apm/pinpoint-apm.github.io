@@ -139,7 +139,7 @@ The table below shows the `AnnotationKey` properties.
 
 #### Example
 
-You can find _type-provider.yml_ sample [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/blob/master/plugin/src/main/resources/META-INF/pinpoint/type-provider.yml).
+You can find _type-provider.yml_ sample [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/blob/master/plugins/sample/src/main/resources/META-INF/pinpoint/type-provider.yml).
 
 You may also define and attach an `AnnotationKeyMatcher` with a `ServiceType` \(`matcher` element in the sample _type-provider_ code above\). If you attach an `AnnotationKeyMatcher` this way, matching annotations will be displayed as representative annotation when the `ServiceType`'s `Span` or `SpanEvent` is displayed in the transaction call tree.
 
@@ -168,7 +168,7 @@ We will now describe what interceptors must do to trace different kinds of metho
 
 #### 2.1 Plain method
 
-_Plain method_ refers to anything that is not a top-level method of a node, or is not related to remote or asynchronous invocation. [Sample 2](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugin/src/main/java/com/navercorp/pinpoint/plugin/sample/_02_Injecting_Custom_Interceptor) shows you how to trace these plain methods.
+_Plain method_ refers to anything that is not a top-level method of a node, or is not related to remote or asynchronous invocation. [Sample 2](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugins/sample/src/main/java/com/navercorp/pinpoint/plugin/sample/_02_Injecting_Custom_Interceptor) shows you how to trace these plain methods.
 
 #### 2.2 Top level method of a node
 
@@ -203,7 +203,7 @@ Sometimes, the previous node marks the transaction to not be traced. In this cas
 
 As you can see, the client plugin must be able pass trace data to the server plugin, and how to do this is protocol dependent.
 
-You can find an example of top-level method server interceptor [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugin/src/main/java/com/navercorp/pinpoint/plugin/sample/_14_RPC_Server).
+You can find an example of top-level method server interceptor [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugins/sample/src/main/java/com/navercorp/pinpoint/plugin/sample/_14_RPC_Server).
 
 #### 2.3 Methods invoking a remote node
 
@@ -234,7 +234,7 @@ Pinpoint finds out caller-callee relation by matching _destinationId_ of client 
 
 The interceptor's recorded `ServiceType` must be from the RPC client category.
 
-You can find an example for these interceptors [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugin/src/main/java/com/navercorp/pinpoint/plugin/sample/_13_RPC_Client).
+You can find an example for these interceptors [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugins/sample/src/main/java/com/navercorp/pinpoint/plugin/sample/_13_RPC_Client).
 
 **2.3.2 If the next node is not traceable**
 
@@ -254,7 +254,7 @@ The initiating method's interceptor has to issue an **AsyncContext** and pass it
 
 The handling method's interceptor must then continue the trace using the propagated **AsyncContext** and bind it to it's own thread. However, it is very strongly recommended that you simply extend the **AsyncContextSpanEventSimpleAroundInterceptor** so that you do not have to handle this manually.
 
-Keep in mind that since the shared object must be able have **AsyncContext** injected into it, you have to add a field using `AsyncContextAccessor` during it's class transformation. You can find an example for tracing asynchronous tasks [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugin/src/main/java/com/navercorp/pinpoint/plugin/sample/_12_Asynchronous_Trace).
+Keep in mind that since the shared object must be able have **AsyncContext** injected into it, you have to add a field using `AsyncContextAccessor` during it's class transformation. You can find an example for tracing asynchronous tasks [here](https://github.com/pinpoint-apm/pinpoint-plugin-sample/tree/master/plugins/sample/src/main/java/com/navercorp/pinpoint/plugin/sample/_12_Asynchronous_Trace).
 
 #### 2.5 Case Study: HTTP
 
