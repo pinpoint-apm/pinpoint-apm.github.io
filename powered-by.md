@@ -15,12 +15,13 @@ This page, documents **alphabetical list** of organizations using Pinpoint.
 
 1. Coupang \(www.coupang.com\)
 2. Echemi \([https://www.echemi.com](https://www.echemi.com)\)
-3. NAVER \(www.naver.com\)
-4. NHN Entertainment 
-5. Pikicast \(www.pikicast.com\)
-6. SKPlanet\(www.skplanet.com\)
-7. XLGAMES \([http://www.xlgames.com](http://www.xlgames.com)\)
-8. Toss \([https://toss.im/](https://toss.im/)\)
+3. HanaTour \[https://hanatour.com](https://hanatour.com)
+4. NAVER \(www.naver.com\)
+5. NHN Entertainment 
+6. Pikicast \(www.pikicast.com\)
+7. SKPlanet\(www.skplanet.com\)
+8. XLGAMES \([http://www.xlgames.com](http://www.xlgames.com)\)
+9. Toss \([https://toss.im/](https://toss.im/)\)
 
 ## Naver
 
