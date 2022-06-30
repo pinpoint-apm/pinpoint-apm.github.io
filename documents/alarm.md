@@ -66,6 +66,9 @@ ERROR RATE
 TOTAL COUNT
    Triggered when the number of all requests sent to the application exceeds the configured threshold.
 
+APDEX SCORE
+   Triggered when the Apdex score goes down below the configured threshold.
+
 SLOW COUNT TO CALLEE
    Triggered when the number of slow requests sent by the application exceeds the configured threshold.
    You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
@@ -617,6 +620,9 @@ ERROR RATE
 
 TOTAL COUNT
    외부에서 application을 호출한 요청 개수가 임계치를 초과한 경우 알람이 전송된다.
+   
+APDEX SCORE
+   Apdex 점수가 임계치 이하로 내려간 경우 알람이 전송된다.
 
 SLOW COUNT TO CALLEE
    application 내에서 외부서버를 호출한 요청 중 slow 호출의 개수가 임계치를 초과한 경우 알람이 전송된다.
