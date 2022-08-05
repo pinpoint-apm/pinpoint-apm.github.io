@@ -2,8 +2,8 @@
 # What's New in v2.4.1
 ## What's Changed
 * [#9027] Backport: Update mongodb plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9029
-* [#9030] Backport: update thrift plugin for 0.14 or later by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9032
-* [#9054] [Backport] to fix hbase error(ClassNotFoundException). by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/9061
+* [#9030] Backport: Update thrift plugin for 0.14 or later by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9032
+* [#9054] Backport: Fix hbase error(ClassNotFoundException) in batch by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/9061
 * [#9000] Backport: Fix incorrect funciton calls when webhook.enable=false by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/9069
 * [#8972] Backport : Bump jaxb2-maven-plugin from 2.4 to 2.5.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8973
 * [#9090] 2.4.1 release by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9094
