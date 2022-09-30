@@ -1,15 +1,19 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.4.1
+# What's New in v2.4.2
 ## What's Changed
-* [#9027] Backport: Update mongodb plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9029
-* [#9030] Backport: Update thrift plugin for 0.14 or later by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9032
-* [#9054] Backport: Fix hbase error(ClassNotFoundException) in batch by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/9061
-* [#9000] Backport: Fix incorrect funciton calls when webhook.enable=false by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/9069
-* [#8972] Backport : Bump jaxb2-maven-plugin from 2.4 to 2.5.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/8973
-* [#9090] 2.4.1 release by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9094
+* [#9141] Add support to kafka version 2.8 ~ 3.2 for kafka plugin by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/9142
+* [#9120] Backport: fix npe bug in mongo plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9121
+* [#9151] Backport : Bump Spring Security from 5.5.3 to 5.5.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9152
+* [#9179] Backport: Update vert.x plugin for 4.x by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9180
+* [#9200] Backport: Fix agent callstack overflow log by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9201
+* [#9202] Backport: Fix span dispatch failed by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9203
+* [#9204] Backport: Fix log level of abstract method transform by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9205
+* [#9206] Backport: Fix rabbitMQ consumer handle interceptor by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9207
+* [#9208] Backport: Change the agent's gRPC stream log level by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9209
+* [#9232] 2.4.2 release by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9233
+* [#9027] Prepare 2.4.2-SNAPSHOT by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9098
 
-
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.4.0...v2.4.1
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.4.1...v2.4.2
 
 <!-- </latestReleaseNotes.md> -->
 
