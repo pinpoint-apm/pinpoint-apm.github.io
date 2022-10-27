@@ -64,9 +64,6 @@ Telegraf collects below metrics information on the host machine:
 - apache
 
 
---
-
-
 - Install Telegraf according to this [installation guide](https://docs.influxdata.com/telegraf/v1.21/introduction/installation/).
 - Add below configuration to `telegraf.conf` file to send collected metrics to Pinpoint collector via http.
 
@@ -136,7 +133,8 @@ Pinpoint web and collector binaries with system metrics is located under differe
 1. Click `Infrastructure` on the side bar menu in Pinpoint web.
 2. Search for the hostGroupName you have configured for Telegraf agents as decribed [in 3.4](#3.4-Install-and-Configure-Talegraf-Agent).
 3. A list of hosts will be displayed on the left, and you can view the system metrics data by clicking each of them.
-   ![](<../.gitbook/assets/system_metric_03.png>)
+
+![](<../.gitbook/assets/system_metric_03.png>)
 
 ## 5 Notes
 - Other metrics and statistics data will be stored in Pinot to enhance Pinpoint experience in near future.
