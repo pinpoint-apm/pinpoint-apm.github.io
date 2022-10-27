@@ -63,6 +63,7 @@ Telegraf collects below metrics information on the host machine:
 - nginx
 - apache
 
+---
 
 - Install Telegraf according to this [installation guide](https://docs.influxdata.com/telegraf/v1.21/introduction/installation/).
 - Add below configuration to `telegraf.conf` file to send collected metrics to Pinpoint collector via http.
