@@ -57,7 +57,7 @@ Pinpoint Version | Agent | Collector | Web | Flink
 2.2.x  | 7-14  | 8   | 8 | 8
 2.3.x  | 7-17  | 8   | 8 | 8
 2.4.x  | 7-18  | 11  | 11 | 11
-2.5.x  | 8-18  | 11  | 11 | 11
+2.5.x  | 8-19  | 11  | 11 | 11
 
 <!-- </compatibilityJava.md> -->
 
