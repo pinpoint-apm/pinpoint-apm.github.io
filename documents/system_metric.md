@@ -29,25 +29,23 @@ This section describes how to install Pinot which is used in Pinpoint to save sy
 - Above guide gives you the way to run Pinot locally, in Docker, and in Kubernetes.
 
 ### 3.1.B Create Pinot Tables
-- Pinot table schema for Pinpoint system metrics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot).
+- Pinot table schemas for Pinpoint system metrics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot).
 - Please refer to [Pinot documents](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation) to create necessary tables in your Pinot cluster.
-- Total 4 tables should be created.
+- Total 3 tables should be created.
   - systemMetricDataType: this table saves type informations on collected data.
   - systemMetricTag: this table saves metadata (i.e., host, tags) for collected data.
   - systemMetricDouble: this table saves metric data in double.
-  - systemMetricLong: this table saves metric data in long.
 
 ## 3.2 Install Kafka
 Kafka enables real-time streaming of system metrics data from Pinpoint collector to Pinot.
 ### 3.2.A Kafka Installation Guide
 Please refer to [this document](https://kafka.apache.org/quickstart) to get Kafka and start the Kafka environment.
 ### 3.2.B Create Kafka Topics for Pinpoint System Metrics
-Create 4 topics with the names below:
+Create 3 topics with the names below:
 
 - `system-metric-data-type`
 - `system-metric-tag`
 - `system-metric-double`
-- `system-metric-long`
 
 ## 3.3 Install and Configure Talegraf Agent
 Telegraf collects below metrics information on the host machine:
@@ -100,6 +98,10 @@ Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint
 
 ### 3.4.B Run Pinpoint Collector with System Metrics
 After successfully building Pinpoint project, run `pinpoint-collector-starter-boot-XXXX.jar` file created under `pinpoint/metric-module/collector-starter/target/deploy`.
+- `pinpoint-collector-starter-boot-XXXX.jar` includes system metrics on top of original pinpoint-collector.
+- In order to enable metric functions, you need to add `--pinpoint.collector.type=METRIC` or `--pinpoint.collector.type=ALL` arguments when starting the application.
+  - METRIC: only enables collecting the system metrics.
+  - ALL: enables both pinpoint collector and system metrics collection.
 
 ## 3.5 Configure and Run Pinpoint Web with System Metrics
 There are additional configurations for Pinpoint web to display the system metrics data stored in Pinot.
@@ -110,7 +112,6 @@ Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint
 - jdbc-pinot.properties: Update the information of the Pinot cluster you have set up in [3.1](#3.1-Install-Pinot)
 
   ```
-  pinpoint.pinot.jdbc.driverClassName=org.apache.pinot.client.PinotDriver
   pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
   pinpoint.pinot.jdbc.username=userId
   pinpoint.pinot.jdbc.password=password
@@ -180,11 +181,10 @@ pinot는 실시간 분산 OLAP 데이터 저장소이다. 자세한 사항은 [p
 
 - [테이블 생성 스키마 파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot)에 테이블 정보가 있다.
 - 테이블 생성 방법은 [pinot가이드](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation)를 참고하여 pinot 실행 환경 맞게 테이블을 생성하면 된다.
-- 생성하는 테이블은 총 4개이다.
+- 생성하는 테이블은 총 3개이다.
   - systemMetricDataType : 수집되는 데이터의 type 정보를 저장하는 테이블이다.
   - systemMetricTag : 수집되는 데이터의 metadata(host 정보, 데이터의 tag 정보)를 저장하는 테이블이다.
   - systemMetricDouble : double 데이터를 저장하는 테이블이다.
-  - systemMetricLong : long 데이터를 저장하는 테이블이다.
 
 ## 3.2 kafka 설치 및 실행
 
@@ -196,8 +196,8 @@ pinot는 실시간 분산 OLAP 데이터 저장소이다. 자세한 사항은 [p
 
 ### 3.2.B. topic 생성
 
-- 아래 4개 topic을 생성하자.
-  -`system-metric-data-type`, `system-metric-tag`, `system-metric-double`, `system-metric-long`
+- 아래 3개 topic을 생성하자.
+  -`system-metric-data-type`, `system-metric-tag`, `system-metric-double`
 
 ## 3.3 telegraf agent 설치 및 설정
 telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
@@ -253,6 +253,10 @@ telegraf agent로 부터 전송된 데이터를 수집하기 위해서 collector
 ### 3.4.B. collector 실행 방법
 
 빌드 후 pinpoint/metric-module/collector-starter/target/deploy에 생성된 `pinpoint-collector-starter-boot-XXXX.jar`을 실행하면 된다.
+- `pinpoint-collector-starter-boot-XXXX.jar` 은  pinpoint-collector 기능과 system metric 수집기능이 합해진 패키지이다.
+- metric 기능을 활성화 하기 위해서 실행시 `--pinpoint.collector.type=METRIC` 나 `--pinpoint.collector.type=ALL` 옵션을 추가해야한다.
+  - METRIC : system metric 수집기능만 동작된다.
+  - ALL : pinpoint collector 기능과 system metric 수집기능이 동시에 동작된다.
 
 ## 3.5 web 설정 및 실행
 
@@ -275,6 +279,7 @@ pinot에 저장된 시스템 메트릭 데이터를 보여주기 위해서 web �
 ### 3.5.B. web 실행 방법
 
 빌드 후 pinpoint/metric-module/web-starter/target/deploy에 생성된 `pinpoint-web-starter-boot-XXXX.jar`을 실행하면 된다.
+- `pinpoint-web-starter-boot-XXXX.jar` 은 pinpoint web 기능과 metric 데이터 확인 기능이 합해진 패키지이다.
 
 ## 3.6 참고
 
