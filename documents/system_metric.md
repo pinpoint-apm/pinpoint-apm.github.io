@@ -20,13 +20,25 @@ Pinot is a real-time distributed OLAP datastore. For further information please 
 3. Pinpoint web accesses Pinot to display collected metrics data.
 
 # 3 Installation and Configuration
-## 3.1 Install Pinot
+
+## 3.1 Install Kafka
+Kafka enables real-time streaming of system metrics data from Pinpoint collector to Pinot.
+### 3.1.A Kafka Installation Guide
+Please refer to [this document](https://kafka.apache.org/quickstart) to get Kafka and start the Kafka environment.
+### 3.1.B Create Kafka Topics for Pinpoint System Metrics
+Create 3 topics with the names below:
+
+- `system-metric-data-type`
+- `system-metric-tag`
+- `system-metric-double`
+
+## 3.2 Install Pinot
 This section describes how to install Pinot which is used in Pinpoint to save system metrics data.
-### 3.1.A Install and Run Pinot
+### 3.2.A Install and Run Pinot
 - Install Pinot according to [Pinot Getting Started guide](https://docs.pinot.apache.org/basics/getting-started)
 - Above guide gives you the way to run Pinot locally, in Docker, and in Kubernetes.
 
-### 3.1.B Create Pinot Tables
+### 3.2.B Create Pinot Tables
 - Pinot table schemas for Pinpoint system metrics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot).
 - Please refer to [Pinot documents](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation) to create necessary tables in your Pinot cluster.
 - Total 3 tables should be created.
@@ -34,18 +46,62 @@ This section describes how to install Pinot which is used in Pinpoint to save sy
   - systemMetricTag: this table saves metadata (i.e., host, tags) for collected data.
   - systemMetricDouble: this table saves metric data in double.
 
-## 3.2 Install Kafka
-Kafka enables real-time streaming of system metrics data from Pinpoint collector to Pinot.
-### 3.2.A Kafka Installation Guide
-Please refer to [this document](https://kafka.apache.org/quickstart) to get Kafka and start the Kafka environment.
-### 3.2.B Create Kafka Topics for Pinpoint System Metrics
-Create 3 topics with the names below:
 
-- `system-metric-data-type`
-- `system-metric-tag`
-- `system-metric-double`
+## 3.3 Configure and Run Pinpoint Collector with System Metrics
+There are additional configurations for Pinpoint collector to collect the metrics data from Telegraf agents.
 
-## 3.3 Install and Configure Talegraf Agent
+### 3.3.A Pinpoint Collector Settings for System Metrics
+Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-collector/profiles) as of your environment.
+
+- kafka-producer-factory.properties: Update the Kafka address.
+
+  ```
+  pinpoint.metric.kafka.bootstrap.servers=--KAFKA_ADDRESS--
+  ```
+- jdbc.properties: Update pinot address to the one you have set up in [3.1](#3.1-Install-Pinot)
+
+  ```
+  pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
+  pinpoint.pinot.jdbc.username=userId
+  pinpoint.pinot.jdbc.password=password
+  ```
+
+### 3.3.B Run Pinpoint Collector with System Metrics
+After successfully building Pinpoint project, run `pinpoint-collector-starter-boot-XXXX.jar` file created under `pinpoint/metric-module/collector-starter/target/deploy`.
+- `pinpoint-collector-starter-boot-XXXX.jar` includes system metrics on top of original pinpoint-collector.
+- In order to enable metric functions, you need to add `--pinpoint.collector.type=METRIC` or `--pinpoint.collector.type=ALL` arguments when starting the application.
+  - METRIC: only enables collecting the system metrics.
+  - ALL: enables both pinpoint collector and system metrics collection.
+
+## 3.4 Configure and Run Pinpoint Web with System Metrics
+There are additional configurations for Pinpoint web to display the system metrics data stored in Pinot.
+
+### 3.4.A Pinpoint Web Settings for System Metrics
+Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles) as of your environment.
+
+- jdbc-pinot.properties: Update the information of the Pinot cluster you have set up in [3.1](#3.1-Install-Pinot)
+
+  ```
+  pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
+  pinpoint.pinot.jdbc.username=userId
+  pinpoint.pinot.jdbc.password=password
+  ```
+- pinpoint-web-metric.properties: Enable system metrics by adding the line below:
+
+  ```
+  config.show.systemMetric=true
+  ```
+
+### 3.4.B Run Pinpoint Web with System Metrics
+After successfully building Pinpoint project, run `pinpoint-web-starter-boot-XXXX.jar` file created under `pinpoint/metric-module/web-starter/target/deploy`.
+
+### 3.5 Additional Information
+Pinpoint web and collector binaries with system metrics is located under different directories from those of the original Pinpoint web and collector.
+
+- original collector: pinpoint/collector/deploy -> collector with system metrics: pinpoint/metric-module/collector-starter/target/deploy
+- original web: pinpoint/web/deploy -> web with system metrics: pinpoint/metric-module/web-starter/target/deploy
+
+## 3.6 Install and Configure Talegraf Agent
 Telegraf collects below metrics information on the host machine:
 
 - cpu
@@ -75,59 +131,6 @@ Telegraf collects below metrics information on the host machine:
   - `url`: substitute `{PINPOINT_COLLECTOR_IP}` to your Pinpoint collector address so that telegraf can send collected metrics to Pinpoint collector
   - `hostGroupName`: this value will be used as the key in Pinpoint web when querying the metrics details. It is recommended to use your applicationName already used in Pinpoint.
 
-## 3.4 Configure and Run Pinpoint Collector with System Metrics
-There are additional configurations for Pinpoint collector to collect the metrics data from Telegraf agents.
-
-### 3.4.A Pinpoint Collector Settings for System Metrics
-Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-collector/profiles) as of your environment.
-
-- kafka-producer-factory.properties: Update the Kafka address.
-
-  ```
-  pinpoint.metric.kafka.bootstrap.servers=--KAFKA_ADDRESS--
-  ```
-- jdbc.properties: Update pinot address to the one you have set up in [3.1](#3.1-Install-Pinot)
-
-  ```
-  pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
-  pinpoint.pinot.jdbc.username=userId
-  pinpoint.pinot.jdbc.password=password
-  ```
-
-### 3.4.B Run Pinpoint Collector with System Metrics
-After successfully building Pinpoint project, run `pinpoint-collector-starter-boot-XXXX.jar` file created under `pinpoint/metric-module/collector-starter/target/deploy`.
-- `pinpoint-collector-starter-boot-XXXX.jar` includes system metrics on top of original pinpoint-collector.
-- In order to enable metric functions, you need to add `--pinpoint.collector.type=METRIC` or `--pinpoint.collector.type=ALL` arguments when starting the application.
-  - METRIC: only enables collecting the system metrics.
-  - ALL: enables both pinpoint collector and system metrics collection.
-
-## 3.5 Configure and Run Pinpoint Web with System Metrics
-There are additional configurations for Pinpoint web to display the system metrics data stored in Pinot.
-
-### 3.5.A Pinpoint Web Settings for System Metrics
-Modify the files under [this directory](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles) as of your environment.
-
-- jdbc-pinot.properties: Update the information of the Pinot cluster you have set up in [3.1](#3.1-Install-Pinot)
-
-  ```
-  pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
-  pinpoint.pinot.jdbc.username=userId
-  pinpoint.pinot.jdbc.password=password
-  ```
-- pinpoint-web-metric.properties: Enable system metrics by adding the line below:
-
-  ```
-  config.show.systemMetric=true
-  ```
-
-### 3.5.B Run Pinpoint Web with System Metrics
-After successfully building Pinpoint project, run `pinpoint-web-starter-boot-XXXX.jar` file created under `pinpoint/metric-module/web-starter/target/deploy`.
-
-### 3.6 Additional Information
-Pinpoint web and collector binaries with system metrics is located under different directories from those of the original Pinpoint web and collector.
-
-- original collector: pinpoint/collector/deploy -> collector with system metrics: pinpoint/metric-module/collector-starter/target/deploy
-- original web: pinpoint/web/deploy -> web with system metrics: pinpoint/metric-module/web-starter/target/deploy
 
 ## 4 View Collected System Metrics Data
 1. Click `Infrastructure` on the side bar menu in Pinpoint web.
@@ -166,16 +169,30 @@ pinot는 실시간 분산 OLAP 데이터 저장소이다. 자세한 사항은 [p
 
 # 3 설치/설정 방법
 
-## 3.1 pinot 설치 및 실행
+## 3.1 kafka 설치 및 실행
+
+실시간으로 collector에서 데이터를 전달받아 pinot에 저장하기 위해서 kafka를 설치해야 한다.
+
+### 3.1.A. kafka 설치
+
+- [설치 가이드 링크](https://kafka.apache.org/quickstart)를 보고 kafka를 다운 받아 실행하자.
+
+### 3.1.B. topic 생성
+
+- 아래 3개 topic을 생성하자.
+  -`system-metric-data-type`, `system-metric-tag`, `system-metric-double`
+
+
+## 3.2 pinot 설치 및 실행
 
 시스템 메트릭 데이터를 저장하는 pinot를 설치하는 법을 안내한다.
 
-### 3.1.A. pinot 설치 및 실행
+### 3.2.A. pinot 설치 및 실행
 
 - pinot 사이트에서 [설치 방법 가이드](https://docs.pinot.apache.org/basics/getting-started)를 참고하여 pinot를 설치한다.
 - 다양한 환경(local, docker, Kubernetes)에서 pinot 실행 환경을 구성할 수 있으니 위 가이드를 참고하자.
 
-### 3.1.B. 테이블 스키마 및 생성
+### 3.2.B. 테이블 스키마 및 생성
 
 - [테이블 생성 스키마 파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot)에 테이블 정보가 있다.
 - 테이블 생성 방법은 [pinot가이드](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation)를 참고하여 pinot 실행 환경 맞게 테이블을 생성하면 된다.
@@ -184,20 +201,63 @@ pinot는 실시간 분산 OLAP 데이터 저장소이다. 자세한 사항은 [p
   - systemMetricTag : 수집되는 데이터의 metadata(host 정보, 데이터의 tag 정보)를 저장하는 테이블이다.
   - systemMetricDouble : double 데이터를 저장하는 테이블이다.
 
-## 3.2 kafka 설치 및 실행
+## 3.3 collector 설정 및 실행
 
-실시간으로 collector에서 데이터를 전달받아 pinot에 저장하기 위해서 kafka를 설치해야 한다.
+telegraf agent로 부터 전송된 데이터를 수집하기 위해서 collector에 설정을 추가한다.
 
-### 3.2.A. kafka 설치
+### 3.3.A. collector 설정
 
-- [설치 가이드 링크](https://kafka.apache.org/quickstart)를 보고 kafka를 다운 받아 실행하자.
+- collector의 [설정파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-collector/profiles)들을 profile에 맞게 수정해야 한다.
+- kafka-producer-factory.properties 설정 : kafka 의 주소를 설정한다.
+  - ```
+            pinpoint.metric.kafka.bootstrap.servers=--KAFKA_ADDRESS--
+         ```
+- jdbc.properties 설정 : [3.1](#3.1-pinot-설치-및-실행)에서 설치한 pinot의 주소를 설정한다.
+  - ```
+        pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
+        pinpoint.pinot.jdbc.username=userId
+        pinpoint.pinot.jdbc.password=password
+        ```
 
-### 3.2.B. topic 생성
+### 3.3.B. collector 실행 방법
 
-- 아래 3개 topic을 생성하자.
-  -`system-metric-data-type`, `system-metric-tag`, `system-metric-double`
+빌드 후 pinpoint/metric-module/collector-starter/target/deploy에 생성된 `pinpoint-collector-starter-boot-XXXX.jar`을 실행하면 된다.
+- `pinpoint-collector-starter-boot-XXXX.jar` 은  pinpoint-collector 기능과 system metric 수집기능이 합해진 패키지이다.
+- metric 기능을 활성화 하기 위해서 실행시 `--pinpoint.collector.type=METRIC` 나 `--pinpoint.collector.type=ALL` 옵션을 추가해야한다.
+  - METRIC : system metric 수집기능만 동작된다.
+  - ALL : pinpoint collector 기능과 system metric 수집기능이 동시에 동작된다.
 
-## 3.3 telegraf agent 설치 및 설정
+## 3.4 web 설정 및 실행
+
+pinot에 저장된 시스템 메트릭 데이터를 보여주기 위해서 web 설정을 수정한다.
+
+### 3.4.A. web 설정
+
+- web의 [설정파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles)들을 profile에 맞게 설정을 수정해야 한다.
+- jdbc-pinot.properties 설정 : [3.1](#3.1-pinot-설치-및-실행)에서 설치한 pinot의 주소를 설정한다.
+  - ```
+        pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
+        pinpoint.pinot.jdbc.username=userId
+        pinpoint.pinot.jdbc.password=password
+        ```
+- pinpoint-web-metric.properties 설정 : system metric 기능을 web에서 활성화한다.
+  - ```
+        config.show.systemMetric=true
+        ```
+
+### 3.4.B. web 실행 방법
+
+빌드 후 pinpoint/metric-module/web-starter/target/deploy에 생성된 `pinpoint-web-starter-boot-XXXX.jar`을 실행하면 된다.
+- `pinpoint-web-starter-boot-XXXX.jar` 은 pinpoint web 기능과 metric 데이터 확인 기능이 합해진 패키지이다.
+
+## 3.5 참고
+
+- 참고로 web, collector의 실행파일이 과거 버전과 다르게 다른곳에 존재한다.
+- 기존의 web, collector 실행파일 경로와 다르게 system metric기능이 포함된 collector, web은 실행 파일 경로는 다음과 같다.
+  - collector : pinpoint/collector/deploy -> pinpoint/metric-module/collector-starter/target/deploy
+  - web :  pinpoint/web/deploy -> pinpoint/metric-module/web-starter/target/deploy
+
+## 3.6 telegraf agent 설치 및 설정
 telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
 - cpu
 - disk usage
@@ -229,62 +289,6 @@ telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
     - `url`: {PINPOINT_COLLECTOR_IP} 자리에 데이터를 수집하는 collector의 주소를 설정한다.
     - `outputs.http.headers`은 서버 그룹의 key와 Content-Type을 설정한다.
       -  `hostGroupName`: {applicationName}에 설정한 값을 key로 pinpoint-web에서 데이터를 조회할 수 있다. 핀포인트를 이미 사용 중이라면 application을 추적할 때 agent 설정 값으로 사용했던 applicationName을 사용하는 것을 추천한다.
-
-## 3.4 collector 설정 및 실행
-
-telegraf agent로 부터 전송된 데이터를 수집하기 위해서 collector에 설정을 추가한다.
-
-### 3.4.A. collector 설정
-
-- collector의 [설정파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-collector/profiles)들을 profile에 맞게 수정해야 한다.
-- kafka-producer-factory.properties 설정 : kafka 의 주소를 설정한다.
-  - ```
-            pinpoint.metric.kafka.bootstrap.servers=--KAFKA_ADDRESS--
-         ```
-- jdbc.properties 설정 : [3.1](#3.1-pinot-설치-및-실행)에서 설치한 pinot의 주소를 설정한다.
-  - ```
-        pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
-        pinpoint.pinot.jdbc.username=userId
-        pinpoint.pinot.jdbc.password=password
-        ```
-
-### 3.4.B. collector 실행 방법
-
-빌드 후 pinpoint/metric-module/collector-starter/target/deploy에 생성된 `pinpoint-collector-starter-boot-XXXX.jar`을 실행하면 된다.
-- `pinpoint-collector-starter-boot-XXXX.jar` 은  pinpoint-collector 기능과 system metric 수집기능이 합해진 패키지이다.
-- metric 기능을 활성화 하기 위해서 실행시 `--pinpoint.collector.type=METRIC` 나 `--pinpoint.collector.type=ALL` 옵션을 추가해야한다.
-  - METRIC : system metric 수집기능만 동작된다.
-  - ALL : pinpoint collector 기능과 system metric 수집기능이 동시에 동작된다.
-
-## 3.5 web 설정 및 실행
-
-pinot에 저장된 시스템 메트릭 데이터를 보여주기 위해서 web 설정을 수정한다.
-
-### 3.5.A. web 설정
-
-- web의 [설정파일](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles)들을 profile에 맞게 설정을 수정해야 한다.
-- jdbc-pinot.properties 설정 : [3.1](#3.1-pinot-설치-및-실행)에서 설치한 pinot의 주소를 설정한다.
-  - ```
-        pinpoint.pinot.jdbc.url=jdbc:pinot://localhost:9000
-        pinpoint.pinot.jdbc.username=userId
-        pinpoint.pinot.jdbc.password=password
-        ```
-- pinpoint-web-metric.properties 설정 : system metric 기능을 web에서 활성화한다.
-  - ```
-        config.show.systemMetric=true
-        ```
-
-### 3.5.B. web 실행 방법
-
-빌드 후 pinpoint/metric-module/web-starter/target/deploy에 생성된 `pinpoint-web-starter-boot-XXXX.jar`을 실행하면 된다.
-- `pinpoint-web-starter-boot-XXXX.jar` 은 pinpoint web 기능과 metric 데이터 확인 기능이 합해진 패키지이다.
-
-## 3.6 참고
-
-- 참고로 web, collector의 실행파일이 과거 버전과 다르게 다른곳에 존재한다.
-- 기존의 web, collector 실행파일 경로와 다르게 system metric기능이 포함된 collector, web은 실행 파일 경로는 다음과 같다.
-  - collector : pinpoint/collector/deploy -> pinpoint/metric-module/collector-starter/target/deploy
-  - web :  pinpoint/web/deploy -> pinpoint/metric-module/web-starter/target/deploy
 
 # 4 데이터 조회
 
