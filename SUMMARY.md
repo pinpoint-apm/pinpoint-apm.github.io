@@ -25,7 +25,7 @@
 * [Plugin Developer Guide](documents/plugin-dev-guide.md)
 * [Setting Alarm](documents/alarm.md)
 * [System Metric](documents/system_metric.md)  
-* [URI Statistics] (documents/uri_statistics.md)
+* [URI Statistics](documents/uri_statistics.md)
 * [How to use Application Inspector](documents/application-inspector.md)
 * [Separate Logging Per Request](documents/per-request_feature_guide.md)
 * [Marking Transaction as Fail](documents/http-status-code-failure.md)
