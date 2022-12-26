@@ -1,5 +1,3 @@
-# ※ Document is being written. The function has not been opened yet!
-
 
 [English](system_metric.md#system_metrics) | [한글](alarm.md#1_system_metrics_기능이란?)
 
