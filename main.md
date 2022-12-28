@@ -4,7 +4,7 @@
 ## End of support for JDK7
  * issue : https://github.com/pinpoint-apm/pinpoint/issues/8867
 ## Introduced Apache Pinot as metric store
-- Pinpont now uses [Apache Pinot](https://pinot.apache.org/) as a repository for metrics.
+- Pinpoint now uses [Apache Pinot](https://pinot.apache.org/) as a repository for metrics.
 ### URI Metric 
 - Supported frameworks : Spring Web MVC, Spring WebFlux, Vert.x-Web
 - [manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/uri_statistics)
@@ -14,7 +14,7 @@
 
 
 ### Infrastructure Metric
-- Pinpont now supports [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/)
+- Pinpoint now supports [Telegraf](https://www.influxdata.com/time-series-platform/telegraf/)
 - [manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric)
 
 
