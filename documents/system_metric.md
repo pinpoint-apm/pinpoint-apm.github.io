@@ -122,7 +122,7 @@ Telegraf collects below metrics information on the host machine:
 
   ```
               [[outputs.http]]
-                url = "http://{PINPOINT_COLLECTOR_IP}:8081/telegraf"
+                url = "http://{PINPOINT_COLLECTOR_IP}:15200/telegraf"
                  
                  [outputs.http.headers]
                  hostGroupName = {applicationName}
@@ -279,7 +279,7 @@ telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
     - http 프로토콜로 데이터를 전달수 있도록 output http plugin 아래 설정을 추가한다.
     - ```
                 [[outputs.http]]
-                  url = "http://{PINPOINT_COLLECTOR_IP}:8081/telegraf"
+                  url = "http://{PINPOINT_COLLECTOR_IP}:15200/telegraf"
                    
                    [outputs.http.headers]
                    hostGroupName = {applicationName}
