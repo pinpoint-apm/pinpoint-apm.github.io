@@ -20,8 +20,9 @@ This page, documents **alphabetical list** of organizations using Pinpoint.
 5. NHN Entertainment
 6. Pikicast (www.pikicast.com)
 7. SKPlanet (www.skplanet.com)
-8. Toss ([toss.im](https://toss.im))
-9. XLGAMES (www.xlgames.com)
+8. THE PIRATES(www.tpirates.com)
+9. Toss ([toss.im](https://toss.im))
+10. XLGAMES (www.xlgames.com)
 
 ## Naver
 
