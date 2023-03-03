@@ -120,7 +120,7 @@ Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_me
 	```
 	collector.stat.uri=true
 	```
-- `pinpoint.collector.type=METRIC` argument should be used to collect URI statistics in collector.
+- `pinpoint.collector.type=BASIC` argument should be used to collect URI statistics in collector.
 
 Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.5-configure-and-run-pinpoint-web-with-system-metrics) for Pinpoint Metric Web properties. 
 
@@ -256,7 +256,7 @@ URI 통계를 수집하고 값을 확인하려면, 핀포인트 v2.5.0 이전 �
 	```
 	collector.stat.uri=true
 	```
-- URI 통계를 수집하기 위해서는 콜렉터를 시작할 때 `pinpoint.collector.type=METRIC` argument를 넣어야 한다.
+- URI 통계를 수집하기 위해서는 콜렉터를 시작할 때 `pinpoint.collector.type=BASIC` argument를 넣어야 한다.
 
 [핀포인트 메트릭 웹을 설명한 문서](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles)에 자세한 설명이 있으니 참고해서 메트릭 웹 설정값을 세팅하자.
 
