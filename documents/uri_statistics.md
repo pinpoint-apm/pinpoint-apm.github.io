@@ -120,7 +120,7 @@ Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_me
 	```
 	collector.stat.uri=true
 	```
-- `pinpoint.collector.type=METRIC` argument should be used to collect URI statistics in collector.
+- `pinpoint.collector.type=BASIC` argument should be used to collect URI statistics in collector.
 
 Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.5-configure-and-run-pinpoint-web-with-system-metrics) for Pinpoint Metric Web properties. 
 
