@@ -395,42 +395,45 @@
 HBase compatibility table:
 
 <!-- <compatibilityHbase.md> -->
-Pinpoint Version | HBase 1.0.x | HBase 1.2.x | HBase 1.4.x | HBase 2.0.x
----------------- | ----------- | ----------- | ----------- | -----------
-2.0.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
-2.1.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
-2.2.x | not tested | yes | yes | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint)
-2.3.x | not tested | yes | yes | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)
-2.4.x | not tested | yes | yes | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)
-2.5.x | not tested | yes | yes | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)
+| Pinpoint Version | HBase 1.0.x | HBase 1.2.x | HBase 1.4.x | HBase 2.0.x                                                                                                           |
+|------------------|-------------|-------------|-------------|-----------------------------------------------------------------------------------------------------------------------|
+| 2.0.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.1.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.2.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.3.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
+| 2.4.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
+| 2.5.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
+
 
 <!-- </compatibilityHbase.md> -->
 
 Agent compatibility to Collector table:
 
 <!-- <compatibilityPinpoint.md> -->
-Agent Version | Collector 2.0.x | Collector 2.1.x | Collector 2.2.x | Collector 2.3.x | Collector 2.4.x | Collector 2.5.x |
-------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-2.0.x | yes | yes | yes | yes | yes | yes
-2.1.x | no  | yes | yes | yes | yes | yes
-2.2.x | no  | no  | yes | yes | yes | yes
-2.3.x | no  | no  | no  | yes | yes | yes
-2.4.x | no  | no  | no  | no  | yes | yes
-2.5.x | no  | no  | no  | no  | no  | yes
+| Agent Version | Collector 2.0.x | Collector 2.1.x | Collector 2.2.x | Collector 2.3.x | Collector 2.4.x | Collector 2.5.x |
+|---------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|
+| 2.0.x         | yes             | yes             | yes             | yes             | yes             | yes             |
+| 2.1.x         | no              | yes             | yes             | yes             | yes             | yes             |
+| 2.2.x         | no              | no              | yes             | yes             | yes             | yes             |
+| 2.3.x         | no              | no              | no              | yes             | yes             | yes             |
+| 2.4.x         | no              | no              | no              | no              | yes             | yes             |
+| 2.5.x         | no              | no              | no              | no              | no              | yes             |
+
 
 <!-- </compatibilityPinpoint.md> -->
 
 Additionally, the required Java version to run each Pinpoint component is given below:
 
 <!-- <compatibilityJava.md> -->
-Pinpoint Version | Agent | Collector | Web | Flink
----------------- |-------| --------- | --- | ---
-2.0.x  | 6-13  | 8   | 8 | 8
-2.1.x  | 6-14  | 8   | 8 | 8
-2.2.x  | 7-14  | 8   | 8 | 8
-2.3.x  | 7-17  | 8   | 8 | 8
-2.4.x  | 7-18  | 11  | 11 | 11
-2.5.x  | 8-19  | 11  | 11 | 11
+| Pinpoint Version | Agent | Collector | Web | Flink |
+|------------------|-------|-----------|-----|-------|
+| 2.0.x            | 6-13  | 8         | 8   | 8     |
+| 2.1.x            | 6-14  | 8         | 8   | 8     |
+| 2.2.x            | 7-14  | 8         | 8   | 8     |
+| 2.3.x            | 7-17  | 8         | 8   | 8     |
+| 2.4.x            | 7-18  | 11        | 11  | 11    |
+| 2.5.x            | 8-19  | 11        | 11  | 11    |
+
 
 <!-- </compatibilityJava.md> -->
 
