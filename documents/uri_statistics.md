@@ -31,9 +31,9 @@ If you have already [set up Pinot for Pinpoint System Metric](https://pinpoint-a
 
 ### 1.4 Create Pinot Tables
 
-- Pinot table schema for Pinpoint URI statistics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot).
+- Pinot table schema for Pinpoint URI statistics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-common/src/main/pinot).
 - Please refer to [Pinot documents](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation) to create necessary tables in your Pinot cluster.
-- Table `uriStat` should be created. Use `pinot-uriStat-schema.json` and `pinot-uriStat-table.json` to create the table.
+- Let's create the uriStat table by referencing the schema file and table settings from the provided path. To enable hybrid table functionality, let's create both REALTIME and OFFLINE tables for the 'uriStat' table.
 
 ### 1.5 Configure and Attach Pinpoint Agent
 This section describes the URI stat configuration values added for URI statistics.
@@ -113,7 +113,7 @@ Or, you can simply pass these properties when starting your application with Pin
 ### 1.6 Configure and Run Pinpoint Collector & Web with URI Statistics
 Instead of the default Pinpoint Collector and Web binaries, you should use those compiled under metric-module. 
 
-Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-configure-and-run-pinpoint-collector-with-system-metrics) for Pinpoint Metric Collector properties.
+Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.3-configure-and-run-pinpoint-collector-with-system-metrics) for Pinpoint Metric Collector properties.
 
 - Enable URI statistics by adding the below line at [pinpoint-collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles):
 
@@ -122,9 +122,9 @@ Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_me
 	```
 - `pinpoint.collector.type=BASIC` argument should be used to collect URI statistics in collector.
 
-Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.5-configure-and-run-pinpoint-web-with-system-metrics) for Pinpoint Metric Web properties. 
+Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-configure-and-run-pinpoint-web-with-system-metrics) for Pinpoint Metric Web properties. 
 
-- Enable URI statistics by adding the below line at [pinpoint-web-metric.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles):
+- Enable URI statistics by adding the below line at [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles):
 
 	```
 	config.show.urlStat=true
@@ -168,8 +168,8 @@ URI 통계 값을 저장하는 피노를 설치하는 법을 안내한다.
 
 ### 1.4 피노 테이블 스키마 및 테이블 생성
 
-- [핀포인트 깃헙 저장소](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/pinot)에 URI 통계를 위한 피노 테이블 스키마와 테이블 정보가 있다.
-- 위 경로에서 `pinot-uriStat-schema.json` 와 `pinot-uriStat-table.json`를 참고하여 `uriStat` 테이블을 생성한다.
+- [핀포인트 깃헙 저장소](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-common/src/main/pinot)에 URI 통계를 위한 피노 테이블 스키마와 테이블 정보가 있다.
+- 위 경로에서 스키마 파일과 테이블 설정을 참고해서 `uriStat` 테이블을 생성한다. hybrid table 기능 사용을 위해서 REALTIME, OFFLINE 테이블 둘다 생성하자.
 - 피노에 필요한 테이블을 구성하는 방법은 [피노 공식 문서](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation)를 참고하자.
 
 ### 1.5 핀포인트 에이전트 설정
@@ -249,7 +249,7 @@ profiler.uri.stat.vertx.useuserinput=false
 ### 1.6 핀포인트 콜렉터와 핀포인트 웹 설정 및 실행
 URI 통계를 수집하고 값을 확인하려면, 핀포인트 v2.5.0 이전 버전에서 사용하던 콜렉터와 웹 JAR 파일이 아니라 metric-module 밑에 생성되는 파일을 사용해야 한다.
 
-[핀포인트 메트릭 콜렉터를 설명한 문서](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-collector)에 자세한 설명이 있으니 참고해서 메트릭 콜렉터 설정값을 세팅하자. 
+[핀포인트 메트릭 콜렉터를 설명한 문서](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.3-collector)에 자세한 설명이 있으니 참고해서 메트릭 콜렉터 설정값을 세팅하자. 
 
 - 위 설정 외에 URI 통계를 위해 [pinpoint.collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles)에 아래 설정값이 추가되었다:
 
@@ -258,9 +258,9 @@ URI 통계를 수집하고 값을 확인하려면, 핀포인트 v2.5.0 이전 �
 	```
 - URI 통계를 수집하기 위해서는 콜렉터를 시작할 때 `pinpoint.collector.type=BASIC` argument를 넣어야 한다.
 
-[핀포인트 메트릭 웹을 설명한 문서](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles)에 자세한 설명이 있으니 참고해서 메트릭 웹 설정값을 세팅하자.
+[핀포인트 메트릭 웹을 설명한 문서](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-web)에 자세한 설명이 있으니 참고해서 메트릭 웹 설정값을 세팅하자.
 
-- 위 설정 외에 URI 통계를 위해 [pinpoint-web-metric.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/metric/src/main/resources/pinot-web/profiles)에 아래 설정값이 추가되었다:
+- 위 설정 외에 URI 통계를 위해 [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles)에 아래 설정값이 추가되었다:
 
 	```
 	config.show.urlStat=true
