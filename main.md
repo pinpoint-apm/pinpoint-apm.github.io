@@ -191,6 +191,8 @@
 * [#9578] Bump maven-core from 3.6.3 to 3.8.6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9579
 * [#9580] Bump maven-dependency-plugin from 3.1.2 to 3.4.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9581
 * [#9608] Bump build-helper-maven-plugin from 1.10 to 3.3.0 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9609
+* [#9510] change index config for pinot table @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/issues/9510
+* [#9724] To defend against nullPointerexception when select hostGroupName about system metric function @minwoo-jung https://github.com/pinpoint-apm/pinpoint/issues/9724
 
 ## New Contributors
 * @ryetan made their first contribution in https://github.com/pinpoint-apm/pinpoint/pull/9833
