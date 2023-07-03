@@ -197,11 +197,12 @@ The webhook receiver service that receives the webhook message should be impleme
 
 The alarm messages(refer to as payloads) sent to webhook receiver have the different schema depending on the Alarm Checker type. You can see the payload schemas in [3.Others - The Specification of webhook payloads and the examples](alarm.md##3.Others).
 
-To enable the webhook alarm service, You need to configure _webhook.enable_ in [batch-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/batch-root.properties) file. Webhook receiver urls can be configured in web UI after configuring the web module to enable webhook as described in the following section.
+To enable the webhook alarm service, You need to configure _pinpoint.modules.web.webhook_ in [application.yml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) file. Webhook receiver urls can be configured in web UI after configuring the web module to enable webhook as described in the following section.
 
 ```
 # webhook config
-webhook.enable=true
+pinpoint.modules.web:
+    webhook: true
 ```
 
 > **NOTICE!**
@@ -297,11 +298,12 @@ jdbc.password=admin
 
 #### 2.2.2) Enabling Webhook Alarm Service
 
-Set _webhook.enable_ in [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/pinpoint-web-root.properties) as _true_ for user to configure the webhook alarm in _Alarm_ menu.
+Set _pinpoint.modules.web.webhook_ in [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/application.yml) as _true_ for user to configure the webhook alarm in _Alarm_ menu.
 
 ```
 # webhook config
-webhook.enable=true
+pinpoint.modules.web:
+    webhook: true
 ```
 
 As you enable the webhook alarm service, you can set the webhook as alarm type and specify the target webhook.
@@ -746,11 +748,13 @@ Webhook 전송 기능은 Pinpoint의 Alarm message를 Webhook API로 전송 할 
 
 webhook message를 전송받는 webhook receiver 서비스는 [**샘플 프로젝트**](https://github.com/doll6777/slack-receiver)**를 사용하거나 직접 구현해야 한다.** Webhook Receiver 서버에 전송되는 Alarm message(이하 payload)는 Alarm Checker 타입에 따라 스키마가 다르다. Checker 타입에 따른 payload 스키마는 [**3.기타** - webhook 페이로드 스키마 명세, 예시](alarm.md##3.기타)에서 설명한다.
 
-webhook 기능을 활성화 하기위해서, [batch-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/batch-root.properties) 파일에 Webhook 전송 여부(webhook.enable)를 설정한다. Receiver 서버 정보의 경우 [2.2 pinpoint-web 설정 방법](alarm.md#2.2-pinpoint-web) 같이 web 설정을 마친 후, UI를 통해 추가할 수 있다.
+webhook 기능을 활성화 하기위해서, [pinpoint.modules.web.webhook](
+https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) 파일에 Webhook 전송 여부(pinpoint.modules.web.webhook)를 설정한다. Receiver 서버 정보의 경우 [2.2 pinpoint-web 설정 방법](alarm.md#2.2-pinpoint-web) 같이 web 설정을 마친 후, UI를 통해 추가할 수 있다.
 
 ```
 # webhook config
-webhook.enable=true
+pinpoint.modules.web:
+    webhook: true
 ```
 
 > **알림**\
@@ -847,11 +851,12 @@ jdbc.password=admin
 
 #### 2.2.2) webhook 기능 활성화
 
-사용자가 알람 설정에 webhook 기능을 적용할수 있도록 [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/pinpoint-web-root.properties) 파일에 webhook 기능을 활성화한다.
+사용자가 알람 설정에 webhook 기능을 적용할수 있도록 [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/application.yml) 파일에 webhook 기능을 활성화한다.
 
 ```
 # webhook config
-webhook.enable=true
+pinpoint.modules.web:
+    webhook: true
 ```
 
 webhook 기능을 활성화하면, 아래 그림처럼 알람 설정 화면에서 webhook을 알람 타입으로 선택할 수 있다.

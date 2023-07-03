@@ -26,10 +26,9 @@ To try out a simple quickstart project, please refer to the [quick-start guide](
 2. Build Pinpoint (Optional)([details](installation.md#2-building-pinpoint-optional)) - No need if you use the binaries.([here](https://github.com/pinpoint-apm/pinpoint/releases)).
    1. Clone Pinpoint - `git clone $PINPOINT_GIT_REPOSITORY`
    2. Set JAVA\_HOME environment variable to JDK 8 home directory.
-   3. Set JAVA\_7\_HOME environment variable to JDK 7 home directory ([Zulu jdk7](https://www.azul.com/downloads/zulu-community/?version=java-7-lts) recommended).
-   4. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
-   5. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
-   6. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
+   3. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
+   4. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
+   5. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
 3.  Pinpoint Collector ([details](installation.md#3-pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
 
     ```
@@ -80,11 +79,9 @@ There are two options:
 
     In order to do so, the following **requirements** must be met:
 
-    * JDK 7 installed ([jdk1.7.0\_80](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html#jdk-7u80-oth-JPR) recommended)
     * JDK 8 installed
     * JDK 11 installed
     * JAVA\_HOME environment variable set to JDK 8 home directory.
-    * JAVA\_7\_HOME environment variable set to JDK 7 home directory.
     * JAVA\_8\_HOME environment variable set to JDK 8 home directory.
     *   JAVA\_11\_HOME environment variable set to JDK 11 home directory.
 
