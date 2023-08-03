@@ -16,10 +16,10 @@ If you have already [set up Kafka for Pinpoint System Metric](https://pinpoint-a
 - Please refer to [this document](https://kafka.apache.org/quickstart) to get Kafka and start the Kafka environment.
 
 ### 1.2 Create Kafka Topics for Pinpoint URI Statistics
-Create a topic with the name `uri-stat`
+Create a topic with the name `url-stat`
 
 ```
-$ bin/kafka-topics.sh --create --topic uri-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
 ### 1.3 Install and Run Pinot
@@ -153,10 +153,10 @@ URI 통계 기능은 핀포인트 v2.5.0에 신규로 추가되었다.
 - [설치 방법 가이드](https://kafka.apache.org/quickstart)를 참고하여 kafka를 설치한다.
 
 ### 1.2 카프카 토픽 생성
-아래와 같이 `uri-stat` 토픽을 생성한다.
+아래와 같이 `url-stat` 토픽을 생성한다.
 
 ```
-$ bin/kafka-topics.sh --create --topic uri-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
 ### 1.3 피노 설치 및 실행
