@@ -18,6 +18,12 @@ To set up your very own Pinpoint instance you can either **download the build re
 
 To try out a simple quickstart project, please refer to the [quick-start guide](doc/quickstart.html).
 
+### Apple silicon(M1/M2) build failures
+If an error `protoc-gen-grpc-java-1.49.2-osx-aarch_64.exe: program not found or is not executable` occurs in the Apple silicon Mac (M1/M2) development environment, it has to install Rosetta.
+```
+$> softwareupdate --install-rosetta --agree-to-license
+```
+
 ## Quick Overview of Installation
 
 1. HBase ([details](installation.md#1-hbase))
