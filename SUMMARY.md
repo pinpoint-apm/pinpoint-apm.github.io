@@ -28,6 +28,7 @@
 * [URI Statistics](documents/uri_statistics.md)
 * [URI Statistics Alarm](documents/uri_statistics_alarm.md)
 * [How to use Application Inspector](documents/application-inspector.md)
+* [Realtime Request Monitoring](documents/realtime.md)
 * [Separate Logging Per Request](documents/per-request_feature_guide.md)
 * [Marking Transaction as Fail](documents/http-status-code-failure.md)
 * [Monitoring Proxy Server](documents/proxy-http-header.md)
