@@ -30,7 +30,7 @@ The thread dump only works if the request is still active, but can be replaced w
 
 ## Requirements and installation
 
-These features are **disabled by default** and can be enabled with the property `pinpoint.modules.realtime=true`.
+These features are **disabled by default** and can be enabled with the property `pinpoint.modules.realtime.enabled=true` at the web, collector module.
 
 ### Required properties
 
