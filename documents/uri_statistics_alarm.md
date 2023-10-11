@@ -1,5 +1,5 @@
 # URI Statistics Alarms
-Alarms for URI statistics are introduced to Pinpoint in v2.6.0.
+Alarms for URI statistics will be introduced to Pinpoint in v3.0.0.
 Similar to the existing [alarms in Pinpoint](https://pinpoint-apm.gitbook.io/pinpoint/documents/alarm), pinpoint-batch server checks every 3 minutes if configured alarm rules are triggered with data in the last 5 minutes.
 
 ## 1. Alarm Rules
