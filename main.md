@@ -1,14 +1,17 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.5.2
+# What's New in v2.5.3
 ## What's Changed
-* [#9863] Backport: Remove invalid gson dependency from hbase2 module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9864
-* [#8890] Backport: Implemented findClass in Java9ClassLoader by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9902
-* [#9962] backport: fix duplicated active trace by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9963
-* [#10003] backport: add pinot offline table ingestionConfig by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10004
-* [#10010] backport: fix undertow plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10011
+* [#10031] prepare 2.5.3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10032
+* [#10187] Fix NPE in the reactor-netty plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10188
+* [#10240] Backport: Bump ASM from 9.4 to 9.5 for JDK21 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10241
+* [#10265] Backport: Update unsampled async request by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10266
+* [#10310] Backport: Add NPE Check in Hbase plugin by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10307
+* [#10329] Backport: update reactor error handler by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10330
+* [#10335] Backport: update reactor publishOn, subscribeOn options by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10336
+* [#10377] Backport: Add uri stat user input for tomcat plugin by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10386
 
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.5.1...v2.5.2
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.5.2...v2.5.3
 
 <!-- </latestReleaseNotes.md> -->
 
@@ -17,14 +20,15 @@
 HBase compatibility table:
 
 <!-- <compatibilityHbase.md> -->
-| Pinpoint Version | HBase 1.0.x | HBase 1.2.x | HBase 1.4.x | HBase 2.0.x                                                                                                           |
-|------------------|-------------|-------------|-------------|-----------------------------------------------------------------------------------------------------------------------|
-| 2.0.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
-| 2.1.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
-| 2.2.x            | not tested  | yes         | yes         | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
-| 2.3.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
-| 2.4.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
-| 2.5.x            | not tested  | yes         | yes         | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase2-module)                                   |
+| Pinpoint Version | HBase 1.x | HBase 2.x                                                                                                             |
+|-----------------|-----------|-----------------------------------------------------------------------------------------------------------------------|
+| 2.0.x           | yes       | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.1.x           | yes       | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.2.x           | yes       | [optional](https://pinpoint-apm.gitbook.io/pinpoint/documents/hbase-upgrade#do-you-like-to-use-hbase-2x-for-pinpoint) |
+| 2.3.x           | yes       | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/2.3.x/hbase2-module)                                    |
+| 2.4.x           | yes       | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/2.4.x/hbase2-module)                                    |
+| 2.5.x           | yes       | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/2.5.x/hbase2-module)                                    |
+| 2.6.x           | no         | yes                                                                                                                   |                                                                                                                  |
 
 
 <!-- </compatibilityHbase.md> -->
