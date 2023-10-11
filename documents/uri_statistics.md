@@ -52,6 +52,7 @@ profiler.uri.stat.spring.webflux.enable=true
 profiler.uri.stat.spring.webflux.useuserinput=false
 profiler.uri.stat.vertx.enable=true
 profiler.uri.stat.vertx.useuserinput=false
+profiler.uri.stat.tomcat.useuserinput=false
 ```
 - profiler.uri.stat.enable: whether Pinpoint Agent collects URI statistics or not.
   - `true`: collects URI statistics
@@ -106,6 +107,14 @@ profiler.uri.stat.vertx.useuserinput=false
         routingContext.response().end("pinpoint.metric.uri-tempate = /test");
     });
   ```
+
+- profiler.uri.stat.tomcat.useuserinput: (Added in v2.5.3) whether Pinpoint Agent uses user-input attribute values from Tomcat for URI templates when available.
+  - `true`: collects URI statics from Tomcat user-input attribute values.
+  - `false`: doesn't check Tomcat request attributes for URI statistics.
+  
+  This is provided to collect URI statistics information in Tomcat applications without supported frameworks(Spring WebMVC, Spring Webflux, VertX).
+  If you are using supported frameworks, it is recommended to use framework-specific options and disable this option.
+  Since there is no default URI template provided by tomcat, users need to set attribute `pinpoint.metric.uri-template` to your Tomcat request to start collecting URI statistics information.
 
 To change the configuration values described above, update `pinpoint.config` under [each profile directory](https://github.com/pinpoint-apm/pinpoint/tree/master/agent/src/main/resources/profiles) and rebuild the project.
 Or, you can simply pass these properties when starting your application with Pinpoint Agent (e.g. `-Dprofiler.uri.stat.enable=false`).
@@ -189,6 +198,7 @@ profiler.uri.stat.spring.webflux.enable=true
 profiler.uri.stat.spring.webflux.useuserinput=false
 profiler.uri.stat.vertx.enable=true
 profiler.uri.stat.vertx.useuserinput=false
+profiler.uri.stat.tomcat.useuserinput=false
 ```
 - profiler.uri.stat.enable: 핀포인트 에이전트가 URI 통계를 수집하는지 여부.
   - `true`: URI 통계를 수집한다.
@@ -229,7 +239,7 @@ profiler.uri.stat.vertx.useuserinput=false
   ```
   
 - profiler.uri.stat.vertx.enable: 핀포인트 에이전트가 Vert.x 어플리케이션에서 URI 통계를 수집하는지 여부.
-  - `true`: Vert.x 어플리케이션에서 URI 통계를 수집힌다..
+  - `true`: Vert.x 어플리케이션에서 URI 통계를 수집힌다.
   - `false`: Vert.x 어플리케이션에서 URI 통계를 수집하지 않는다.
 - profiler.uri.stat.vertx.useuserinput: 핀포인트 에이전트가 Vert.x 어플리케이션에서 사용자 정의 URI 템플릿을 우선적으로 사용하는지 여부.
   - `true`: Vert.x 어플리케이션에서 사용자 정의 URI 템플릿을 우선적으로 사용한다.
@@ -243,6 +253,13 @@ profiler.uri.stat.vertx.useuserinput=false
         routingContext.response().end("pinpoint.metric.uri-tempate = /test");
     });
   ```
+- profiler.uri.stat.tomcat.useuserinput: (v2.5.3에 추가 됨) 핀포인트 에이전트가 Tomcat 어플리케이션에서 사용자 정의 URI 템플릿을 사용하여 통계를 수집하는지 여부.
+  - `true`: Tomcat 어플리케이션에서 사용자 정의 URI 템플릿을 사용하여 URI 통계를 수집한다.
+  - `false`: URI 통계 수집을 할 때 Tomcat 리퀘스트 attribute를 확인하지 않는다.
+  
+  이 옵션은 지원하는 프레임워크(Spring WebMVC, Spring Webflux, VertX)를 사용하지 않는 Tomcat 어플리케이션에서 URI 통계를 수집하기 위해 추가되었습니다.
+  만약 지원하는 프레임워크를 사용하고 있다면, 해당 프레임워크 관련 URI 통계 옵션을 사용하고 이 옵션은 false로 사용하는 것을 권장합니다.
+  지원하는 프레임워크에서와는 다르게 Tomcat 자체적으로 URI 템플릿을 제공하지 않기 때문에, 이 옵션을 사용할 경우, 사용자가 직접 Tomcat request attribute에 `pinpoint.metric.uri-template`를 추가하여야만 URI 통계가 수집됩니다.
 
 위 설정 값들을 변경하려면 원하는 [핀포인트 프로파일 경로](https://github.com/pinpoint-apm/pinpoint/tree/master/agent/src/main/resources/profiles)의 `pinpoint.config` 파일에서 값을 변경하여 핀포인트를 재빌드한다. 파일을 수정하지 않고, 핀포인트 에이전트를 붙힐 어플리케이션을 실행할 때 `-Dprofiler.uri.stat.enable=false`와 같이 값을 넣어도 된다.
 
