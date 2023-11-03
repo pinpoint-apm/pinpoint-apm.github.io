@@ -34,18 +34,19 @@ $> softwareupdate --install-rosetta --agree-to-license
    2. Set JAVA\_HOME environment variable to JDK 8 home directory.
    3. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
    4. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
-   5. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
+   5. Set JAVA\_17\_HOME environment variable to JDK 17 home directory.
+   6. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
 3.  Pinpoint Collector ([details](installation.md#3-pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
 
     ```
-     e.g.) `java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-2.2.1.jar`
+     java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-$VERSION.jar
     ```
 
     1. It will start with default settings. To learn more about default values or how to override them, please see the details below.
 4.  Pinpoint Web ([details](installation.md#4-pinpoint-web)) 1. Start _pinpoint-web-boot-$VERSION.jar_ with java -jar command.
 
     ```
-     e.g.) `java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-2.2.1.jar`
+     java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-$VERSION.jar
     ```
 
     1. It will start with default settings. To learn more about default values or how to override them, please see the details below.
@@ -87,9 +88,11 @@ There are two options:
 
     * JDK 8 installed
     * JDK 11 installed
+    * JDK 17 installed
     * JAVA\_HOME environment variable set to JDK 8 home directory.
     * JAVA\_8\_HOME environment variable set to JDK 8 home directory.
-    *   JAVA\_11\_HOME environment variable set to JDK 11 home directory.
+    * JAVA\_11\_HOME environment variable set to JDK 11 home directory.
+    * JAVA\_17\_HOME environment variable set to JDK 17 home directory.
 
         Agent compatibility to Collector table:
 
@@ -118,16 +121,12 @@ The path to this file should look like _$PINPOINT\_PATH/collector/target/deploy/
 
 Since Pinpoint Collector is packaged as an executable jar file, you can start Collector by running it directly.
 
-e.g.) `java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-2.2.1.jar`
+e.g.) `java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-$VERSION.jar`
 
 ### Configuration
 
-There are 3 configuration files used for Pinpoint Collector: _pinpoint-collector-root.properties_, _pinpoint-collector-grpc.properties_, and _hbase.properties_.
+There are 2 configuration files used for Pinpoint Collector: _pinpoint-collector-grpc.properties_, and _hbase.properties_.
 
-* pinpoint-collector-root.properties - contains configurations for the collector. Check the following values with the agent's configuration options :
-  * `collector.receiver.base.port` (agent's _profiler.collector.tcp.port_ - default: 9994/TCP)
-  * `collector.receiver.stat.udp.port` (agent's _profiler.collector.stat.port_ - default: 9995/UDP)
-  * `collector.receiver.span.udp.port` (agent's _profiler.collector.span.port_ - default: 9996/UDP)
 * pinpoint-collector-grpc.properties - contains configurations for the grpc.
   * `collector.receiver.grpc.agent.port` (agent's _profiler.transport.grpc.agent.collector.port_, _profiler.transport.grpc.metadata.collector.port_ - default: 9991/TCP)
   * `collector.receiver.grpc.stat.port` (agent's _profiler.transport.grpc.stat.collector.port_ - default: 9992/TCP)
@@ -138,7 +137,6 @@ There are 3 configuration files used for Pinpoint Collector: _pinpoint-collector
 
 You may take a look at the full list of default configurations here:
 
-* [pinpoint-collector-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/collector/src/main/resources/pinpoint-collector-root.properties)
 * [pinpoint-collector-grpc.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/collector/src/main/resources/profiles/local/pinpoint-collector-grpc.properties)
 * [hbase.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/collector/src/main/resources/profiles/local/hbase.properties)
 
@@ -149,7 +147,7 @@ You can modify default configuration values or add new profiles under `collector
 #### When Using Released Binary **(Recommended)**
 
 * You can override any configuration values with `-D` option. For example,
-  * `java -jar -Dspring.profiles.active=release -Dpinpoint.zookeeper.address=localhost -Dhbase.client.port=1234 pinpoint-collector-boot-2.2.1.jar`
+  * `java -jar -Dspring.profiles.active=release -Dpinpoint.zookeeper.address=localhost -Dhbase.client.port=1234 pinpoint-collector-boot-$VERSION.jar`
 * To import a list of your customized configuration values from a file, you can use `--spring.config.additional-location` option. For example,
   *   Create a file `./config/collector.properties`, and list the configuration values you want to override. >
 
@@ -160,7 +158,7 @@ You can modify default configuration values or add new profiles under `collector
       > collector.receiver.grpc.agent.port=9999
       >
       > collector.receiver.stat.udp.receiveBufferSize=1234567
-  * Execute with `java -jar pinpoint-collector-boot-2.2.1.jar --spring.config.additional-location=./config/collector.properties`
+  * Execute with `java -jar pinpoint-collector-boot-$VERSION.jar --spring.config.additional-location=./config/collector.properties`
 * To further explore how to use externalized configurations, refer to [Spring Boot Reference Document](https://docs.spring.io/spring-boot/docs/2.2.x/reference/html/spring-boot-features.html#boot-features-external-config-application-property-files).
 
 ### Profiles
@@ -195,7 +193,9 @@ Pinpoint Web Supported Browsers:
 
 Since Pinpoint Web is packaged as an executable jar file, you can start Web by running it directly.
 
-e.g.) `java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-2.2.1.jar`
+````
+java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-$VERSION.jar
+````
 
 ### Configuration
 
@@ -218,7 +218,7 @@ You can modify default configuration values or add new profiles under `web/src/m
 #### When Using Released Binary **(Recommended)**
 
 * You can override any configuration values with `-D` option. For example,
-  * `java -jar -Dspring.profiles.active=release -Dpinpoint.zookeeper.address=localhost -Dhbase.client.port=1234 pinpoint-web-boot-2.2.1.jar`
+  * `java -jar -Dspring.profiles.active=release -Dpinpoint.zookeeper.address=localhost -Dhbase.client.port=1234 pinpoint-web-boot-$VERSION.jar`
 * To import a list of your customized configuration values from a file, you can use `--spring.config.additional-location` option. For example,
   *   Create a file `./config/web.properties`, and list the configuration values you want to override. >
 
@@ -227,7 +227,7 @@ You can modify default configuration values or add new profiles under `web/src/m
       > pinpoint.zookeeper.address=localhost
       >
       > cluster.zookeeper.sessiontimeout=10000
-  * Execute with `java -jar pinpoint-web-boot-2.2.1.jar --spring.config.additional-location=./config/web.properties`
+  * Execute with `java -jar pinpoint-web-boot-$VERSION.jar --spring.config.additional-location=./config/web.properties`
 * To further explore how to use externalized configurations, refer to [Spring Boot Reference Document](https://docs.spring.io/spring-boot/docs/2.2.x/reference/html/spring-boot-features.html#boot-features-external-config-application-property-files).
 
 ### Profiles
@@ -270,11 +270,10 @@ pinpoint-agent
 |   |-- ...
 |-- profiles
 |   |-- local
-|   |   |-- log4j.xml
 |   |   |-- pinpoint.config
 |   |-- release
-|       |-- log4j.xml
 |       |-- pinpoint.config
+|-- log4j2-agent.xml
 |-- pinpoint-bootstrap-$VERSION.jar
 |-- pinpoint-root.config
 ```
@@ -332,13 +331,6 @@ There are various configuration options for Pinpoint Agent available in _$AGENT\
 Most of these options are self explanatory, but the most important configuration options you must check are **Collector ip address**, and the **TCP/UDP ports**. These values are required for the agent to establish connection to the _Collector_ and function correctly.
 
 Set these values appropriately in _pinpoint-root.config_:
-
-**THRIFT**
-
-* `profiler.collector.ip` (default: 127.0.0.1)
-* `profiler.collector.tcp.port` (collector's _collector.receiver.base.port_ - default: 9994/TCP)
-* `profiler.collector.stat.port` (collector's _collector.receiver.stat.udp.port_ - default: 9995/UDP)
-* `profiler.collector.span.port` (collector's _collector.receiver.span.udp.port_ - default: 9996/UDP)
 
 **GRPC**
 
