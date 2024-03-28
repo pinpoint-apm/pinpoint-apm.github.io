@@ -17,7 +17,7 @@ You should definitely check **Pinpoint** out If you want to
 
 ## Live Demo
 
-* [Demo](http://125.209.240.10:10123) - Here is a Demo, So that you can take a look at Pinpoint right away.
+* [demo](http://223.130.142.103:8080/main/ApiGateway@SPRING_BOOT/5m?inbound=1&outbound=4&wasOnly=false&bidirectional=false) - Here is a Demo, So that you can take a look at Pinpoint right away.
 
 ## Want a quick tour?
 
