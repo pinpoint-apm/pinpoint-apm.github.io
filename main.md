@@ -1,17 +1,19 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v2.5.3
+# What's New in v2.5.4
 ## What's Changed
-* [#10031] prepare 2.5.3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10032
-* [#10187] Fix NPE in the reactor-netty plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10188
-* [#10240] Backport: Bump ASM from 9.4 to 9.5 for JDK21 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10241
-* [#10265] Backport: Update unsampled async request by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10266
-* [#10310] Backport: Add NPE Check in Hbase plugin by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10307
-* [#10329] Backport: update reactor error handler by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10330
-* [#10335] Backport: update reactor publishOn, subscribeOn options by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10336
-* [#10377] Backport: Add uri stat user input for tomcat plugin by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10386
+* [#10462] Backport Allow more pattern for version postfix by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10469
+* Fix mismatched version numbers by @inRemark in https://github.com/pinpoint-apm/pinpoint/pull/10601
+* [#10630] Backport: Fix kotlin coroutines dispatch interceptor by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10631
+* [#10632] Backport: Set the log level of ModuleBoot using system envir… by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10633
+* [#10832] Backport: Support `getStatusCode()` for compatibility with S… by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10833
+* [#10828] Backport: Resolve issue for rewritten launcher on spring-boot 3.2 by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10834
+* [#10844] Backport: Add new Main classes to SpringBootDetector by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10861
+* [#10918] Backport: Increase the coverage of the apiId cache by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10919
 
+## New Contributors
+* @inRemark made their first contribution in https://github.com/pinpoint-apm/pinpoint/pull/10601
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.5.2...v2.5.3
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v2.5.3...v2.5.4
 
 <!-- </latestReleaseNotes.md> -->
 
