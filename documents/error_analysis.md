@@ -4,8 +4,9 @@
 
 ![](<../.gitbook/assets/error_analysis_01.png>)
 
-Error Analysis
-Error Analysis is a new feature introduced in Pinpoint v3.0.0. The Pinpoint agent collects more detailed exception information and transmits it to the Pinpoint collector via gRPC. The Pinpoint collector then stores this data in Apache Pinot through Apache Kafka. You can view the stored Error Analysis data in the Pinpoint web interface.
+Error Analysis is a new feature introduced in Pinpoint v3.0.0.
+
+The Pinpoint agent collects more detailed exception information and transmits it to the Pinpoint collector via gRPC. The Pinpoint collector then stores this data in Apache Pinot through Apache Kafka. You can view the stored Error Analysis data in the Pinpoint web interface.
 
 # 1. Installation and Configuration Guide
 
@@ -59,20 +60,20 @@ profiler.exceptiontrace.max.depth=5
 profiler.exceptiontrace.io.buffering.buffersize=20
 ```
 
-- **profiler.exceptiontrace.enable**
+- `profiler.exceptiontrace.enable`
   - `true`: Collects exceptions that occur. **Default**
   - `false`: Does not collect exceptions that occur.
-- **profiler.exceptiontrace.new.throughput**
+- `profiler.exceptiontrace.new.throughput`
   - **Default**: `1000`
   - Determines how many exceptions per second to collect from the agent.
-- **profiler.exceptiontrace.errormessage.max**
+- `profiler.exceptiontrace.errormessage.max`
   - **Default**: `2048`
   - Determines the maximum length of the error message for exceptions collected by the agent.
-- **profiler.exceptiontrace.max.depth**
+- `profiler.exceptiontrace.max.depth`
   - **Default**: `5`
   - Determines the depth to traverse the exception chain.
   - If the value is 0, it will traverse until `Throwable.getCause()` returns null.
-- **profiler.exceptiontrace.io.buffering.buffersize**
+- `profiler.exceptiontrace.io.buffering.buffersize`
   - **Default**: `20`
   - Determines the number of exceptions to buffer.
   - This buffer is approximately the size of the buffer generated per Span.
@@ -151,20 +152,20 @@ profiler.exceptiontrace.errormessage.max=2048
 profiler.exceptiontrace.max.depth=5
 profiler.exceptiontrace.io.buffering.buffersize=20
 ```
-- profiler.exceptiontrace.enable
+- `profiler.exceptiontrace.enable`
 	- `true`: 발생하는 exception 을 수집한다. **기본값**
 	- `false` : 발생하는 exception 을 수집하지 않는다.
-- profiler.exceptiontrace.new.throughput
+- `profiler.exceptiontrace.new.throughput`
 	- **기본값** 1000
 	- 해당 에이전트에서 초당 몇개까지의 exception 을 수집할지 결정한다. 
-- profiler.exceptiontrace.errormessage.max
+- `profiler.exceptiontrace.errormessage.max`
 	- **기본값** 2048
 	- 해당 에이전트에서 발생하는 exception 의 error message 를 몇자까지 수집할지 결정한다.
-- profiler.exceptiontrace.max.depth
+- `profiler.exceptiontrace.max.depth`
 	- **기본값** 5
 	- exception chain 이 주어졌을 때, 깊이를 어느정도 순회할지 결정한다.
 	- 값이 0이면 Throwable.getCause() 가 null 일 때까지 순회한다.
-- profiler.exceptiontrace.io.buffering.buffersize
+- `profiler.exceptiontrace.io.buffering.buffersize`
 	- **기본값** 20
 	- buffer 에 exception 을 몇개까지 쌓아둘지 결정한다.
 	- 해당 buffer 는 대략 Span 단위로 생성되는 buffer 이다.
