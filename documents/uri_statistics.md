@@ -1,4 +1,4 @@
-[English](uri_statistics.md#uri_statistics) | [한글](uri_statistics.md#URI_통계)
+[English](uri_statistics.md#uri_statistics) | [한국어](uri_statistics.md#URI_통계)
 
 # URI Statistics
 URI statistics menu is newly added to Pinpoint in v2.5.0.

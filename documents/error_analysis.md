@@ -1,4 +1,4 @@
-[English](error_analysis.md#error_analysis) | [한글](error_analysis.md#1.설치_및_설정_방법)
+[English](error_analysis.md#error_analysis) | [한국어](error_analysis.md#1.설치_및_설정_방법)
 
 # Error Analysis
 

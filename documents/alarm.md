@@ -8,7 +8,7 @@ disqus: false
 ---
 # Setting Alarm
 
-[English](alarm.md#alarm) | [한글](alarm.md#alarm-1)
+[English](alarm.md#alarm) | [한국어](alarm.md#alarm-1)
 
 ## Alarm
 

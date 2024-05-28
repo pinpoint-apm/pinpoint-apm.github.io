@@ -9,7 +9,7 @@ disqus: false
 
 # How to use Application Inspector
 
-[English](application-inspector.md#application-inspector) \| [한글](application-inspector.md#application-inspector-1)
+[English](application-inspector.md#application-inspector) \| [한국어](application-inspector.md#application-inspector-1)
 
 ## Application Inspector
 

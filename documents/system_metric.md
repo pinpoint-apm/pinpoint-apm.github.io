@@ -1,5 +1,5 @@
 
-[English](system_metric.md#system_metrics) | [한글](system_metric.md#1_system_metrics_기능이란?)
+[English](system_metric.md#system_metrics) | [한국어](system_metric.md#1_system_metrics_기능이란?)
 
 
 # 1 System Metrics
