@@ -21,9 +21,9 @@
 * [TrobleShooting\(Network\)](getting-started/troubleshooting_network.md)
 
 ## Documents
-
 * [Plugin Developer Guide](documents/plugin-dev-guide.md)
 * [Setting Alarm](documents/alarm.md)
+* [New Inspector](documents/new-inspector.md)
 * [System Metric](documents/system_metric.md)  
 * [URI Statistics](documents/uri_statistics.md)
 * [URI Statistics Alarm](documents/uri_statistics_alarm.md)
