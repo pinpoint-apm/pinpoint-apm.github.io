@@ -27,6 +27,7 @@
 * [System Metric](documents/system_metric.md)  
 * [URI Statistics](documents/uri_statistics.md)
 * [URI Statistics Alarm](documents/uri_statistics_alarm.md)
+* [Error Analysis](documents/error_analysis.md)
 * [How to use Application Inspector](documents/application-inspector.md)
 * [Realtime Request Monitoring](documents/realtime.md)
 * [Separate Logging Per Request](documents/per-request_feature_guide.md)
