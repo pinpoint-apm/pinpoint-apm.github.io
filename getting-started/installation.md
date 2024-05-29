@@ -12,6 +12,7 @@ disqus: false
 To set up your very own Pinpoint instance you can either **download the build results** from our [**latest release**](https://github.com/pinpoint-apm/pinpoint/releases/latest), or manually build from your Git clone. In order to run your own Pinpoint instance, you will need to run below components:
 
 * **HBase** (for storage)
+* **Pinot** (for storage)
 * **Pinpoint Collector** (deployed on a web container)
 * **Pinpoint Web** (deployed on a web container)
 * **Pinpoint Agent** (attached to a java application for profiling)
@@ -29,28 +30,38 @@ $> softwareupdate --install-rosetta --agree-to-license
 1. HBase ([details](installation.md#1-hbase))
    1. Set up HBase cluster - [Apache HBase](http://hbase.apache.org)
    2. Create HBase Schemas - feed `/scripts/hbase-create.hbase` to hbase shell.
-2. Build Pinpoint (Optional)([details](installation.md#2-building-pinpoint-optional)) - No need if you use the binaries.([here](https://github.com/pinpoint-apm/pinpoint/releases)).
-   1. Clone Pinpoint - `git clone $PINPOINT_GIT_REPOSITORY`
-   2. Set JAVA\_HOME environment variable to JDK 8 home directory.
-   3. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
-   4. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
-   5. Set JAVA\_17\_HOME environment variable to JDK 17 home directory.
-   6. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
-3.  Pinpoint Collector ([details](installation.md#3-pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
+2. Pinot ([details](installation.md#2-pinot))
+   1. Set up Pinot - [Apache Pinot](https://pinot.apache.org)
+   2. Set up Kafka - [Apache Kafka](https://kafka.apache.org)
+   3. Create Kafka topics and Pinot tables. Refer to the documentation for the features you are using.
+      * [New Inspector](/documents/new-inspector.md)
+      * [System Metric](/documents/system_metric.md)
+      * [URI Statistics](/documents/uri_statistics.md)
+      * [Error Analysis](/documents/error_analysis.md)
+3. Build Pinpoint (Optional)([details](installation.md#3-building-pinpoint)) - No need if you use the binaries.([here](https://github.com/pinpoint-apm/pinpoint/releases)).
+   4. Clone Pinpoint - `git clone $PINPOINT_GIT_REPOSITORY`
+   5. Set JAVA\_HOME environment variable to JDK 8 home directory.
+   6. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
+   7. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
+   8. Set JAVA\_17\_HOME environment variable to JDK 17 home directory.
+   9. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
+4. Pinpoint Collector ([details](installation.md#4-pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
 
     ```
      java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-$VERSION.jar
     ```
 
-    1. It will start with default settings. To learn more about default values or how to override them, please see the details below.
-4.  Pinpoint Web ([details](installation.md#4-pinpoint-web)) 1. Start _pinpoint-web-boot-$VERSION.jar_ with java -jar command.
+    * It will start with default settings. To learn more about default values or how to override them, please see the details below.
+    * Use [collector starter](installation.md#collector-starter) to connect to Pinot and Kafka
+5. Pinpoint Web ([details](installation.md#5-pinpoint-web)) 1. Start _pinpoint-web-boot-$VERSION.jar_ with java -jar command.
 
     ```
      java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-$VERSION.jar
     ```
 
-    1. It will start with default settings. To learn more about default values or how to override them, please see the details below.
-5. Pinpoint Agent ([details](installation.md#5-pinpoint-agent))
+    * It will start with default settings. To learn more about default values or how to override them, please see the details below.
+    * Use [web starter](installation.md#web-starter) to connect to Pinot
+6. Pinpoint Agent ([details](installation.md#6-pinpoint-agent))
    1. Extract/move _pinpoint-agent/_ to a convenient location (`$AGENT_PATH`).
    2. Set `-javaagent:$AGENT_PATH/pinpoint-bootstrap-$VERSION.jar` JVM argument to attach the agent to a java application.
    3. Set `-Dpinpoint.agentId` and `-Dpinpoint.applicationName` command-line arguments.
@@ -77,7 +88,30 @@ To run these scripts, feed them into the HBase shell like below:
 
 See [here](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase/scripts) for a complete list of scripts.
 
-## 2. Building Pinpoint
+## 2. Pinot
+
+Pinpoint uses Pinot for metric data storage,
+and Kafka is required for [Pinot stream ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion/import-from-apache-kafka)
+
+Here are documents for Installing Pinot and Kafka
+- Install Pinot following the instructions in [Pinot Getting Started guide](https://docs.pinot.apache.org/basics/getting-started)
+  - Above guide provides instructions for running Pinot locally, in Docker, and in Kubernetes.
+- Install Kafka by referring to [Kafka quickstart](https://kafka.apache.org/quickstart)
+
+Once Pinot is up and running, ensure that the [collector starter](installation.md#collector-starter) and the [web starter](installation.md#web-starter) are properly configured and able to connect to Pinot.
+
+### Creating Pinot tables
+
+Please refer to the documentation to create Kafka topics and Pinot tables for Pinot-related feature.
+
+The descriptions for the required Kafka topics and Pinot tables are provided in the following feature documents
+* [New Inspector](/documents/new-inspector.md)
+* [System Metric](/documents/system_metric.md)
+* [URI Statistics](/documents/uri_statistics.md)
+* [Error Analysis](/documents/error_analysis.md)
+
+
+## 3. Building Pinpoint
 
 There are two options:
 
@@ -109,7 +143,7 @@ There are two options:
 
 Regardless of your method, you should end up with the files and directories mentioned in the following sections.
 
-## 3. Pinpoint Collector
+## 4. Pinpoint Collector
 
 You should have the following **executable jar** file.
 
@@ -177,7 +211,35 @@ To add a custom profile, you need to rebuild `pinpoint-collector` module.
 
 When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](installation.md#3-pinpoint-collector).
 
-## 4. Pinpoint Web
+### Collector Starter
+
+To utilize Pinot-related features, you need to execute with Pinpoint Collector starter.
+
+Since the `collector-starter` is packaged as an executable jar file, 
+you can start the `collector-starter` with the following command to override Zookeeper, Kafka and Pinot properties.
+```
+java -jar -Dspring.config.additional-location=collector-starter-application.yml pinpoint-collector-starter-boot-$VERSION.jar
+```
+
+* collector-starter-application.yml
+``` 
+pinpoint:
+  zookeeper:
+    address: localhost
+  metric:
+    kafka:
+      bootstrap:
+        servers: localhost:19092
+spring:
+  pinot-datasource:
+    pinot:
+      jdbc-url: jdbc:pinot://localhost:9000
+      username: --username--
+      password: --password--
+```
+
+
+## 5. Pinpoint Web
 
 You should have the following **executable jar** file.
 
@@ -246,7 +308,30 @@ To add a custom profile, you need to rebuild `pinpoint-web` module.
 
 When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](installation.md#4-pinpoint-web).
 
-## 5. Pinpoint Agent
+### Web Starter
+
+To utilize Pinot-related features, you need to execute with Pinpoint Web Starter.
+
+Since the `web-starter` is packaged as an executable jar file, 
+you can start the `web-starter` with the following command to override Zookeeper and Pinot properties.
+```
+java -jar -Dspring.config.additional-location=web-starter-application.yml pinpoint-web-starter-boot-$VERSION.jar
+```
+
+* web-starter-application.yml
+``` 
+pinpoint:
+  zookeeper:
+    address: localhost
+spring:
+  pinot-datasource:
+    pinot:
+      jdbc-url: jdbc:pinot://localhost:9000
+      username: --username--
+      password: --password--
+```
+
+## 6. Pinpoint Agent
 
 If downloaded, unzip the Pinpoint Agent file. You should have a **pinpoint-agent** directory with the layout below :
 
