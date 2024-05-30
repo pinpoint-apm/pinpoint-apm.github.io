@@ -26,6 +26,7 @@ If you have already [set up Kafka for Pinpoint System Metric](https://pinpoint-a
   - inspector-stat-app
 
 ## 2.2 Set Up Pinot
+
 ### 2.2.A Install Pinot
 
 Install Pinot according to [Pinot Getting Started guide](https://docs.pinot.apache.org/basics/getting-started).
@@ -39,7 +40,7 @@ If you have already [set up Pinot for Pinpoint System Metric](https://pinpoint-a
   - inspectorStatApp: This table stores application inspector data.
 - Refer to the [github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot) for table schema and configuration settings.
 
-## 2.3 Configure and Run Pinpoint Batch, Web, and Collector with New Inspector
+## 2.3 Configure and Run Pinpoint Collector, Web, and Batch with New Inspector
 - **Related options and settings are already enabled by default, so there is no need to modify any settings from what is provided in our github repository.**
 - When upgrading from Pinpoint version below 3.0 to version 3.0.0 or above, some of the options may be missing in the configuration properties files you have been using. Please refer to the related configurations in the following section to check if any changes are needed in your settings.
 
@@ -80,7 +81,7 @@ alarm.collector.version=2
 
 # 4 Q&A
 
-## A Can we still use the Legacy Inspector to save the data to HBase?
+### A Can we still use the Legacy Inspector to save the data to HBase?
 
 Yes, but Legacy Inspector will be deprecated in v3.0.1 so we recommended you to use the New Inspector.
 
@@ -123,11 +124,11 @@ alarm.collector.version=1
 ```
 
 
-## B Why change database to Pinot when there are no additional features provided to users?
+### B Why change database to Pinot when there are no additional features provided to users?
 
 New Inspector saves and retrieves the data faster than the Legacy Inspector thanks to Pinot. As Pinot project gets mature over time, there can be further improvements on performance or additional features can be introduced to Pinpoint Inpsector as well.
 
-## C Reading inspector-stat-agent table becomes slow as more data is being stored.
+### C Reading inspector-stat-agent table becomes slow as more data is being stored.
 
 You can improve performance by distributing the data across multiple tables. Follow the steps below to create multiple Kafka topics and Pinot tables. Then, add settings to Pinpoint components to read and write data from multiple Pinot tables.
 
@@ -220,7 +221,7 @@ New Inspector에서 사용자가 보는 화면은 크게 달라진 건은 없습
 
 # 2 설치/설정 방법
 
-## 2.1 kafka 설치 및 실행
+## 2.1 Kafka 설치 및 실행
 실시간으로 collector에서 데이터를 전달받아 Pinot에 저장하기 위해서 Kafka를 설치해야 합니다.
 
 **2.1.A Kafka 설치**
@@ -247,7 +248,7 @@ Pinot 사이트에서 [설치 방법 가이드](https://docs.pinot.apache.org/ba
 - table schema와 configuration은 [github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot)를 참고해주세요.
 
 
-## 2.3 batch, web, collector의 New Inspector 기능 활성화
+## 2.3 Pinpoint Collector, batch, Web의 New Inspector 기능 활성화
 
 - **관련 옵션 및 설정은 기본적으로 활성화되어 있으므로 추가로 설정할 필요가 없습니다.**
 - Pinpoint 3.0 미만버전에서 3.0.0 이상버전으로 업그레이드 시 일부 옵션이 누락되는경우 아래 관련 옵션 설명을 참고해주세요.
@@ -258,10 +259,10 @@ Pinot 사이트에서 [설치 방법 가이드](https://docs.pinot.apache.org/ba
 - Pinpoint 버전을 3.0으로 업그레이드하는경우 일부 설정이 누락되는 경우 참고하기 위해서 설정을 명시해놓습니다.
 
 
-## collector
+## Pinpoint Collector
 
 - `collector-starter` 모둘의 `application.yml` 파일:
-- 
+
 ```
 pinpoint:
   modules:
@@ -270,7 +271,7 @@ pinpoint:
         enabled: true
 ```
 
-## web
+## Pinpoint Web
 
 - `web-starter` 모듈의 `application.yml` 파일:
 
@@ -283,7 +284,7 @@ pinpoint:
 ```
 
 
-## batch
+## Pinpoint Batch
 
 - `batch` 모듈의 `batch-root.properties` 파일:
 
@@ -294,7 +295,7 @@ alarm.collector.version=2
 
 # 4 Q&A
 
-## A HBase에 데이터를 저장하는 Legacy Inspector를 사용할 수 없나요?
+### A HBase에 데이터를 저장하는 Legacy Inspector를 사용할 수 없나요?
 
 가능합니다. 그러나 3.0.1 버전 이상 부터는 Legacy Inspector를 삭제할 예정이므로 Pinpoint 버전이 올라갈수록 기능을 사용할수 없으므로 New Inspector를 사용하는것을 권장합니다.
 기능을 사용하려면 Pinpoint 컴포넌트들에 아래 설정을 추가해야합니다.
@@ -329,12 +330,12 @@ alarm.collector.version=1
 ```
 
 
-## B 사용자에게 제공되는 기능은 비슷한데 Pinot기반으로 inspector를 개선한 이유는 뭘까요?
+### B 사용자에게 제공되는 기능은 비슷한데 Pinot기반으로 inspector를 개선한 이유는 뭘까요?
 
 다양한 데이터를 빠르게 저장하고 확인하고 위해서 Pinot로 데이터를 저장하도록 개선되었고
 아직 부족한 기능이 많지만 Pinot의 발전에 맞춰서 기능을 보완하도록 하겠습니다.
 
-## C inspector-stat-agent 테이블의 데이터가 많아서 읽기 속도가 느려집니다.
+### C inspector-stat-agent 테이블의 데이터가 많아서 읽기 속도가 느려집니다.
 
 여러 개의 체이블에 데이터를 나누어 저장해서 성능 향상을 얻을 수 있습니다.
 아래를 단계를 따라 전체 N 개의 Kafka topic과 Pinot table을 생성하고, Pinpoint 컴포넌트들에 설정을 추가해서 data를 수집/조회합니다.
