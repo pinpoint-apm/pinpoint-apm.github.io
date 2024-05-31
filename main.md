@@ -59,16 +59,13 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * Update 2.5.1 release by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9857
 * Update 2.5.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9858
 * [#noissue] Fix proxy-user plugin test by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9855
-* [#9861] Remove invalid gson dependency from hbase2 module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9862
 * [#9869] Separate pinpoint-web-frontend by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9870
 * [#9876] Unified naming convention by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9877
-* [#9873] Update mvnw to 3.9.1 by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9874
 * [#noissue] Converted websocket.xml to WebSocketConfig class by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9879
 * [#noissue] Enable monitoring agent-server-executor by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9881
 * [#noissue] Apply ConditionalOnProperty to InstallModule by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9884
 * [#noissue] Fix: start realtime on init-phase on scatter by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/9887
 * [#9885] Apply ConditionalOnProperties to BasicLogin module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9886
-* [#9889] Bump log4j from 2.17.2 to 2.20.0 by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9890
 * [#9876] Unified naming convention by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9891
 * [#9882] Extract Grpc SSL Module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9883
 * [#9892] Update agent proxy-user plugin for apache format by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9894
@@ -78,7 +75,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Refactor grpc ssl initialization by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9899
 * [#noissue] Cleanup by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9888
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9912
-* [#9910] Bump maven core from 3.8.6 to 3.8.8 for plugin test by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9911
 * [#9913] Apply testcontainers to redis-lettuce-plugin-it by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9914
 * [#9915] Replace SocketUtils in springframework by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9916
 * [#9893] Remove unnecessary log4j configurations in collector starter by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9901
@@ -98,19 +94,12 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#9666] Add redis pubsub atc,atc,echo by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9767
 * [#9666] Fixed redis-root.properties location by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9943
 * [#9666] Add redis pubsub atc,atd,echo by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9949
-* [#9950] Bump maven-surefire-plugin from 3.0.0-M7 to 3.1.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9951
-* [#9952] Bump maven-compiler-plugin from 3.8.1 to 3.11.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9953
 * [#noissue] Fixed redis pubsub test by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9954
 * [#9893] Change filename log4j2.xml→log4j2-agent.xml by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9955
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9957
 * [#9893] Merge batch log4j2 configurations by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9961
 * [#9958] fix duplicated active trace by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/9960
 * [#noissue] Applied dynamic property source to redis test by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9959
-* [#9964] Bump maven-resources-plugin from 3.2.0 to 3.3.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9965
-* [#9966] Bump maven-enforcer-plugin from 3.0.0 to 3.3.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9967
-* [#9968] Bump maven-jar-plugin from 3.2.0 to 3.3.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9969
-* [#9971] Bump jacoco-maven-plugin from 0.8.6 to 0.8.10 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9972
-* [#9973] Bump maven-assembly-plugin from 3.3.0 to 3.6.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9974
 * [#9666] Fixed redis properties by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9970
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9975
 * [#9893] Align Log4j2 loggingsystem lookup orders by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9976
@@ -120,10 +109,7 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9981
 * [#9893] Fix test failure due to changed log4j2 lookup filename by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9982
 * [#9932] Fix testcase failure by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9985
-* [#9989] Bump maven-shade-plugin from 3.1.1 to 3.4.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9990
-* [#9993] Bump maven-dependency-plugin from 3.4.0 to 3.6.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9994
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9988
-* [#9991] Bump build-helper-maven-plugin from 3.2.0 to 3.4.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9992
 * [#NOISSUE] fix test fail by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/9995
 * [#9932] Remove thrift dependency of Tools module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9996
 * [#9989] Update maven-shade-plugin configuration by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9997
@@ -136,14 +122,12 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Fix cxf-it test by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10005
 * [#9983] Replaced most thrift DTOs into gRPC in realtime-module by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9984
 * [#9932] Replace with Netty4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10007
-* [#10014] Bump google-guice from 5.1.0 to 7.0.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10015
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10017
 * [#10018] Suggest dynamic list of available agent profiles by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10019
 * [#10023] Improve reference release timing for GC by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10022
 * [#10026] Make TraceService, SqlMetaDataService abstract by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/10021
 * [#10024] Update renamed batch configuration bean by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10025
 * [#noissue] Enhance server-map update in realtime by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10030
-* [#10036] Bump groovy-maven-plugin from 1.5 to 2.1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10037
 * [#10035] Fixed agent list in active request by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10040
 * [#10041] Add collected uri type option for spans by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10042
 * [#noissue] Update README.md by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10038
@@ -175,20 +159,15 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] add use-suffix-pattern for *.pinpoint requests by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10082
 * [#10079] Propagate pubsub req cancellation by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10080
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10085
-* [#10090] Bump springframework from 5.3.24 to 5.3.28 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10091
 * [#9597] Resolving duplication of bean names by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10094
-* [#10092] Bump springboot from 2.7.7 to 2.7.13 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10093
 * [#noissue] Remove unnecessary applicationContext-web-hbase.xml by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10086
 * [#10046] Add /api/ prefix for api call by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10097
 * [#10046] Added  prefix to websocket endpoints by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10096
 * [#10081] Added annotations for parameter validation by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10083
 * [#10099] Remove WebApplicationType.SERVET from Batch module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10100
-* [#10102] Bump hbase-client from 2.4.11 to 2.4.17 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10103
 * [#10046] Removed unnecessary ws own prefix by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10104
 * [#10081] Added annotative param validations by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10106
 * [#10046] Add api prefix for websocket request by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10105
-* [#10107] Bump maven-clean-plugin from 3.1.0 to 3.3.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10108
-* [#10109] Bump frontend-maven-plugin from 1.12.0 to 1.13.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10110
 * [#noissue] Enhanced getting userId from principal by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10111
 * [#10114] Apply jackson-module-parameter-names by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10115
 * [#10114] Remove unnecessary ObjectMapper by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10116
@@ -202,7 +181,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10126
 * Remove unnecessary line by @yuyivic in https://github.com/pinpoint-apm/pinpoint/pull/10057
 * [#10123] Publish an event when inserting spans by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/10124
-* [#10129] Bump hbase2 client from 2.4.17 to 2.5.5-hadoop3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10130
 * [#noissue] remove unused code by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10135
 * [#noissue] Fix scatter data fetching condition by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10136
 * [#10088] Separate webhook module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10112
@@ -211,7 +189,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10137
 * [#9945] new api for server map right panel by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/9946
 * [#10131] End of support for hbase 1.x by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10134
-* [#10132] Bump maven-surefire-plugin from 3.1.0 to 3.1.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10133
 * [#noissue] Remove unnecessary source by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10144
 * [#noissue] Added Logs to record route request by @LoggingResearch in https://github.com/pinpoint-apm/pinpoint/pull/10140
 * [#10049] Apply compression in fe build by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10148
@@ -274,7 +251,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10231
 * [#10232] Separated redis property sources by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10234
 * [#noissue] Simplify CompletableFuture by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10233
-* [#10237] Bump ASM from 9.4 to 9.5 for JDK21 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10238
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10235
 * [#10236] Added redis KV channel by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10239
 * [#10149] Update plugin test launcher by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10242
@@ -319,8 +295,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10397] Add NPE Check in Hbase plugin by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10306
 * [#noissue] Generalized rule of rewriting into front by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10305
 * [#noissue] Cleanup CommonComponent configuration by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10312
-* [#10313] Bump spring-kafka from 2.9.4 to 2.9.11 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10314
-* [#10315] Bump guava from 31.1-jre to 32.1.2-jre by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10316
 * [#noissue] Refactored redis features by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10309
 * [#noissue] Refactor MatcherGroup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10319
 * [#noissue] fix plugin-it shared instance by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10321
@@ -339,7 +313,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Moved atd controller into authed by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10356
 * [#9631] Cleanup Exception Trace Module by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10340
 * [#noissue] fix serverMapDataFilter on linkSelector by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10351
-* [#10352] Bump maven failsafe plugin from 2.22.2 to  3.1.2 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10353
 * [#noissue] Fixed default atd service by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10359
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10360
 * [#noissue] Refactor Hbase configuration by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10349
@@ -409,15 +382,10 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#9631] Change format long to String; spanId, exceptionId by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10466
 * [#noissue] Add /monitor/* to ServletRegistrationBean by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10465
 * [#9636] Added new livetail endpoints by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10457
-* [#10467] Bump spring-kafka from 2.9.11 to 3.0.12 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10468
 * [#noissue] update spotbugs-exclude by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10471
 * [#noissue] Cleanup deprecated Hbase API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10472
-* [#10474] Bump snakeyaml from1.33 to 2.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10475
 * [#noissue] Cleanup deprecated Hbase API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10473
 * [#9648] Support uri stat for webflux router-handler by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10470
-* [#10476] Bump spotbugs from 4.4.2.2 to 4.8.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10478
-* [#10477] Bump pmd from 3.16.0 to 3.21.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10479
-* [#10476] Bump spotbugs from 4.8.1 to 4.7.3.6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10480
 * [#10481] Improved to operate normally according to profile settings by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10482
 * [#noissue] update spotbugs exclude for dto by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10483
 * [#9631] Check length of agentId by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10484
@@ -436,7 +404,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Add alpha postfix to version pattern by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10506
 * [#10444] Cleanup slf4j2 dependency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10508
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10509
-* [#10497] Bump grpc from 1.49.2 to 1.59.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10510
 * [#10511] Update compatibility with slf4j 2.x version upgrade by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10512
 * [#noissue] Handle -px as stable release version by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10516
 * [#10517] Fix nodes is null in transaction info request by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10518
@@ -458,15 +425,12 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Update agentInfo error log format by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10538
 * [#10046] Fix `server.error.path` to include `/api` prefix by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10540
 * add clickhouse plugin by @wangjiee1 in https://github.com/pinpoint-apm/pinpoint/pull/9795
-* [#10543] bump asm from 9.5 to 9.6 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10548
 * [#noissue] Remove property for thrift ip by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10546
 * [#noissue] Remove unused pinpoint-bootstrap-java8.jar by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10551
 * [#10547] add zgc as jvm gc type by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10550
 * [#noissue] fix scatter range setting bug and styles by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10554
-* [#10555] Bump spring-kafka from 3.0.12 to 3.0.13 dependencies by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10556
 * [#10549] Add tests for Grpc converters by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10552
 * #10531 Reimplement HbaseTemplate based on Async API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10541
-* [#10560] Bump byte-buddy from 4.8.1 to 4.11.0 dependencies by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10561
 * [#noissue] Remove mockStatic from testcase by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10564
 * [#noissue] Resolved collector tests by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10565
 * [#noissue] Fix test failures by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10569
@@ -484,7 +448,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10578] Add docker maven plugin by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10579
 * [#noissue] Capture context when throwing SpanInsertEvent by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/10584
 * [#noissue] Import CollectorEventConfiguration in BasicCollectorApp by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/10585
-* [#10582] Bump pinot jdbc client from 0.11.0 to 1.0.0 by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10583
 * [#noissue] Cleanup naming conventions for server maps by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10586
 * [#noissue] Check logger is debug enabled by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10587
 * [#noissue] Explicitly declare PropertySourcesPlaceholderConfigurer for flink module by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10588
@@ -530,9 +493,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10656] Add java 11 httpclient plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10661
 * [#10651] Changed transform api for plugin by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10652
 * [#10549] Refactor mapping AsyncSpanChunk to PSpanChunk by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10648
-* [#10670] Bump json-path from 2.8.0 to 2.9.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10671
-* [#10674] Bump spring framework from 6.0.13 to 6.0.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10675
-* [#10672] Bump spring-boot from 3.1.5 to 3.1.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10673
 * [#noissue] Fix kotlin-coroutines-it assertMethod by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10677
 * [#noissue] Changed default behavior for collector-starter into 'run' by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10678
 * [#10666] add span sampler for collector by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10669
@@ -608,15 +568,12 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Cleanup maven by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10781
 * [#noissue] Return empty string instead of 'total' by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10780
 * [#noissue] Cleanup Deprecated HBase API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10785
-* [#10783] Bump tiny-log from 2.1.1 to 2.7.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10784
-* [#10786] Bump testcontainer from 1.17.6 to 1.19.7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10787
 * [#noissue] Fix maven build errors by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10789
 * [#noissue] Improve ARM64 compatibility of mysql-server-8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10790
 * [#noissue] Improved ARM compatibility of integration tests by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10791
 * [#noissue] Replace inferring docker arch by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10788
 * [#8929] Migrate FE framework from Angular to React by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10792
 * [#8929] Refactor fe-v3 by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10793
-* [#10795] Bump commons-compress from 1.21 to 1.26.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10796
 * [#noissue] Improved ARM64 compatibility by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10794
 * [#noissue] Cleanup Deprecated Api by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10782
 * [#10704] Increase API response speed by creating a separate application statistics table. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10800
@@ -635,9 +592,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10757] Add pinpoint-plugins-test-module to agent-module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10813
 * [#8929] fix: FE (v3) package build order by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10797
 * [#10704] Improved to operate with inspectorStatV2 table using sortkey. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10815
-* [#10817] Bump micrometer to 1.12.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10818
-* [#10819] Bump junit from 5.9.3 to 5.10.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10821
-* [#10820] Bump jackson from 2.15.2 to 1.16.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10822
 * [#noissue] Replace commons-logging with log4j2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10823
 * [#10757] Move testcase-module to agent-module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10824
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10825
@@ -654,7 +608,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10840] Java Security is deprecated in java17 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10841
 * [#10757] Integrate agent-testweb into agent-module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10845
 * [#noissue] Resolve MapStruct warning due to protobuf unmapped target by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10847
-* [#10846] Bump lettuce from 6.2.3 to 6.3.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10848
 * [#10757] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10849
 * [#noissue] Linked application list cache by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10836
 * [#noissue] Fix SpotBugs warnings by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10850
@@ -678,20 +631,13 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10704] fit test fail by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10876
 * [#noissue] Remove unnecessary threads by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10877
 * [#noissue] Remove duplicate code by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10878
-* [#10879] Bump commons-pool2 to 2.12.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10880
 * [#10865] Added  param `serviceTypeName` by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10868
 * [#10865] Pass serviceTypeName when querying agent-list by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10875
-* [#10885] Bump springframework from 6.0.16 to 6.1.5 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10886
-* [#10887] Bump spring-boot from 3.1.8 to 3.2.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10888
 * [#noissue] Fix incorrect date display by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10881
 * [#10704] Modify the logic so that the long type sortkey is properly assigned a partition. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/10891
-* [#10889] Bump spring-cloud to 4.1.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10890
 * [#noissue] Fix realtime agent & Feat threadDump page by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10884
 * [#noissue] Change last-selected app setting key by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10892
 * [#noissue] chore: fix package version by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10893
-* [#10894] Bump spring-security from 6.1.4 to 6.1.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10895
-* [#10896] Bump spring-data to 3.2.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10897
-* [#10898] Bump grpc from 1.59.0 to 1.62.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10899
 * [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10902
 * [#noissue] Add Java8 Date/Time type to PluginLoggerAdapter by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10903
 * [#noissue] Apply Java8 Date API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10905
@@ -702,7 +648,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Add timeout to Elasticsearch IT by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10911
 * [#noissue] Update plugin-it method name by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10914
 * [#10859] Fix interceptor holder log NPE by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10904
-* [#10912] Bump mybatis from 3.5.13 to 3.5.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10913
 * [#noissue] Export missing component by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10915
 * [#noissue] feat: add applicationList interface for few pages by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/10916
 * [#noissue] Add limit to String.split by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10910
@@ -754,7 +699,6 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10966] Pass additional params for agent-list api in v3 by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/10990
 * [#10976] Fix acquire leak by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10991
 * [#9631] Add new optional parameter `filters` to errorList API by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/10986
-* [#10900] Bump spring-batch from 4.3.7 to 5.1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10901
 * [#noissue] Cleanup hashcode by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10999
 * [#10900] change spring batch schema because spring batch version has been upgraded. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/11001
 * [#noissue] Remove duplicate code in ServerMap by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11002
@@ -805,6 +749,64 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10723] Add maxConcurrentAsyncScanner option by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11061
 * [#11062] Change url info in pinpoint error data by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/11063
 * [#noissue] Fix filteredMap merge logic by @binDongKim in https://github.com/pinpoint-apm/pinpoint/pull/11064
+
+## Dependency Update
+* [#9861] Remove invalid gson dependency from hbase2 module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9862
+* [#9873] Update mvnw to 3.9.1 by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/9874
+* [#9889] Bump log4j from 2.17.2 to 2.20.0 by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/9890
+* [#9910] Bump maven core from 3.8.6 to 3.8.8 for plugin test by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9911
+* [#9950] Bump maven-surefire-plugin from 3.0.0-M7 to 3.1.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9951
+* [#9952] Bump maven-compiler-plugin from 3.8.1 to 3.11.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9953
+* [#9964] Bump maven-resources-plugin from 3.2.0 to 3.3.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9965
+* [#9966] Bump maven-enforcer-plugin from 3.0.0 to 3.3.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9967
+* [#9968] Bump maven-jar-plugin from 3.2.0 to 3.3.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9969
+* [#9971] Bump jacoco-maven-plugin from 0.8.6 to 0.8.10 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9972
+* [#9973] Bump maven-assembly-plugin from 3.3.0 to 3.6.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9974
+* [#9989] Bump maven-shade-plugin from 3.1.1 to 3.4.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9990
+* [#9993] Bump maven-dependency-plugin from 3.4.0 to 3.6.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9994
+* [#9991] Bump build-helper-maven-plugin from 3.2.0 to 3.4.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9992
+* [#10014] Bump google-guice from 5.1.0 to 7.0.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10015
+* [#10036] Bump groovy-maven-plugin from 1.5 to 2.1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10037
+* [#10090] Bump springframework from 5.3.24 to 5.3.28 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10091
+* [#10092] Bump springboot from 2.7.7 to 2.7.13 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10093
+* [#10102] Bump hbase-client from 2.4.11 to 2.4.17 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10103
+* [#10107] Bump maven-clean-plugin from 3.1.0 to 3.3.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10108
+* [#10109] Bump frontend-maven-plugin from 1.12.0 to 1.13.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10110
+* [#10129] Bump hbase2 client from 2.4.17 to 2.5.5-hadoop3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10130
+* [#10132] Bump maven-surefire-plugin from 3.1.0 to 3.1.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10133
+* [#10237] Bump ASM from 9.4 to 9.5 for JDK21 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10238
+* [#10313] Bump spring-kafka from 2.9.4 to 2.9.11 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10314
+* [#10315] Bump guava from 31.1-jre to 32.1.2-jre by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10316
+* [#10352] Bump maven failsafe plugin from 2.22.2 to  3.1.2 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10353
+* [#10467] Bump spring-kafka from 2.9.11 to 3.0.12 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10468
+* [#10474] Bump snakeyaml from1.33 to 2.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10475
+* [#10476] Bump spotbugs from 4.4.2.2 to 4.8.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10478
+* [#10477] Bump pmd from 3.16.0 to 3.21.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10479
+* [#10476] Bump spotbugs from 4.8.1 to 4.7.3.6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10480
+* [#10497] Bump grpc from 1.49.2 to 1.59.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10510
+* [#10543] bump asm from 9.5 to 9.6 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10548
+* [#10555] Bump spring-kafka from 3.0.12 to 3.0.13 dependencies by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10556
+* [#10560] Bump byte-buddy from 4.8.1 to 4.11.0 dependencies by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10561
+* [#10582] Bump pinot jdbc client from 0.11.0 to 1.0.0 by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/10583
+* [#10670] Bump json-path from 2.8.0 to 2.9.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10671
+* [#10674] Bump spring framework from 6.0.13 to 6.0.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10675
+* [#10672] Bump spring-boot from 3.1.5 to 3.1.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10673
+* [#10783] Bump tiny-log from 2.1.1 to 2.7.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10784
+* [#10786] Bump testcontainer from 1.17.6 to 1.19.7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10787
+* [#10795] Bump commons-compress from 1.21 to 1.26.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10796
+* [#10817] Bump micrometer to 1.12.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10818
+* [#10819] Bump junit from 5.9.3 to 5.10.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10821
+* [#10820] Bump jackson from 2.15.2 to 1.16.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10822
+* [#10846] Bump lettuce from 6.2.3 to 6.3.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10848
+* [#10879] Bump commons-pool2 to 2.12.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10880
+* [#10885] Bump springframework from 6.0.16 to 6.1.5 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10886
+* [#10887] Bump spring-boot from 3.1.8 to 3.2.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10888
+* [#10889] Bump spring-cloud to 4.1.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10890
+* [#10894] Bump spring-security from 6.1.4 to 6.1.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10895
+* [#10896] Bump spring-data to 3.2.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10897
+* [#10898] Bump grpc from 1.59.0 to 1.62.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10899
+* [#10912] Bump mybatis from 3.5.13 to 3.5.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10913
+* [#10900] Bump spring-batch from 4.3.7 to 5.1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10901
 
 ## New Contributors
 * @geministarshine made their first contribution in https://github.com/pinpoint-apm/pinpoint/pull/9785
