@@ -45,12 +45,17 @@ This release includes an update to Spring Batch 5. Please note that schema modif
 [**End of support for hbase 1.x**](https://github.com/pinpoint-apm/pinpoint/issues/10131)
 HBase1 support has ended. We recommend migrating to HBase2.
 
-**From version 3.x, the executable JAR files will be uploaded to Maven Central Repository.** The link will be updated once the upload to Maven Central is complete.
-- pinpoint-batch-3.0.0-exec.jar
-- pinpoint-collector-3.0.0-exec.jar
-- pinpoint-collector-starter-3.0.0-exec.jar
-- pinpoint-web-3.0.0-exec.jar
-- pinpoint-web-starter-3.0.0-exec.jar
+**From version 3.x, the executable JAR files will be uploaded to Maven Central Repository.**
+
+https://repo1.maven.org/maven2/com/navercorp/pinpoint/
+
+- [pinpoint-agent-3.0.0.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.0/pinpoint-agent-3.0.0.tar.gz)
+- [pinpoint-batch-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.0/pinpoint-batch-3.0.0-exec.jar)
+- [pinpoint-collector-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.0/pinpoint-collector-3.0.0-exec.jar)
+- [pinpoint-collector-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.0/pinpoint-collector-starter-3.0.0-exec.jar)
+- [pinpoint-web-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.0/pinpoint-web-3.0.0-exec.jar)
+- [pinpoint-web-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.0/pinpoint-web-starter-3.0.0-exec.jar)
+
 
 ## What's Changed
 * [#9847] Prepare 2.6.0-SNAPSHOT by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/9848
@@ -195,7 +200,14 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#noissue] Add Event API to WebhookAlarmService interface by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10147
 * [#10131] Migrate HBase1 API to HBase2 API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10146
 * [#10149] Replace the junit4 test with junit5 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/10150
-* [#10143] Add batch jobs for uri stat alarms by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/10145
+* [#10143] Add batch jobs for uri stat alarms by @ghttps://repo1.maven.org/maven2/com/navercorp/pinpoint/
+
+- [pinpoint-agent-3.0.0.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.0/pinpoint-agent-3.0.0.tar.gz)
+- [pinpoint-batch-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.0/pinpoint-batch-3.0.0-exec.jar)
+- [pinpoint-collector-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.0/pinpoint-collector-3.0.0-exec.jar)
+- [pinpoint-collector-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.0/pinpoint-collector-starter-3.0.0-exec.jar)
+- [pinpoint-web-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.0/pinpoint-web-3.0.0-exec.jar)
+- [pinpoint-web-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.0/pinpoint-web-starter-3.0.0-exec.jar)a-ram in https://github.com/pinpoint-apm/pinpoint/pull/10145
 * [#noissue] Change AnnotationBo to immutable object by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10153
 * [#10131] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10154
 * [#9666] Durable atc for delayed agent list query by @smilu97 in https://github.com/pinpoint-apm/pinpoint/pull/10156
@@ -806,7 +818,21 @@ HBase1 support has ended. We recommend migrating to HBase2.
 * [#10896] Bump spring-data to 3.2.4 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10897
 * [#10898] Bump grpc from 1.59.0 to 1.62.2 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10899
 * [#10912] Bump mybatis from 3.5.13 to 3.5.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10913
-* [#10900] Bump spring-batch from 4.3.7 to 5.1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10901
+* [#10900] Bump spring-batch from 4.3.7 to 5https://repo1.maven.org/maven2/com/navercorp/pinpoint/
+
+- [pinpoint-agent-3.0.0.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.0/pinpoint-agent-3.0.0.tar.gz)
+- [pinpoint-batch-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.0/pinpoint-batch-3.0.0-exec.jar)
+- [pinpoint-collector-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.0/pinpoint-collector-3.0.0-exec.jar)
+- [pinpoint-collector-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.0/pinpoint-collector-starter-3.0.0-exec.jar)
+- [pinpoint-web-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.0/pinpoint-web-3.0.0-exec.jar)
+- [pinpoint-web-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.0/pinpoint-web-starter-3.0.0-exec.jar)https://repo1.maven.org/maven2/com/navercorp/pinpoint/
+
+- [pinpoint-agent-3.0.0.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.0/pinpoint-agent-3.0.0.tar.gz)
+- [pinpoint-batch-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.0/pinpoint-batch-3.0.0-exec.jar)
+- [pinpoint-collector-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.0/pinpoint-collector-3.0.0-exec.jar)
+- [pinpoint-collector-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.0/pinpoint-collector-starter-3.0.0-exec.jar)
+- [pinpoint-web-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.0/pinpoint-web-3.0.0-exec.jar)
+- [pinpoint-web-starter-3.0.0-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.0/pinpoint-web-starter-3.0.0-exec.jar).1.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/10901
 
 ## New Contributors
 * @geministarshine made their first contribution in https://github.com/pinpoint-apm/pinpoint/pull/9785
