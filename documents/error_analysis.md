@@ -36,6 +36,8 @@ Refer to the [Pinot Getting Started Guide](https://docs.pinot.apache.org/basics/
 
 Pinpoint Error Analysis requires [CLP (Compressed Log Processor)](https://docs.pinot.apache.org/basics/data-import/clp), supported from Pinot version 1.0.0, to appropriately process and group error messages. Please ensure you are using the correct version.
 
+Due to the binary issue with `clp-ffi-java`, we recommend using an amd64-based / x86-based machine when installing Pinot version 1.0.0. [Related Issue](https://github.com/pinpoint-apm/pinpoint/issues/11170)
+
 ### 1.2.2. Pinot Table Schema and Table Creation
 
 Create the following table in Pinot:
