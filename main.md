@@ -8,7 +8,11 @@ For more details, see the [issue](https://github.com/pinpoint-apm/pinpoint/issue
 ## Error Analysis
 Enables detailed analysis of exception data collected by the agent.
 
+
+
 ![error_analysis_1](<./.gitbook/assets/error_analysis_01.png>)
+
+
 [manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/error_analysis)
 
 ## New Inspector
