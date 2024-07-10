@@ -81,15 +81,15 @@ Pinpoint Version | Agent | Collector | Web | Flink
 
 | Title | Instrumented Library | Min | Max | Comment |  |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| [Tomcat](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/tomcat) |  | 6.x | 9.x |  |  |
-| [Jetty](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/jetty) |  | 8.x | 9.x |  |  |
-| [JBoss](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/jboss) |  | 6.x | 7.x |  |  |
-| [Resin](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/resin) |  | 4.x | 4.x |  |  |
-| [Websphere](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/websphere) |  | 6.x | 8.x |  |  |
-| [Vertx](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/vertx) |  | 3.3 | 3.5 |  |  |
-| [Weblogic](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/weblogic) |  | 10.x | 12.x |  |  |
-| [Undertow](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/undertow) |  |  |  |  |  |
-| [Undertow Servlet](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/undertow-servlet) |  |  |  |  |  |
+| [Tomcat](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/tomcat) |  | 6.x | 9.x |  |  |
+| [Jetty](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/jetty) |  | 8.x | 9.x |  |  |
+| [JBoss](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/jboss) |  | 6.x | 7.x |  |  |
+| [Resin](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/resin) |  | 4.x | 4.x |  |  |
+| [Websphere](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/websphere) |  | 6.x | 8.x |  |  |
+| [Vertx](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/vertx) |  | 3.3 | 3.5 |  |  |
+| [Weblogic](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/weblogic) |  | 10.x | 12.x |  |  |
+| [Undertow](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/undertow) |  |  |  |  |  |
+| [Undertow Servlet](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/undertow-servlet) |  |  |  |  |  |
 | Jasper |  |  |  |  |  |
 |  |  |  |  |  |  |
 | Java Async Thread |  |  |  |  |  |
@@ -101,11 +101,11 @@ Pinpoint Version | Agent | Collector | Web | Flink
 | Spring RabbitMQ | spring-rabbit | 1.3.3 | 2.2.16 |  |  |
 | Spring IBatis | spring-ibatis | 2.0.7 | 2.0.8 |  |  |
 | Spring MyBatis | mybatis-spring | 1.1.0 | 1.3.3 |  |  |
-| \*[Spring Boot](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/spring-boot) | spring-boot-autoconfigure |  |  |  |  |
-| \*[Spring Webflux](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/spring-webflux) | spring-webflux |  |  |  |  |
+| \*[Spring Boot](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/spring-boot) | spring-boot-autoconfigure |  |  |  |  |
+| \*[Spring Webflux](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/spring-webflux) | spring-webflux |  |  |  |  |
 |  |  |  |  |  |  |
 | MyBatis | mybatis | 3.0.3 | 3.3.1 |  |  |
-| [Hystrix](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/hystrix) | hystrix-core | 1.4.0 | 1.5.18 |  |  |
+| [Hystrix](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/hystrix) | hystrix-core | 1.4.0 | 1.5.18 |  |  |
 |  |  |  |  |  |  |
 | JDKHTTP |  |  |  |  |  |
 | Httpclient3 | commons-httpclient | 3.0 | 3.1 |  |  |
@@ -116,10 +116,10 @@ Pinpoint Version | Agent | Collector | Web | Flink
 | OkHttp | okhttp | 2.0.0 | 3.3.1 |  |  |
 | Apache HttpAsyncClient | httpasyncclient | 4.0 | 4.1.3 |  |  |
 | \*Akka HTTP | akka-http\_2.12 | 10.1.0 | 10.1.x |  |  |
-| \*[Kafka](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/kafka) | kafka-clients | 0.11.0.1 |  |  |  |
+| \*[Kafka](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/kafka) | kafka-clients | 0.11.0.1 |  |  |  |
 | GRPC | grpc-stub | 1.8.0 | 1.37.0 |  |  |
-| \*[Reactor](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/reactor) | reactor-core | 3.3.0 | 3.3.1 |  |  |
-| \*[Reactor Netty](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/reactor-netty) | reactor-netty | 0.8.0 | 0.9.2 |  |  |
+| \*[Reactor](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/reactor) | reactor-core | 3.3.0 | 3.3.1 |  |  |
+| \*[Reactor Netty](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/reactor-netty) | reactor-netty | 0.8.0 | 0.9.2 |  |  |
 |  |  |  |  |  |  |
 | Log4j | log4j | 1.2.16 | 1.2.17 |  |  |
 | Logback | logback-classic | 1.0.13 | 1.2.3 |  |  |
@@ -133,7 +133,7 @@ Pinpoint Version | Agent | Collector | Web | Flink
 | Jackson Databind | jackson-databind | 2.0.6 | 2.12.3 |  |  |
 | MariaDB Connector/J | mariadb-java-client | 1.3.0 | 2.7.2 |  |  |
 | MongoDB Java Driver | mongodb-driver | 3.0.0 | 3.12.8 |  |  |
-| [Elasticsearch](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/elasticsearch-bboss) | bboss-elasticsearch-rest-jdbc | 5.6.9 | 5.8.2 |  |  |
+| [Elasticsearch](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/elasticsearch-bboss) | bboss-elasticsearch-rest-jdbc | 5.6.9 | 5.8.2 |  |  |
 | Elasticsearch | elasticsearch-rest-high-level-client | 6.0.0 | 6.8.15 |  |  |
 | Datastax Java Driver | cassandra-driver-core | 2.0.10 | 3.11.0 |  |  |
 | Druid | druid | 1.0.0 | 1.2.6 |  |  |
@@ -144,17 +144,17 @@ Pinpoint Version | Agent | Collector | Web | Flink
 | \*MySQL | mysql-connector-java | 5.0 | 8.x |  |  |
 | \*Oracle JDBC Driver | ojdbc |  |  |  |  |
 | \*PostgreSQL JDBC Driver | postgresql |  |  |  |  |
-| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/redis) | jedis | 2.4.2 |  |  |  |
-| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/redis-lettuce) | lettuce-core | 5.0.0 | 5.1.2 |  |  |
-| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/redis-redisson) | redisson | 3.10.0 | 3.10.4 |  |  |
+| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/redis) | jedis | 2.4.2 |  |  |  |
+| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/redis-lettuce) | lettuce-core | 5.0.0 | 5.1.2 |  |  |
+| \*[Redis](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/redis-redisson) | redisson | 3.10.0 | 3.10.4 |  |  |
 |  |  |  |  |  |  |
 | Apache CXF | cxf-rt-rs-client | 3.0.0 | 3.4.3 |  |  |
 | Netty | netty-all | 4.1.0 | 4.1.63 |  |  |
 | ActiveMQ | activemq-all | 5.1.0 | 5.16.1 |  |  |
-| [RxJAVA](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/rxjava) | rxjava | 1.0.0 | 1.3.8 |  |  |
-| [RabbitMQ](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/rabbitmq) | amqp-client | 2.7.0 | 5.12.0 |  |  |
-| [Paho MQTT](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/paho-mqtt) | org.eclipse.paho.client.mqttv3 | 1.0.2 | 1.2.5 |  |  |
-| [Paho MQTT](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/paho-mqtt) | org.eclipse.paho.mqttv5.client | 1.2.5 | 1.2.5 |  |  |
+| [RxJAVA](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/rxjava) | rxjava | 1.0.0 | 1.3.8 |  |  |
+| [RabbitMQ](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/rabbitmq) | amqp-client | 2.7.0 | 5.12.0 |  |  |
+| [Paho MQTT](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/paho-mqtt) | org.eclipse.paho.client.mqttv3 | 1.0.2 | 1.2.5 |  |  |
+| [Paho MQTT](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/paho-mqtt) | org.eclipse.paho.mqttv5.client | 1.2.5 | 1.2.5 |  |  |
 |  |  |  |  |  |  |
 | Gson | gson | 1.1 | 2.8.3 |  |  |
 | Json | json-lib | 1.0 | 2.2.2 |  |  |
