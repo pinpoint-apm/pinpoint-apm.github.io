@@ -68,7 +68,7 @@ const githubs = {
                 return (await MarkdownContents.makeMarkdownContentsFromPinpointReadme(filename)).contents
         }
     },
-    keys: ['latestReleaseNotes.md', 'compatibilityHbase.md', 'compatibilityJava.md', 'compatibilityPinpoint.md']
+    keys: ['latestReleaseNotes.md', 'compatibilityHbase.md', 'compatibilityJava.md', 'compatibilityPinpoint.md', 'compatibilityFlink.md', 'compatibilityPinot.md']
 }
 
 module.exports = TemplateEngine
