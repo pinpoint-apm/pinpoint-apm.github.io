@@ -56,7 +56,11 @@ Enables detailed analysis of exception data collected by the agent.
 
 
 
+
+
 ![error_analysis_1](<./.gitbook/assets/error_analysis_01.png>)
+
+
 
 
 
