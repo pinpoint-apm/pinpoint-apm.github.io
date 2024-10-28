@@ -1,3 +1,99 @@
+// This file is auto-generated! Do not modify it directly.
+/* eslint-disable @typescript-eslint/consistent-type-imports, @typescript-eslint/no-redundant-type-constituents */
+import * as _babel_types from '@babel/types';
+
+type BABEL_8_BREAKING = false;
+type IF_BABEL_7<V> = false extends BABEL_8_BREAKING ? V : never;
+
+type Plugin =
+  | "asyncDoExpressions"
+  | IF_BABEL_7<"asyncGenerators">
+  | IF_BABEL_7<"bigInt">
+  | IF_BABEL_7<"classPrivateMethods">
+  | IF_BABEL_7<"classPrivateProperties">
+  | IF_BABEL_7<"classProperties">
+  | IF_BABEL_7<"classStaticBlock">
+  | IF_BABEL_7<"decimal">
+  | "decorators-legacy"
+  | "deferredImportEvaluation"
+  | "decoratorAutoAccessors"
+  | "destructuringPrivate"
+  | "deprecatedImportAssert"
+  | "doExpressions"
+  | IF_BABEL_7<"dynamicImport">
+  | "explicitResourceManagement"
+  | "exportDefaultFrom"
+  | IF_BABEL_7<"exportNamespaceFrom">
+  | "flow"
+  | "flowComments"
+  | "functionBind"
+  | "functionSent"
+  | "importMeta"
+  | "jsx"
+  | IF_BABEL_7<"jsonStrings">
+  | IF_BABEL_7<"logicalAssignment">
+  | IF_BABEL_7<"importAssertions">
+  | IF_BABEL_7<"importReflection">
+  | "moduleBlocks"
+  | IF_BABEL_7<"moduleStringNames">
+  | IF_BABEL_7<"nullishCoalescingOperator">
+  | IF_BABEL_7<"numericSeparator">
+  | IF_BABEL_7<"objectRestSpread">
+  | IF_BABEL_7<"optionalCatchBinding">
+  | IF_BABEL_7<"optionalChaining">
+  | "partialApplication"
+  | "placeholders"
+  | IF_BABEL_7<"privateIn">
+  | IF_BABEL_7<"regexpUnicodeSets">
+  | "sourcePhaseImports"
+  | "throwExpressions"
+  | IF_BABEL_7<"topLevelAwait">
+  | "v8intrinsic"
+  | ParserPluginWithOptions[0];
+
+type ParserPluginWithOptions =
+  | ["decorators", DecoratorsPluginOptions]
+  | ["estree", { classFeatures?: boolean }]
+  | IF_BABEL_7<["importAttributes", { deprecatedAssertSyntax: boolean }]>
+  | IF_BABEL_7<["moduleAttributes", { version: "may-2020" }]>
+  | ["optionalChainingAssign", { version: "2023-07" }]
+  | ["pipelineOperator", PipelineOperatorPluginOptions]
+  | ["recordAndTuple", RecordAndTuplePluginOptions]
+  | ["flow", FlowPluginOptions]
+  | ["typescript", TypeScriptPluginOptions];
+
+type PluginConfig = Plugin | ParserPluginWithOptions;
+
+interface DecoratorsPluginOptions {
+  decoratorsBeforeExport?: boolean;
+  allowCallParenthesized?: boolean;
+}
+
+interface PipelineOperatorPluginOptions {
+  proposal: BABEL_8_BREAKING extends false
+    ? "minimal" | "fsharp" | "hack" | "smart"
+    : "fsharp" | "hack";
+  topicToken?: "%" | "#" | "@@" | "^^" | "^";
+}
+
+interface RecordAndTuplePluginOptions {
+  syntaxType: "bar" | "hash";
+}
+
+type FlowPluginOptions = BABEL_8_BREAKING extends true
+  ? {
+      all?: boolean;
+      enums?: boolean;
+    }
+  : {
+      all?: boolean;
+    };
+
+interface TypeScriptPluginOptions {
+  dts?: boolean;
+  disallowAmbiguousJSXLike?: boolean;
+}
+
 // Type definitions for @babel/parser
 // Project: https://github.com/babel/babel/tree/main/packages/babel-parser
 // Definitions by: Troy Gerwien <https://github.com/yortus>
@@ -8,20 +104,20 @@
 /**
  * Parse the provided code as an entire ECMAScript program.
  */
-export function parse(
+declare function parse(
   input: string,
   options?: ParserOptions
-): ParseResult<import("@babel/types").File>;
+): ParseResult<_babel_types.File>;
 
 /**
  * Parse the provided code as a single expression.
  */
-export function parseExpression(
+declare function parseExpression(
   input: string,
   options?: ParserOptions
-): ParseResult<import("@babel/types").Expression>;
+): ParseResult<_babel_types.Expression>;
 
-export interface ParserOptions {
+interface ParserOptions {
   /**
    * By default, import and export declarations can only appear at a program's top level.
    * Setting this option to true allows them anywhere where a statement is allowed.
@@ -40,6 +136,12 @@ export interface ParserOptions {
    */
   allowReturnOutsideFunction?: boolean;
 
+  /**
+   * By default, new.target use is not allowed outside of a function or class.
+   * Set this to true to accept such code.
+   */
+  allowNewTargetOutsideFunction?: boolean;
+
   allowSuperOutsideMethod?: boolean;
 
   /**
@@ -47,6 +149,12 @@ export interface ParserOptions {
    * Set this to true to allow export statements to reference undeclared variables.
    */
   allowUndeclaredExports?: boolean;
+
+  /**
+   * By default, Babel parser JavaScript code according to Annex B syntax.
+   * Set this to `false` to disable such behavior.
+   */
+  annexB?: boolean;
 
   /**
    * By default, Babel attaches comments to adjacent AST nodes.
@@ -82,11 +190,25 @@ export interface ParserOptions {
   sourceFilename?: string;
 
   /**
+   * By default, all source indexes start from 0.
+   * You can provide a start index to alternatively start with.
+   * Useful for integration with other source tools.
+   */
+  startIndex?: number;
+
+  /**
    * By default, the first line of code parsed is treated as line 1.
    * You can provide a line number to alternatively start with.
    * Useful for integration with other source tools.
    */
   startLine?: number;
+
+  /**
+   * By default, the parsed code is treated as if it starts from line 1, column 0.
+   * You can provide a column number to alternatively start with.
+   * Useful for integration with other source tools.
+   */
+  startColumn?: number;
 
   /**
    * Array containing the plugins that you want to enable.
@@ -116,83 +238,24 @@ export interface ParserOptions {
    * AST nodes instead of using the `extra` property.
    */
   createParenthesizedExpressions?: boolean;
+
+  /**
+   * The default is false in Babel 7 and true in Babel 8
+   * Set this to true to parse it as an `ImportExpression` node.
+   * Otherwise `import(foo)` is parsed as `CallExpression(Import, [Identifier(foo)])`.
+   */
+  createImportExpressions?: boolean;
 }
 
-export type ParserPlugin =
-  | "asyncDoExpressions"
-  | "asyncGenerators"
-  | "bigInt"
-  | "classPrivateMethods"
-  | "classPrivateProperties"
-  | "classProperties"
-  | "classStaticBlock"
-  | "decimal"
-  | "decorators"
-  | "decorators-legacy"
-  | "doExpressions"
-  | "dynamicImport"
-  | "estree"
-  | "exportDefaultFrom"
-  | "exportNamespaceFrom" // deprecated
-  | "flow"
-  | "flowComments"
-  | "functionBind"
-  | "functionSent"
-  | "importMeta"
-  | "jsx"
-  | "logicalAssignment"
-  | "importAssertions"
-  | "moduleBlocks"
-  | "moduleStringNames"
-  | "nullishCoalescingOperator"
-  | "numericSeparator"
-  | "objectRestSpread"
-  | "optionalCatchBinding"
-  | "optionalChaining"
-  | "partialApplication"
-  | "pipelineOperator"
-  | "placeholders"
-  | "privateIn" // Enabled by default
-  | "throwExpressions"
-  | "topLevelAwait"
-  | "typescript"
-  | "v8intrinsic"
-  | ParserPluginWithOptions;
+type ParserPlugin = PluginConfig;
 
-export type ParserPluginWithOptions =
-  | ["decorators", DecoratorsPluginOptions]
-  | ["pipelineOperator", PipelineOperatorPluginOptions]
-  | ["recordAndTuple", RecordAndTuplePluginOptions]
-  | ["flow", FlowPluginOptions]
-  | ["typescript", TypeScriptPluginOptions];
 
-export interface DecoratorsPluginOptions {
-  decoratorsBeforeExport?: boolean;
-}
-
-export interface PipelineOperatorPluginOptions {
-  proposal: "minimal" | "fsharp" | "hack" | "smart";
-  topicToken?: "%" | "#";
-}
-
-export interface RecordAndTuplePluginOptions {
-  syntaxType: "bar" | "hash";
-}
-
-export interface FlowPluginOptions {
-  all?: boolean;
-}
-
-export interface TypeScriptPluginOptions {
-  dts?: boolean;
-}
-
-export const tokTypes: {
+declare const tokTypes: {
   // todo(flow->ts) real token type
   [name: string]: any;
 };
 
-export interface ParseError {
+interface ParseError {
   code: string;
   reasonCode: string;
 }
@@ -200,3 +263,5 @@ export interface ParseError {
 type ParseResult<Result> = Result & {
   errors: ParseError[];
 };
+
+export { DecoratorsPluginOptions, FlowPluginOptions, ParseError, ParseResult, ParserOptions, ParserPlugin, ParserPluginWithOptions, PipelineOperatorPluginOptions, RecordAndTuplePluginOptions, TypeScriptPluginOptions, parse, parseExpression, tokTypes };
