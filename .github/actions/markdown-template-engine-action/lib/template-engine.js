@@ -6,19 +6,17 @@
 
 'use strict'
 const core = require('@actions/core')
-const github = require('@actions/github')
-const fs = require("fs-extra")
-const axios = require('axios')
 const MarkdownContents = require('./markdown-contents')
 const ReleaseNotes = require('./release-notes')
 
 class TemplateEngine {
     constructor(template) {
         this.template = template
+        this.tagExpression = /<!--\s<(?!\/)(?<markdownfile>.*.md)>\s-->[\n\r]/gm 
     }
 
     async markdownContent(githubRelease) {
-        let tagExpression = /<!--\s<(?!\/)(?<markdownfile>.*.md)>\s-->\n/gm
+        let tagExpression = /<!--\s<(?!\/)(?<markdownfile>.*.md)>\s-->[\n\r]/gm
         let tag
         let result = this.template
         while ((tag = tagExpression.exec(this.template)) !== null) {
@@ -26,17 +24,7 @@ class TemplateEngine {
             if (!markdownFile) {
                 return
             }
-            result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->\\n[\\s\\S]*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
-        }
-
-        let imageRegex = /(?<image>!\[.*]\([^)]*\))/gm
-        let imageMatch
-        while ((imageMatch = imageRegex.exec(result)) !== null) {
-            if (imageMatch.index === imageRegex.lastIndex) {
-                imageRegex.lastIndex++;
-            }
-
-            result = result.replace(imageMatch[1], `\n\n${imageMatch[1]}\n\n`)
+            result = result.replace(RegExp(`<!--\\s<${tag[1]}>\\s-->[\\n\\r][\\s\\S]*<!--\\s<\\/${tag[1]}>\\s-->`, 'm'), `<!-- <${tag[1]}> -->\n${markdownFile}\n<!-- </${tag[1]}> -->`)
         }
 
         let brRegex = /^(?<br>\<br\>)(?<text>\s{1,2}\S+)/gm

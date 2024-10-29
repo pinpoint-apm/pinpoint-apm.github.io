@@ -29,11 +29,14 @@ const run = async () => {
     const template = await fs.readFile(templateMarkdownFile, 'utf8')
 
     const templateVersion = ReleaseNotes.makeOfMarkdownContents(template).getVersionWithV()
+    core.info(`templateVersion: ${templateVersion}`)
 
     let githubRelease = await GithubRelease.make()
+    core.info(`githubRelease by GithubRelease.make(): ${githubRelease}`)
     if (!githubRelease) {
       githubRelease = await GithubRelease.makeByLatestGithubReleaseNotes()
     }
+
     let engine = new TemplateEngine(template)
     const email = githubRelease.getAuthorEmail()
     const authorName = githubRelease.getAuthorName()
@@ -44,7 +47,7 @@ const run = async () => {
     if (markdownContent && disableChanges.length == 0) {
       fs.outputFileSync(templateMarkdownFile, markdownContent)
     }
-    core.setOutput('markdown', markdownContent)
+    core.info(`markdownContent ${markdownContent}`)
 
     core.info('Checking for changes')
     const changedFiles = (await git.diffSummary()).files.length

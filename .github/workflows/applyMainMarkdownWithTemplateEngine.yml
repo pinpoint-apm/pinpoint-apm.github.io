@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: echo "Print all environment variables"
-    - run: env
     - name: Update main.md by Markdown template engin
       uses: ./.github/actions/markdown-template-engine-action
       with:
         template_markdown_file: ./main.md
         section_github_path: pinpoint-apm/pinpoint
+      env:
+        ACTIONS_STEP_DEBUG: true

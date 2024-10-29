@@ -9,6 +9,9 @@
 const test = require('tape')
 const MarkdownContents = require('../lib/markdown-contents')
 const ReleaseNotes = require('../lib/release-notes')
+const GithubRelease = require('../lib/github-release')
+const fs = require("fs-extra")
+const TemplateEngine = require('../lib/template-engine')
 
 test('tagname check with "v"', async (t) => {
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
@@ -307,5 +310,17 @@ test('tagname check without "v"', async (t) => {
     const actual = ReleaseNotes.makeOfMarkdownContents(main_md)
     t.equal(actual.getVersion(), '2.3.0', 'parsing version matcher')
     t.equal(actual.getVersionWithV(), 'v2.3.0', 'parsing version with v matcher')
+    t.end()
+})
+
+test('github latest release notes', async (t) => {
+    const actualLatestReleaseNotes = await GithubRelease.makeByLatestGithubReleaseNotes()
+    MarkdownContents.setPinpointReadmeGithubPath('pinpoint-apm/pinpoint')
+    const actualTemplate = await fs.readFile('./main.md', 'utf8')
+    const engine = new TemplateEngine(actualTemplate)
+    const actualMarkdownContent = await engine.markdownContent(actualLatestReleaseNotes)
+    const expectedLatestReleaseNotes = await engine.markdownContentFromGithub('latestReleaseNotes.md', actualLatestReleaseNotes)
+    t.deepEqual(/latestReleaseNotes.md>\s-->[\n\r]([\s\S]+)\n<!--\s<\/latestReleaseNotes.md>\s/gm.exec(actualMarkdownContent)[1],
+        expectedLatestReleaseNotes, 'markdown content from github')
     t.end()
 })
