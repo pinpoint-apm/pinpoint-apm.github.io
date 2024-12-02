@@ -41,7 +41,7 @@ Pinpoint Error Analysis requires [CLP (Compressed Log Processor)](https://docs.p
 Create the following table in Pinot:
 - `exceptionTrace`
 
-Refer to the [table schema file](https://github.com/pinpoint-apm/pinpoint/tree/master/exceptiontrace/exceptiontrace-common/src/main/pinot) for details on creating the table.
+Refer to the [table schema file](https://github.com/pinpoint-apm/pinpoint/tree/v3.0.0/exceptiontrace/exceptiontrace-common/src/main/pinot) for details on creating the table.
 
 ## 1.3. Pinpoint Agent Configuration
 
@@ -91,6 +91,7 @@ In addition to setting the addresses for Pinot and Kafka and enabling metric col
 The web configuration is essentially the same as for system metrics. Refer to the [Pinpoint Metric Web](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-web) documentation for detailed setup instructions.
 
 Additionally, ensure that `pinpoint.modules.web.exceptiontrace.enabled=true` is set to enable reading exception data. **Default**: `true`
+Add `-Dpinpoint.modules.web.exceptionTrace.table=exceptionTrace` option when you run the web application.
 
 For Error Analysis, the following setting is added to `pinpoint-web-metric.properties` to control whether the Error Analysis item is displayed in the side menu. **Default**: `true`
 ```config
@@ -133,7 +134,8 @@ $ bin/kafka-topics.sh --create --topic exception-trace --bootstrap-server ${YOUR
 ### 1.2.2. 피노 Pinot 테이블 스키마 및 테이블 생성
 피노 Pinot 에 다음 테이블을 새로 생성한다.
 - `exceptionTrace`
-[테이블 생성 스키마 파일](https://github.com/pinpoint-apm/pinpoint/tree/master/exceptiontrace/exceptiontrace-common/src/main/pinot)의 테이블 정보를 참고하여 생성한다.
+
+[테이블 생성 스키마 파일](https://github.com/pinpoint-apm/pinpoint/tree/v3.0.0/exceptiontrace/exceptiontrace-common/src/main/pinot)의 테이블 정보를 참고하여 생성한다.
 
 ## 1.3 핀포인트 에이전트 설정
 
@@ -190,6 +192,7 @@ web 설정은 기본적으로 system metric 와 동일하다.
 이에 추가적으로
 `pinpoint.modules.web.exceptiontrace.enabled=true`
 로 되어있어야 exception 데이터를 읽어온다. **기본값** `true`
+또한, 웹을 실행할 때 `-Dpinpoint.modules.web.exceptionTrace.table=exceptionTrace` 옵션을 추가하여 실행해야 한다.
 
 위 설정 외에 Error Analysis 를 위해 pinpoint-web-metric.properties에 아래 설정값이 추가되었다:
 이 설정은 좌측 사이드 메뉴에서 Error Analysis 항목을 노출시킬지 결정한다.
