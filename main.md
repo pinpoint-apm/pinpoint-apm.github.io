@@ -101,7 +101,7 @@ Pinpoint Version | Agent | Collector | Web | Flink
 | Spring RabbitMQ | spring-rabbit | 1.3.3 | 2.2.16 |  |  |
 | Spring IBatis | spring-ibatis | 2.0.7 | 2.0.8 |  |  |
 | Spring MyBatis | mybatis-spring | 1.1.0 | 1.3.3 |  |  |
-| \*[Spring Boot](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/spring-boot) | spring-boot-autoconfigure |  |  |  |  |
+| \*[Spring Boot](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/spring-boot) | spring-boot-autoconfigure |  | 2.X |  |  |
 | \*[Spring Webflux](https://github.com/pinpoint-apm/pinpoint/tree/v2.3.3/plugins/spring-webflux) | spring-webflux |  |  |  |  |
 |  |  |  |  |  |  |
 | MyBatis | mybatis | 3.0.3 | 3.3.1 |  |  |
