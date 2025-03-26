@@ -119,15 +119,15 @@ Telegraf collects below metrics information on the host machine:
 
 - Install Telegraf according to this [installation guide](https://docs.influxdata.com/telegraf/v1.21/introduction/installation/).
 - Add below configuration to `telegraf.conf` file to send collected metrics to Pinpoint collector via http.
-
-  ```
+  - **Note**: Starting from Pinpoint v3.0.2, the metric port has been changed from `15200` to `9995`.
+  - ```
               [[outputs.http]]
-                url = "http://{PINPOINT_COLLECTOR_IP}:15200/telegraf"
+                url = "http://{PINPOINT_COLLECTOR_IP}:9995/telegraf"
                  
                  [outputs.http.headers]
                  hostGroupName = {applicationName}
                  Content-Type = "application/json"  
-  ```
+    ```
   - `url`: substitute `{PINPOINT_COLLECTOR_IP}` to your Pinpoint collector address so that telegraf can send collected metrics to Pinpoint collector
   - `hostGroupName`: this value will be used as the key in Pinpoint web when querying the metrics details. It is recommended to use your applicationName already used in Pinpoint.
 
@@ -280,15 +280,15 @@ telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
 - telegraf agent가 http 프로토콜로 collector에 데이터를 전달할 수 있도록 설정파일을 수정 해야한다.
   - telegraf.conf 설정 방법
     - http 프로토콜로 데이터를 전달수 있도록 output http plugin 아래 설정을 추가한다.
-    - ```
+      - **참고**: Pinpoint v3.0.2부터 메트릭 포트가 `15200`에서 `9995`로 변경되었습니다.
+      - ```
                 [[outputs.http]]
-                  url = "http://{PINPOINT_COLLECTOR_IP}:15200/telegraf"
+                  url = "http://{PINPOINT_COLLECTOR_IP}:9995/telegraf"
                    
                    [outputs.http.headers]
                    hostGroupName = {applicationName}
                    Content-Type = "application/json"
-                ```
-
+        ```
     - `url`: {PINPOINT_COLLECTOR_IP} 자리에 데이터를 수집하는 collector의 주소를 설정한다.
     - `outputs.http.headers`은 서버 그룹의 key와 Content-Type을 설정한다.
       -  `hostGroupName`: {applicationName}에 설정한 값을 key로 pinpoint-web에서 데이터를 조회할 수 있다. 핀포인트를 이미 사용 중이라면 application을 추적할 때 agent 설정 값으로 사용했던 applicationName을 사용하는 것을 추천한다.
