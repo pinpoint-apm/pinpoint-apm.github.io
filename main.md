@@ -1,60 +1,42 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v3.0.2
-## Key Features
-### Removal of Comments in SQL Queries
-- issue: #12061.
-- Comments are no longer collected with the SQL queries by default.
-In case you need them, please use the configuration below.
-```properties
-profiler.jdbc.removecomments=false
-```
-
+# What's New in v3.0.3
 ## New Plugins
-* Update Update io.asyncer:r2dbc-mysql of spring r2dbc plugin #12077
-* Update kafka plugin for compatibility with kafka 3.x version #11926
-* Update reactor subscriber.subscribeOn #12079
+  * Add S3(Simple Storage Service) client plugin #12457
+  * Update the entry point for kafka stream #12378
+  * Update kafka plugin for compatibility with kafka 4.x #12376
+  * Update spring kafka container entry point of kafka plugin #12218
+  * Update forwarding server call tracking in grpc plugin #12564
+
 ## BugFix
-* Fix java.lang.NoClassDefFoundError: java/sql/Date in spring data r2dbc plugin #12117
-* Fix datetime/time columns config for Ingestion Aggregations #12180
-* Fix missing dependency of pinpoint-batch #11984
+  * Fix NPE of elasticsearch plugin #12413
 
 ---
+
 **From version 3.x, the executable JAR files will be uploaded to Maven Central Repository.**
 https://repo1.maven.org/maven2/com/navercorp/pinpoint/
 
-- [pinpoint-agent-3.0.2.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.2/pinpoint-agent-3.0.2.tar.gz)
-- [pinpoint-batch-3.0.2-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.2/pinpoint-batch-3.0.2-exec.jar)
-- [pinpoint-collector-3.0.2-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.2/pinpoint-collector-3.0.2-exec.jar)
-- [pinpoint-collector-starter-3.0.2-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.2/pinpoint-collector-starter-3.0.2-exec.jar)
-- [pinpoint-web-3.0.2-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.2/pinpoint-web-3.0.2-exec.jar)
-- [pinpoint-web-starter-3.0.2-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.2/pinpoint-web-starter-3.0.2-exec.jar)
-
----
+- [pinpoint-agent-3.0.3.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.3/pinpoint-agent-3.0.3.tar.gz)
+- [pinpoint-batch-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.3/pinpoint-batch-3.0.3-exec.jar)
+- [pinpoint-collector-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.3/pinpoint-collector-3.0.3-exec.jar)
+- [pinpoint-collector-starter-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.3/pinpoint-collector-starter-3.0.3-exec.jar)
+- [pinpoint-web-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.3/pinpoint-web-3.0.3-exec.jar)
+- [pinpoint-web-starter-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.3/pinpoint-web-starter-3.0.3-exec.jar)
 
 
 ## What's Changed
-* [#11604] Prepare 3.0.2-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11605
-* [#noissue] Bump actions/setup-java@v3 to actions/setup-java@v4 by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11618
-* [#noissue] Run actions on 3.0.x branch by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11646
-* [#11807] Backport: Fix reactor-plugin empty mono and flux by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/11808
-* [#noissue] release 3.0.2-alpha1 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/11838
-* [#11604] Prepare 3.0.2-SNAPSHOT by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11863
-* [#11854] Backport: fix possible NPE in ServerTransportFilter by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11862
-* [#11926] Backport: Update kafka plugin for compatibility with kafka 3… by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/11927
-* [#11984] Backport: Add missing dependency by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11985
-* [#12073] Backport: Update matchable transform list by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12074
-* [#12075] Backport: Add async nested of reactor plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12076
-* [#12077] Backport: Update io.asyncer:r2dbc-mysql of spring r2dbc plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12078
-* [#12079] Update reactor subscriber.subscribeOn by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12083
-* [#noissue] release 3.0.2-alpha2 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12086
-* [#noissue] rename 3.0.2-SNAPSHOT by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12087
-* [#12117] Backport: Fix java.lang.NoClassDefFoundError: java/sql/Date … by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12118
-* [#12061] Backport: Remove comments from SQL queries by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12127
-* [#12180] Backport: Fix datetime/time columns config for Ingestion Aggregations by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12181
-* [#12179] 3.0.2 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12183
+* [#12179] Prepare 3.0.3-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12184
+* [#12218] Backport: Update spring kafka container entry point of kafka… by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12219
+* [#12220] Backport: Bump ASM from 9.6 to 9.7.1 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12224
+* [#12376] Backport: Update kafka plugin for compatibility with kafka 4.x by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12377
+* [#12378] Backport: Update the entry point for kafka stream by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12380
+* [#12413] Backport: Fix NPE of elasticsearch plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12414
+* [#12457] Backport: Add S3(Simple Storage Service) client plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12458
+* [#12457] Backport: Update s3 client error mark by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12486
+* [#12564] Backport: Update forwarding server call tracking in grpc plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12565
+* [#12559] 3.0.3 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12566
 
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.1...v3.0.2
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.2...v3.0.3
 
 <!-- </latestReleaseNotes.md> -->
 
