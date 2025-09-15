@@ -405,9 +405,9 @@ Start up Tomcat to start profiling your web application.
 
 Some application servers require additional configuration and/or may have caveats. Please take a look at the links below for further details.
 
-* [JBoss](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/jboss#pinpoint-jboss-plugin-configuration)
-* [Jetty](https://github.com/pinpoint-apm/pinpoint/blob/master/plugins/jetty/README.md)
-* [Resin](https://github.com/pinpoint-apm/pinpoint/tree/master/plugins/resin#pinpoint-resin-plugin-configuration)
+* [JBoss](https://github.com/pinpoint-apm/pinpoint/blob/master/agent-module/plugins/jboss/README.md)
+* [Jetty](https://github.com/pinpoint-apm/pinpoint/blob/master/agent-module/plugins/jetty/README.md)
+* [Other Application Servers](https://github.com/pinpoint-apm/pinpoint/tree/master/agent-module/plugins)
 
 ### Configuration
 
