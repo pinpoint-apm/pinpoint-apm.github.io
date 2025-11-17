@@ -1,42 +1,26 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v3.0.3
-## New Plugins
-  * Add S3(Simple Storage Service) client plugin #12457
-  * Update the entry point for kafka stream #12378
-  * Update kafka plugin for compatibility with kafka 4.x #12376
-  * Update spring kafka container entry point of kafka plugin #12218
-  * Update forwarding server call tracking in grpc plugin #12564
-
-## BugFix
-  * Fix NPE of elasticsearch plugin #12413
-
----
-
-**From version 3.x, the executable JAR files will be uploaded to Maven Central Repository.**
-https://repo1.maven.org/maven2/com/navercorp/pinpoint/
-
-- [pinpoint-agent-3.0.3.tar.gz](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-agent/3.0.3/pinpoint-agent-3.0.3.tar.gz)
-- [pinpoint-batch-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-batch/3.0.3/pinpoint-batch-3.0.3-exec.jar)
-- [pinpoint-collector-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector/3.0.3/pinpoint-collector-3.0.3-exec.jar)
-- [pinpoint-collector-starter-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-collector-starter/3.0.3/pinpoint-collector-starter-3.0.3-exec.jar)
-- [pinpoint-web-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web/3.0.3/pinpoint-web-3.0.3-exec.jar)
-- [pinpoint-web-starter-3.0.3-exec.jar](https://repo1.maven.org/maven2/com/navercorp/pinpoint/pinpoint-web-starter/3.0.3/pinpoint-web-starter-3.0.3-exec.jar)
-
+# What's New in v3.0.4
+## New Features
+Supports Java 25
 
 ## What's Changed
-* [#12179] Prepare 3.0.3-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12184
-* [#12218] Backport: Update spring kafka container entry point of kafka… by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12219
-* [#12220] Backport: Bump ASM from 9.6 to 9.7.1 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12224
-* [#12376] Backport: Update kafka plugin for compatibility with kafka 4.x by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12377
-* [#12378] Backport: Update the entry point for kafka stream by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12380
-* [#12413] Backport: Fix NPE of elasticsearch plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12414
-* [#12457] Backport: Add S3(Simple Storage Service) client plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12458
-* [#12457] Backport: Update s3 client error mark by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12486
-* [#12564] Backport: Update forwarding server call tracking in grpc plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12565
-* [#12559] 3.0.3 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12566
+* [#12559] Prepare 3.0.4-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12568
+* [#12657] Backport: Update mono runnable interceptor of reactor pulgin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12658
+* [#noissue] 3.0.4-alpha1 release by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12659
+* [#noissue] rollback 3.0.4-alpha1 release by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12661
+* [#12664] Backport: Fix nested jar loading of instrument class scanner by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12665
+* [#12667] Backport: Fix kafka plugin streams interceptor by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12668
+* [#12905] Backport: Update agent "not matched stack id" error log by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12906
+* [#12919] Backport: Fix agent NPE in annotation value mapper by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12947
+* [#12966] Backport: Remove validation annotations from high-frequency collector methods to fix performance regression by @Copilot in https://github.com/pinpoint-apm/pinpoint/pull/12967
+* [#12948] Backport: Bump asm from 9.7.1 to 9.8 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12949
+* [#12986] Backport : Introducing jitter-based scheduling for LinkScheduler by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12988
+* [#13030] Backport: Bump spring-security by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13042
+* [#13033] Backport: Bump ASM from 9.8 to 9.9 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13043
+* [#13054] 3.0.4 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13055
 
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.2...v3.0.3
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.3...v3.0.4
 
 <!-- </latestReleaseNotes.md> -->
 
