@@ -1,7 +1,15 @@
 <!-- <latestReleaseNotes.md> -->
 # What's New in v3.0.4
-## New Features
-Supports Java 25
+## Improvements
+* **[Agent]** Enhanced Reactor tracing
+* **[Agent]** Added support for nested JAR file systems used in Spring Boot
+* **[Agent]** Added Kafka Streams support
+  `-Dprofiler.kafka-streams.trace.process=true`
+* **[Agent]** Added support for Java 26
+* **[Collector]** Improved CPU usage
+
+## Bug Fixes
+* **[Agent]** Fixed an issue where annotation values were not sent to the collector when the value was null
 
 ## What's Changed
 * [#12559] Prepare 3.0.4-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12568
