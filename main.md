@@ -1,34 +1,17 @@
 <!-- <latestReleaseNotes.md> -->
-# What's New in v3.0.4
-## Improvements
-* **[Agent]** Enhanced Reactor tracing
-* **[Agent]** Added support for nested JAR file systems used in Spring Boot
-* **[Agent]** Added Kafka Streams support
-  `-Dprofiler.kafka-streams.trace.process=true`
-* **[Agent]** Added support for Java 26
-* **[Collector]** Improved CPU usage
-
-## Bug Fixes
-* **[Agent]** Fixed an issue where annotation values were not sent to the collector when the value was null
-
+# What's New in v3.0.5
 ## What's Changed
-* [#12559] Prepare 3.0.4-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12568
-* [#12657] Backport: Update mono runnable interceptor of reactor pulgin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12658
-* [#noissue] 3.0.4-alpha1 release by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12659
-* [#noissue] rollback 3.0.4-alpha1 release by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12661
-* [#12664] Backport: Fix nested jar loading of instrument class scanner by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12665
-* [#12667] Backport: Fix kafka plugin streams interceptor by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12668
-* [#12905] Backport: Update agent "not matched stack id" error log by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12906
-* [#12919] Backport: Fix agent NPE in annotation value mapper by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12947
-* [#12966] Backport: Remove validation annotations from high-frequency collector methods to fix performance regression by @Copilot in https://github.com/pinpoint-apm/pinpoint/pull/12967
-* [#12948] Backport: Bump asm from 9.7.1 to 9.8 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12949
-* [#12986] Backport : Introducing jitter-based scheduling for LinkScheduler by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12988
-* [#13030] Backport: Bump spring-security by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13042
-* [#13033] Backport: Bump ASM from 9.8 to 9.9 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13043
-* [#13054] 3.0.4 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13055
+* [#13054] Migrate to Central Portal Publisher by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13111
+* [#13054] Prepare 3.0.5-SNAPSHOT by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13113
+* [#13275] Backport: Update agent interceptable target by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13276
+* [#13355] Backport: Update s3 http auth header by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13356
+* [#13483] Backport: Fix grpc-plugin ServerStreamGetter by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13484
+* [#13496] Backport: Update agent grpcSpanSender state init by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13498
+* [#13511] Backport: Update to reduce the occurrence of span events rel… by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/13513
+* [#13546] 3.0.5 release by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13548
 
 
-**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.3...v3.0.4
+**Full Changelog**: https://github.com/pinpoint-apm/pinpoint/compare/v3.0.4...v3.0.5
 
 <!-- </latestReleaseNotes.md> -->
 
