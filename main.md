@@ -77,6 +77,18 @@
   profiler.jdbc.sqlcacheexpirehours=168
   ```
 
+  ### TraceIndex — Scatter Chart and Transaction List Performance Improvements
+
+  Scatter Chart and Transaction List now use the new `TraceIndex` table for transaction lookup and filtering.
+
+  **Impact**: Faster scatter chart loading, improved filtering efficiency for large transaction volumes, and support for longer `applicationName` values.
+
+  ### Application and Agent List Performance Improvements
+
+  Application List and Agent List now use the new `Application` and `AgentId` tables with optimized lookup and active agent validation.
+
+  **Impact**: Faster application and agent list queries with reduced backend processing overhead.
+
   ### System Metric — Multi-table Mode
   
   System Metric now supports **multi-table mode** for improved performance and scalability in large environments.
@@ -172,7 +184,6 @@
 * [#noissue] Remove unnecessary pinpoint-pugins-test-utils by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11707
 * If it is today's date, it shows the seconds. by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11712
 * [#noissue] Generalize CachingSqlNormalizer by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11711
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11713
 * [#noissue] Optimize hashing by reusing hasher instance by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11715
 * [#10776] Returns whether the OtlpMetric menu is visible. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/11717
 * [#7680] Check isWithinFiveMinutes by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11714
@@ -180,7 +191,6 @@
 * [#11503] Delegate cache creation to SimpleCacheFactory by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11716
 * [#11705] Improve compatibility of Junit with It tests by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11719
 * [#noissue] Fix agent management list by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/11720
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11327
 * [#7693] OpenTelemetry > Change url from /openTelemetry to /openTeleme… by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11721
 * [#noissue] fix: datepicker's maxrange validation by @BillionaireDY in https://github.com/pinpoint-apm/pinpoint/pull/11722
 * [#noissue] Remove deprecated PLogger API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11725
@@ -190,7 +200,6 @@
 * [#7674] Update billboard.js to 3.14.0 by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11731
 * [#noissue] Fix deprecated API by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11732
 * [#10776] Use the SamplingInterval value as the minimum time slotwhen searching data. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/11723
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11733
 * [#noissue] Fix visibility of node histogram during concurrent execution by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11736
 * [#noissue] Remove Thrift serializer by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11734
 * [#noissue] Use general character to mark replaced tokens by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11735
@@ -235,7 +244,6 @@
 * [#noissue] Add permission to slashCommandDispatch by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11786
 * [#noissue] Cleanup AgentIdResolver by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11788
 * [#noissue] Apply MoreExecutors by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11789
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11790
 * [#11792] Refactor ModuleBootLoader by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11793
 * [#7758] Does not call metric data api if the metric is not inView by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11791
 * [#noissue] Cleanup PinpointStarter by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11794
@@ -271,8 +279,6 @@
 * [#11834] Extract JdbcOption from ProfilerConfig by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11835
 * [#noissue] Add suffix for hbase DistributionSummary metrics by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11840
 * [#11828] Fix incorrect name for JdbcAutoCommitConfig by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11839
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11837
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11841
 * [#11842] Support for property placeholders in ProfilerConfig.readXXX by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11843
 * [#7785] Admin > Agent Management > Show agentVersion instead of vmVer… by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11845
 * [#11828] Fix Cassandra test failures by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11846
@@ -296,13 +302,11 @@
 * [#noissue] Cleanup PluginTest by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11879
 * [#noissue] Remove deprecated logic and simplify query for clarity by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11881
 * [#noissue] Remove unnecessary Thrift SpanFactory by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11883
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11884
 * [#noissue] Use MapStruct to map query entities to models by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/11882
 * [#noissue] Cleanup PluginTest by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11886
 * Fix compilation - execution still fails by @DaGeRe in https://github.com/pinpoint-apm/pinpoint/pull/11885
 * [#noissue] Fix missing LauncherSession.close by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11888
 * [#noissue] Remove pinpoint-commons dependency of bootstrap module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11889
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11890
 * [#noissue] Fix quickstart test app by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/11891
 * [#11892] Bump springframework from 6.1.14 to 6.1.16 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11893
 * [#11894] Bump springboot from 3.3.5 to 3.3.7 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11895
@@ -336,7 +340,6 @@
 * [#11942] Bump micrometer from 1.13.2 to 1.13.9 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11943
 * [#11942] Remove micrometer-jakarta9 dependency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11945
 * [#noissue] Remove netty3 dependency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11946
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11947
 * [#11905] Add thrift dependency for pinot driver by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11948
 * [#11949] Bump mysql driver from 8.0.28 to 8.4.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11950
 * [#noissue] Add applicationName as parmeters to getAgentStatusTimeline api by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11951
@@ -357,7 +360,6 @@
 * [#noissue] Refactor TransactionId by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11952
 * [#noissue] Add missing dependency by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11984
 * [#noissue] FlameGraph > Application name info by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11986
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/11989
 * [#11982] URL stat > mini chart by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11991
 * [#11967] Skip leading space when binding values by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/11968
 * [#noissue] Handle opentelemetry getMetricData api error by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/11994
@@ -403,7 +405,6 @@
 * [#noissue] Improved Reliability of PingSession lifecycle by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12058
 * [#11992] Add ServiceId creation and deletion api by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/11993
 * [#noissue] Save last application, searchParameters to atom by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12065
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12063
 * [#12066] If empty AgentName, replace with AgentId by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12067
 * [#noissue] Remove test message by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12069
 * [#noissue] Add begin and end in ExceptionRecord by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12068
@@ -425,7 +426,6 @@
 * [#12100] Update clickhouse plugins for compatibility with 0.8.0 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12101
 * [#noissue] Fix pulsar plugin IT test by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12103
 * [#11992] Change serviceUid Type to int by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12095
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12106
 * [#12105] Apply react-resizable-panel to the sidebar in the content by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12109
 * [#11992] Optimize ServiceUid by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12110
 * [#12025] Add ServerHeader for Uid by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12104
@@ -446,7 +446,6 @@
 * [#12135] Enable configuration of period interval list for data query by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12136
 * [#12145] Replace SimpleDateFormat with DateTimeFormatter for thread safety. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12146
 * [#12138] Add block interceptor in agent by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12142
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12147
 * [#12048] Fix datetime/time columns config for Ingestion Aggregations by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12143
 * [#12064] Extract web Uid domain by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12141
 * [#noissue] Apply configuration.periodMax, periodInterval by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12148
@@ -476,7 +475,6 @@
 * [#12159] Store elapsed time directly as a column value instead of using a variable by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12177
 * [#12025] Remove deprecated getApplicationId in TransactionInfoViewModel by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12176
 * [#noissue] Improve naming conventions for ServerMap by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12175
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12178
 * [#noissue] Remove unnecessary histogramSlot check by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12182
 * [#12159] Change schema for heatmap table by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12185
 * [#12092] Refactor FeatureFlagService by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12102
@@ -485,7 +483,6 @@
 * [#noissue] Refactor Histogram by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12188
 * [#12159] Change default value for serviceName column by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12190
 * [#12092] Change type of FeatureFlagProperties from Map to List by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12186
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12191
 * [#12193] Bump ASM from 9.6 to 9.7.1 by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12194
 * [#noissue] Refactor datatype of ServiceType in Server from short to int by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12192
 * [#noissue] Remove ServiceType field from SpanChunkBo by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12196
@@ -494,14 +491,12 @@
 * [#12159] Add heatmap web feature with service and DAO layers by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12201
 * [#11906] Fix log4j2 configuration YAML by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12202
 * [#noissue] Cleanup unused code by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12197
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12204
 * [#12025] Validate applicationName and agentId using StringPrecondition by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12206
 * [#12159] Enhance heatmap data retrieval by adding min and max Y-axis parameters by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12207
 * [#noissue] Add spring kafka plugin testweb by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12203
 * [#12208] Add UnsignedByte Util by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12209
 * [#12208] Add UnsignedByte Util by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12212
 * [#12210] Add size, lastmodified, rollover-strategy-max to logging opt by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12211
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12205
 * [#12159] Refactor HeatmapChartController constructor to remove TenantProvider parameter. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12213
 * [#12159] Improve time range segmentation for elapsedTime in query by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12214
 * [#12216] Update spring kafka container entry point of kafka plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12217
@@ -523,7 +518,6 @@
 * [#12244] Add MetricCollectorProperties for configurable cache size by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12245
 * [#noissue] Simplify StatPoint creation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12233
 * [#noissue] Refactor SystemMetricPoint for improve memory efficiency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12247
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12251
 * [#noissue] Remove unused JoinStatBo by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12253
 * [#12244] Change the distribution key of the systemMetricTag table by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12248
 * [#noissue] Refactor MetricPoint for improve memory efficiency by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12255
@@ -532,7 +526,6 @@
 * [#noissue] Refactor QueryParameter by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12257
 * [#noissue] Refactor QueryParameter by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12259
 * [#noissue] Refactor AsyncQueueingUriStatStorage to use UriTransformer for improved URI handling by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12260
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12261
 * [#noisie] Improved debuggability of TimeSeriesVirtualList by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12262
 * [#12265] Update the entry point for kafka stream by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12266
 * [#noissue] Cleanup TimeWindowSampler by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12264
@@ -549,7 +542,6 @@
 * [#noissue] Cleanup TableNameManager by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12279
 * [#noissue] Refactor AgentStatService by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12278
 * [#12280] Bump hbase-client from 2.5.10 to 2.5.11 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12281
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12282
 * [#12240] Heatmap > outlink button by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12283
 * [#12159] Change sort key combination to improve query performance by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12284
 * [#12287] Bump SpotBugs from 4.7.3.6 to 4.9.3.0 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12288
@@ -594,7 +586,6 @@
 * [#12328] Heatmap > onDragend events by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12334
 * [#12159] Doubled the precision of the time slot in the chart. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12335
 * [#nouissue] Refactor timestamp handling by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12339
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12341
 * [#12342] Remove pinpoint-web-angular module by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12343
 * [#12328] Heatmap > Change drag rect style by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12344
 * [#noissue] Remove "Go to Pinpoint v2" link by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12345
@@ -626,12 +617,9 @@
 * [#noissue] Fix kafka plugin transform parameter by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12385
 * An error occurs when pressing the pause button while servermap filter is in progress by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12387
 * [#12159] Resolve anyone matching rule malfunction for tag in systemetric. by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12388
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12389
 * [#noissue] Refactor FilterMap by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12390
 * [#noissue] Refactor TransactionController by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12391
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12392
 * [#noissue] Refactor LinkView by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12393
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12395
 * [#noissue] Refactor TransactionController by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12394
 * [#noissue] Extract HistogramFormat in Link by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12398
 * [#12396] Update duplicated node in call tree by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12397
@@ -652,7 +640,6 @@
 * [#12315] Fix filteredMap merge function by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12417
 * [#12159] Change heatmap eventTime from startTime to CollectorAcceptTime by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12418
 * [#noissue] Reduced memory usage in ResponseTime by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12412
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12416
 * [#12419] Cleanup duplicate Agent field in ServerMap by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12420
 * [#noissue] Refactor ApplicationTimeHistogramBuilder by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12422
 * [#12419] Grouping Filter field in ServerMap by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12421
@@ -660,7 +647,6 @@
 * [#noissue] Fix JsonInclude import by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12425
 * Groundwork for frontend testing by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12424
 * [#noissue] Cleanup ResponseTimeResultExtractor by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12427
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12428
 * [#noissue] Refactor ApplicationResponse by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12426
 * [#12419] Fix agents field in NodeView by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12431
 * [#noissue] Add AgentResponse by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12430
@@ -684,7 +670,6 @@
 * [#12159] Enable all configurations for heatmap support by @minwoo-jung in https://github.com/pinpoint-apm/pinpoint/pull/12454
 * [#12455] Add S3(Simple Storage Service) client plugin by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12456
 * [#12195] Add new agent list using uid by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12249
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12459
 * [#12434] Change InLink stats to Application stats by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12460
 * [#12434] Optimize scanner caching by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12461
 * [#12434] Refactor HostApplicationDao by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12463
@@ -696,7 +681,6 @@
 * [#12469] Bump springframework from 6.1.16 to 6.1.20 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12471
 * [#12470] Bump springsecurity from 6.4.2 to 6.4.6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12472
 * [#12473] Bump springdata from 3.3.7 to 3.3.12 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12474
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12475
 * [#noissue] Reduced netty3 dependency for future removal by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12476
 * [#12364] Bump pinot jdbc client from 1.2.0 to 1.3.0 by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12365
 * [#12477] Bump maven-wrapper from 3.9.7 to 3.9.9 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12478
@@ -715,8 +699,6 @@
 * [#noissue] Change heatmap kafka key for distribution by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12496
 * [#noissue] Remove JsonViewUtils by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12498
 * [#noissue] Cleanup ObjectMapper by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12497
-* [#noissue] Cleanup by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12499
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12500
 * [#12434] Add Node Interpolation by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12506
 * [#12503] Do not allow the HttpClient to run in an nested by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12504
 * [#noissue] Improve boundary checking by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12507
@@ -743,7 +725,6 @@
 * [#noissue] Remove deprecated API in HeatMapService by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12539
 * [#noissue] Remove deprecated API for Histogram by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12534
 * [#12511] Add `pinpoint.metric.kafka.partitionerClass` config by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/12540
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12542
 * [#12537] Remove resin icon & add javascript icon by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12541
 * [#12543] Avoid potential conflicts in YAMLMapper by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12544
 * [#noissue] Remove javascript icon & add close to i18n by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12547
@@ -775,8 +756,6 @@
 * [#12589] Bump checkerframework to 3.49.3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12590
 * [#noissue] Fix ArrayIndexOutOfBoundsException message in BytesUtils by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12591
 * [#12592] Bump aspectjweaver from 1.9.5 to 1.9.24 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12593
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12594
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12597
 * [#12596] Add mysql service module by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12598
 * [#noissue] Activate option button even when servermap query error occurs by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12600
 * [#noissue] Remove animation to OpenTelemetryMetricChart by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12601
@@ -794,7 +773,6 @@
 * [#12623] PostgreSQL Positional Parameters by @feelform in https://github.com/pinpoint-apm/pinpoint/pull/12624
 * [#12622] Refactor SQL comment handling to unify readComment by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12627
 * [#noissue] Add missing /api prefix by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12631
-* [#noissue] Cleanup by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12628
 * [#12622] Refactor skipLine by merging with readLine by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12629
 * [#noissue] Add missing ThreadDump by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12630
 * [#noissue] utils/size.ts by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12632
@@ -812,18 +790,15 @@
 * [#12615] Fix nested jar loading of instrument class scanner by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12650
 * [#noissue] Transaction > Call Tree > Set focus by focusCallStackId by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12647
 * [#12649] Transaction List > Flame Graph async arrow by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12652
-* [#noissue] Cleanup by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12651
 * [#noissue] Change CIDR filtering library to `com.github.seancfoley:ipaddress` by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12640
 * [#12645] Optimize memory allocation for ByteHasher by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12653
 * [#noissue] Separate new histogram api controller by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12660
-* [#noissue] Cleanup by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12655
 * [#12649] Change arrow style by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12669
 * [#noissue] Update testweb server to disabled by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12670
 * [#noissue] Separate new histogram api from old one by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12671
 * [#12662] Add DoubleHash for Hbase Rowkey Distribution by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12663
 * [#noissue] Add compression to ApplicationTraceIndex M column family by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12672
 * Add Jib plugin configuration to use instead of spring boot maven plugin by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/12675
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12676
 * [#noissue] Remember to refresh the size of AgentList by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12677
 * [#12673] Change ServiceUid cache miss handling by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12678
 * [#12606] Fix NPE when acceptorHost is null by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/12679
@@ -836,7 +811,6 @@
 * [#noissue] Refactor LimitRowMapperResultsExtractor by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12687
 * [#noissue] Reduce memory copy of RowKeyEncoder by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12691
 * [#12692] Update separate API the CallTree and ServerMap by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12693
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12694
 * [#noissue] Refactor MetadataEncoder by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12696
 * [#noissue] Reduce memory copy of RowKeyEncoder by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12697
 * [#12692] Update separate API the CallTree and ServerMap by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12702
@@ -867,7 +841,6 @@
 * [#12673] Include serviceType in applicationUid creation by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12728
 * [#noissue] Add serviceInfosString to use text_match in pinot by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12732
 * [#noissue] Add qualifierToShort to CellUtils by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12734
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12733
 * [#noissue] Memory Optimization of DistributedScanner by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12735
 * [#noissue] Refactor HbaseApplicationTraceIndexDao by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12736
 * [#12711] Update collector kafka max.block.ms option by @jaehong-kim in https://github.com/pinpoint-apm/pinpoint/pull/12712
@@ -909,9 +882,7 @@
 * [#12793] Bump HikariCP from 5.0.1 to 7.0.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12794
 * [#12795] Bump log4j from 2.24.2 to 2.25.1 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12796
 * [#noissue] Simplify minimap in uristats by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/12797
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12800
 * [#noissue] Extract HbaseTable interface for adding tables by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12802
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12803
 * [#noissue] Cleanup for null safety by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12804
 * [#12673] Add default uidFetcher by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12798
 * [#noissue] Enhance logging in GrpcSpanChunkHandler and GrpcSpanHandler for better traceability by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12805
@@ -995,11 +966,8 @@
 * [#12934] Fix missing abs in RangeDoubleHash's secondaryHashFunction by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12935
 * [#noissue] Refactor ServerMapV3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12926
 * [#12940] Added timestamp in seconds relative to 2010 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12941
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12942
 * Storybook update from v7 to v9 by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/12939
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12944
 * [#noissue] Refactor to use HistogramSlot in application map data handling by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12943
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12945
 * [#noissue] Refactor EventPublisher by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12953
 * [#noissue] Cleanup log4j2-test.xml by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12954
 * [#noissue] Fix missing saltkey masking by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12956
@@ -1033,13 +1001,10 @@
 * [#noissue] Cleanup testcase by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/12999
 * [#noissue] Add slotCode to HistogramSchema by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13000
 * [#noissue] Update properties for new tables by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/12996
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13005
 * [#13001] Improve node query performance in ServerMapV3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13002
 * [#noissue] Fix Webhook ui & Alarm, User sheet ui by @jihea-park in https://github.com/pinpoint-apm/pinpoint/pull/13003
 * [#12581] Rollback the default value for applicationservertype. Changed in version 4.0.0. by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13006
 * [#noissue] Add property to skip SpotBugs analysis in pom.xml by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13007
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13010
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13008
 * [#13001] Fixed slotCode bug in SelfAgentNodeFactoryV3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13011
 * [#noissue] Refactor PinotExceptionMetaDataService by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13013
 * [#13001] Remove Unused HistogramSlotMapBuilder by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13014
@@ -1049,7 +1014,6 @@
 * [#11286] Implement error filtering and introduce bit-masked error code by @kojandy in https://github.com/pinpoint-apm/pinpoint/pull/13004
 * [#noissue] Refactor ApplicationIndexService v1 by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/13021
 * [#13023] Bump spring-security from 6.5.3 to 6.5.6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13024
-* [#noissue] Cleanup by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13022
 * [#noissue] Refactor NodeView to consolidate agent count writing logic by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13025
 * [#noissue] Change application name encoding to padString by @donghun-cho in https://github.com/pinpoint-apm/pinpoint/pull/13009
 * [#13026] Apply Apdex to ServerMap Node by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13027
