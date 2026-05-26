@@ -3,6 +3,11 @@
 ## Highlights
   
   ### ApplicationName: 254-Character Support
+```properties
+-Dpinpoint.modules.uid.version=v3
+# This property must be added when starting the agent.
+# It is compatible with collector versions 3.1.0 and higher.
+```
 
   The maximum length of `applicationName` has been expanded from 24 to 254 characters, aligning it with `SERVICE_NAME_MAX_LEN`.
 
