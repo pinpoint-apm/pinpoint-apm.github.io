@@ -23,7 +23,7 @@ To set up your very own Pinpoint instance you can either **download the build re
 
 ### HBase
 
-Download, Configure, and Start HBase - [1. Hbase](../installation.md#1-hbase).
+Download, Configure, and Start HBase - [HBase](../installation.md#1-hbase).
 
 ```text
 $ tar xzvf hbase-x.x.x-bin.tar.gz
@@ -39,18 +39,18 @@ $ ./bin/hbase shell hbase-create.hbase
 
 ### Pinpoint Collector
 
-Download, and Start Collector - [3. Pinpoint Collector](../installation.md#3-pinpoint-collector)
+Download, and Start Collector - [Pinpoint Collector](../installation.md#4-pinpoint-collector)
 
 ```text
-$ java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-collector-boot-2.2.1.jar
+$ java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-collector-boot-2.2.1.jar
 ```
 
 ### Pinpoint Web
 
-Download, and Start Web - [4. Pinpoint Web](../installation.md#4-pinpoint-web)
+Download, and Start Web - [Pinpoint Web](../installation.md#5-pinpoint-web)
 
 ```text
-$ java -jar -Dpinpoint.zookeeper.address=localhost pinpoint-web-boot-2.2.1.jar
+$ java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-web-boot-2.2.1.jar
 ```
 
 ## Java Agent
@@ -134,4 +134,3 @@ You should see some output that looks very similar to this:
 ```
 
 The last couple of lines here tell us that Spring has started. Spring Boot’s embedded Apache Tomcat server is acting as a webserver and is listening for requests on localhost port 8082. Open your browser and in the address bar at the top enter [http://localhost:8082](http://localhost:8082)
-
