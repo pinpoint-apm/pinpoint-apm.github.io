@@ -1,7 +1,7 @@
 
-[English](new-inspector.md#id-1-overview) | [한국어](new-inspector.md#id-1)
+[English](new-inspector.md#new-inspector) | [한국어](new-inspector.md#new-inspector-ko)
 
-# 1 Overview
+# 1 Overview <a id="new-inspector"></a>
 There has been changes in inspector in v3.0.0. The newly renewed inspector will be referred to as 'New Inspector' below, while the previous version will be referred to as 'Legacy Inspector' ([Legacy Application Inspector](https://pinpoint-apm.gitbook.io/pinpoint/v/v2.5.4/documents/application-inspector)).
 
 Although users won't see significant changes on front-end, but the whole architecture has been rebuilt from the scratch.
@@ -10,38 +10,30 @@ And the APIs have been improved so that it is more easily extenable and their re
 
 # 2 Installation and Configuration
 
-## 2.1 Install and Run Kafka
-Kafka enables real-time streaming of inspector data from Pinpoint collector to Pinot.
+## 2.1 Pinot and Kafka Setup
 
-### 2.1.A Set Up Kafka
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating New Inspector topics and tables.
 
-Refer to [this document](https://kafka.apache.org/quickstart) to download Kafka and start the Kafka environment.
-
-If you have already [set up Kafka for Pinpoint System Metric](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.2.a-kafka-installation-guide), please skip this step.
-
-### 2.1.B Create Kafka Topics for New Inspector
+## 2.2 Create Kafka Topics for New Inspector
 
 - Create 2 topics with the names below:
   - inspector-stat-agent-00
   - inspector-stat-app
 
-## 2.2 Set Up Pinot
+## 2.3 Create Pinot Tables
 
-### 2.2.A Install Pinot
-
-Install Pinot according to [Pinot Getting Started guide](https://docs.pinot.apache.org/basics/getting-started).
-
-If you have already [set up Pinot for Pinpoint System Metric](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#id-3.2.a-install-and-run-pinot), please skip this step.
-
-### 2.2.B Create Pinot Tables
-
-- Create 2 tables with the snames below:
+- Create 2 tables with the names below:
   - inspectorStatAgent00: This table stores agent inspector data. The [script file to create the table](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot/multi-table) is provided in our github repository.
   - inspectorStatApp: This table stores application inspector data.
 - Refer to the [github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot) for table schema and configuration settings.
 
-## 2.3 Configure and Run Pinpoint Collector, Web, and Batch with New Inspector
-- **Related options and settings are already enabled by default, so there is no need to modify any settings from what is provided in our github repository.**
+## 2.4 Configure and Run Pinpoint Collector, Web, and Batch with New Inspector
+Configure and run the following with matching [Pinot connection settings](../getting-started/installation.md#pinot-connection-settings):
+
+- [Collector starter](../getting-started/installation.md#collector-starter) with `BASIC` or `ALL` type — collects New Inspector data.
+- [Web starter](../getting-started/installation.md#web-starter) — displays New Inspector data from Pinot.
+- [Pinpoint Batch](../getting-started/installation.md#pinot-connection-settings) — processes New Inspector alarms.
+- **New Inspector feature options are enabled by default, so no additional feature option changes are required for the configuration files provided in our github repository.**
 - When upgrading from Pinpoint version below 3.0 to version 3.0.0 or above, some of the options may be missing in the configuration properties files you have been using. Please refer to the related configurations in the following section to check if any changes are needed in your settings.
 
 # 3 Related Settings of Pinpoint Components
@@ -130,7 +122,7 @@ New Inspector saves and retrieves the data faster than the Legacy Inspector than
 
 ### C Reading inspector-stat-agent table becomes slow as more data is being stored.
 
-You can improve performance by distributing the data across multiple tables. Follow the steps below to create multiple Kafka topics and Pinot tables. Then, add settings to Pinpoint components to read and write data from multiple Pinot tables.
+You can improve performance by distributing the data across multiple tables. Follow the steps below to create multiple Pinot tables and Kafka topics. Then, add settings to Pinpoint components to read and write data from multiple Pinot tables.
 
 **Create More Kafka Topics**
 
@@ -210,7 +202,7 @@ job.alarm.agent.inspector.stat.table.count=N
 ------------------------------------------
 
 
-# 1 개요
+# 1 개요 <a id="new-inspector-ko"></a>
 inspector가 Pinpoint v3.0.0에서 새로워졌습니다.
 이하 새로워진 inspector를 'New Inspector'이라고 부르고 과거의 inspector는 'Legacy Inspector'라고 칭합니다 ([Legacy Application Inspector](https://pinpoint-apm.gitbook.io/pinpoint/v/v2.5.4/documents/application-inspector)). 
 
@@ -221,26 +213,18 @@ New Inspector에서 사용자가 보는 화면은 크게 달라진 건은 없습
 
 # 2 설치/설정 방법
 
-## 2.1 Kafka 설치 및 실행
-실시간으로 collector에서 데이터를 전달받아 Pinot에 저장하기 위해서 Kafka를 설치해야 합니다.
+## 2.1 Pinot와 Kafka 준비
 
-**2.1.A Kafka 설치**
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 New Inspector용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
-[설치 가이드 링크](https://kafka.apache.org/quickstart)를 보고 Kafka를 다운 받아 실행합니다.
-
-**2.1.B topic 생성**
+## 2.2 Kafka topic 생성
 
 - 아래 2개 Kafka topic을 생성합니다.
   - inspector-stat-agent-00
   - inspector-stat-app
 
 
-## 2.2 Pinot 설치 및 실행
-**2.1.A Pinot 설치**
-
-Pinot 사이트에서 [설치 방법 가이드](https://docs.pinot.apache.org/basics/getting-started)를 참고하여 Pinot를 설치합니다.
-
-**2.1.B Pinot table 생성**
+## 2.3 Pinot table 생성
 
 - 아래 2개 테이블을 생성합니다.
   - inspectorStatAgent00: 이 테이블은 agent inspector data를 저장합니다. [스크립트](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot/multi-table)로 생성이 가능합니다.
@@ -248,9 +232,14 @@ Pinot 사이트에서 [설치 방법 가이드](https://docs.pinot.apache.org/ba
 - table schema와 configuration은 [github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/inspector-module/inspector-collector/src/main/pinot)를 참고해주세요.
 
 
-## 2.3 Pinpoint Collector, batch, Web의 New Inspector 기능 활성화
+## 2.4 Pinpoint Collector, Web, Batch의 New Inspector 기능 활성화
 
-- **관련 옵션 및 설정은 기본적으로 활성화되어 있으므로 추가로 설정할 필요가 없습니다.**
+아래 컴포넌트들을 동일한 [Pinot connection settings](../getting-started/installation.md#pinot-connection-settings)로 설정하고 실행한다:
+
+- [Collector starter](../getting-started/installation.md#collector-starter) — `BASIC` 또는 `ALL` 타입으로 실행, New Inspector 데이터를 수집한다.
+- [Web starter](../getting-started/installation.md#web-starter) — Pinot에 저장된 New Inspector 데이터를 표시한다.
+- [Pinpoint Batch](../getting-started/installation.md#pinot-connection-settings) — New Inspector 알람을 처리한다.
+- **New Inspector 기능 옵션은 기본적으로 활성화되어 있으므로 github repository에서 제공하는 설정 파일에서 별도 기능 옵션 변경은 필요하지 않습니다.**
 - Pinpoint 3.0 미만버전에서 3.0.0 이상버전으로 업그레이드 시 일부 옵션이 누락되는경우 아래 관련 옵션 설명을 참고해주세요.
 
 # 3 Pinpoint 컴포넌트의 관련 설정
@@ -338,7 +327,7 @@ alarm.collector.version=1
 ### C inspector-stat-agent 테이블의 데이터가 많아서 읽기 속도가 느려집니다.
 
 여러 개의 체이블에 데이터를 나누어 저장해서 성능 향상을 얻을 수 있습니다.
-아래를 단계를 따라 전체 N 개의 Kafka topic과 Pinot table을 생성하고, Pinpoint 컴포넌트들에 설정을 추가해서 data를 수집/조회합니다.
+아래를 단계를 따라 전체 N 개의 Pinot table과 Kafka topic을 생성하고, Pinpoint 컴포넌트들에 설정을 추가해서 data를 수집/조회합니다.
 
 **Kafka topic 생성**
 
@@ -402,4 +391,3 @@ job.alarm.agent.inspector.stat.table.count=N
 ```
 -Djob.alarm.agent.inspector.stat.table.count=N
 ```
-

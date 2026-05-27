@@ -1,6 +1,6 @@
-[English](uri_statistics.md#uri_statistics) | [한국어](uri_statistics.md#URI_통계)
+[English](uri_statistics.md#uri-statistics) | [한국어](uri_statistics.md#uri-statistics-ko)
 
-# URI Statistics
+# URI Statistics <a id="uri-statistics"></a>
 URI statistics menu is newly added to Pinpoint in v2.5.0.
 Pinpoint Agent aggregates URI templates and send them to Pinpoint collector via GRPC.
 Pinpoint Collector saves the data to Pinot via Apache Kafka.
@@ -9,11 +9,8 @@ Pinpoint Web accesses Pinot to display the data.
 ![](<../.gitbook/assets/uri_statistics_01.png>)
 
 ## 1. Installation and Configuration
-### 1.1 Install and Run Kafka
-Kafka enables real-time streaming of URI statistics data from Pinpoint collector to Pinot.
-If you have already [set up Kafka for Pinpoint System Metric](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.2.a-kafka-installation-guide), please skip this step.
-
-- Please refer to [this document](https://kafka.apache.org/quickstart) to get Kafka and start the Kafka environment.
+### 1.1 Pinot and Kafka Setup
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating URI Statistics topics and tables.
 
 ### 1.2 Create Kafka Topics for Pinpoint URI Statistics
 Create a topic with the name `url-stat`
@@ -22,23 +19,16 @@ Create a topic with the name `url-stat`
 $ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
-### 1.3 Install and Run Pinot
-This section describes how to install Pinot which is used in Pinpoint to save URI statistics data.
-If you have already [set up Pinot for Pinpoint System Metric](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.1-install-pinot), please skip this step.
-
-- Install Pinot according to [Pinot Getting Started guide](https://docs.pinot.apache.org/basics/getting-started).
-- Above guide gives you the way to run Pinot locally, in Docker, and in Kubernetes.
-
-### 1.4 Create Pinot Tables
+### 1.3 Create Pinot Tables
 
 - Pinot table schema for Pinpoint URI statistics is provided in [our github repository](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-common/src/main/pinot).
 - Please refer to [Pinot documents](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation) to create necessary tables in your Pinot cluster.
 - Let's create the uriStat table by referencing the schema file and table settings from the provided path. To enable hybrid table functionality, let's create both REALTIME and OFFLINE tables for the 'uriStat' table.
 
-### 1.5 Configure and Attach Pinpoint Agent
+### 1.4 Configure and Attach Pinpoint Agent
 This section describes the URI stat configuration values added for URI statistics.
 
-#### 1.5.1 Configuration values for URI Statistics
+#### 1.4.1 Configuration values for URI Statistics
 Below are default agent configuration values for URI statistics.
 
 ```
@@ -119,21 +109,17 @@ profiler.uri.stat.tomcat.useuserinput=false
 To change the configuration values described above, update `pinpoint.config` under [each profile directory](https://github.com/pinpoint-apm/pinpoint/tree/master/agent/src/main/resources/profiles) and rebuild the project.
 Or, you can simply pass these properties when starting your application with Pinpoint Agent (e.g. `-Dprofiler.uri.stat.enable=false`).
 
-### 1.6 Configure and Run Pinpoint Collector & Web with URI Statistics
-Instead of the default Pinpoint Collector and Web binaries, you should use those compiled under metric-module. 
+### 1.5 Configure and Run Pinpoint Collector & Web with URI Statistics
+Configure and run the [collector starter](../getting-started/installation.md#collector-starter) with `BASIC` or `ALL` type.
+Configure and run the [web starter](../getting-started/installation.md#web-starter) to display URI Statistics data.
 
-Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.3-configure-and-run-pinpoint-collector-with-system-metrics) for Pinpoint Metric Collector properties.
-
-- Enable URI statistics by adding the below line at [pinpoint-collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles):
+- Enable URI statistics collection by adding the below line at [pinpoint-collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles):
 
 	```
 	collector.stat.uri=true
 	```
-- `pinpoint.collector.type=BASIC` argument should be used to collect URI statistics in collector.
 
-Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-configure-and-run-pinpoint-web-with-system-metrics) for Pinpoint Metric Web properties. 
-
-- Enable URI statistics by adding the below line at [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles):
+- Show the URI Statistics menu by adding the below line at [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles):
 
 	```
 	config.show.urlStat=true
@@ -147,7 +133,7 @@ Please check [here](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_me
 4. Click each URI to load the chart.
 
 
-# URI 통계
+# URI 통계 <a id="uri-statistics-ko"></a>
 URI 통계 기능은 핀포인트 v2.5.0에 신규로 추가되었다.
 핀포인트 에이전트에서 URI 템플릿 정보를 수집하여 GRPC를 사용해 핀포인트 콜렉터에 전달하고, 핀포인트 콜렉터는 아파치 카프카를 통해 아파치 피노에 값을 저장한다.
 핀포인트 웹에서 저장된 URI 통계 데이터를 확인할 수 있다.
@@ -155,36 +141,26 @@ URI 통계 기능은 핀포인트 v2.5.0에 신규로 추가되었다.
 ![](<../.gitbook/assets/uri_statistics_01.png>)
 
 ## 1. 설치 및 설정 방법
-### 1.1 카프카 설치 및 실행
-실시간으로 핀포인트 콜렉터에서 데이터를 전달받아 피노에 저장하기 위해서 카프카를 설치해야 한다.
-이미 [시스템 메트릭 설정을 하면서 카프카를 설치](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.2-kafka)하였다면, 이 부분은 건너뛰십시오.
+### 1.1 Pinot와 Kafka 준비
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 URI Statistics용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
-- [설치 방법 가이드](https://kafka.apache.org/quickstart)를 참고하여 kafka를 설치한다.
-
-### 1.2 카프카 토픽 생성
+### 1.2 Kafka topic 생성
 아래와 같이 `url-stat` 토픽을 생성한다.
 
 ```
 $ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
-### 1.3 피노 설치 및 실행
-URI 통계 값을 저장하는 피노를 설치하는 법을 안내한다.
-이미 [시스템 메트릭 설정을 하면서 피노를 설치](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.1.a.-pinot)하였다면, 이 부분은 건너뛰십시오.
-
-- [피노 설치 가이드](https://docs.pinot.apache.org/basics/getting-started)를 참고하여 피노를 설치한다.
-- 다양한 환경 (local, docker, kubernetes)에서 피노 실행 환경을 구성할 수 있으니 위 가이드를 참고하자.
-
-### 1.4 피노 테이블 스키마 및 테이블 생성
+### 1.3 Pinot table 생성
 
 - [핀포인트 깃헙 저장소](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-common/src/main/pinot)에 URI 통계를 위한 피노 테이블 스키마와 테이블 정보가 있다.
 - 위 경로에서 스키마 파일과 테이블 설정을 참고해서 `uriStat` 테이블을 생성한다. hybrid table 기능 사용을 위해서 REALTIME, OFFLINE 테이블 둘다 생성하자.
 - 피노에 필요한 테이블을 구성하는 방법은 [피노 공식 문서](https://docs.pinot.apache.org/basics/components/table#streaming-table-creation)를 참고하자.
 
-### 1.5 핀포인트 에이전트 설정
+### 1.4 핀포인트 에이전트 설정
 URI 통계 수집을 위해 핀포인트 에이전트에 설정해야 하는 값들을 안내한다.
 
-#### 1.5.1 URI 통계 수집을 위한 설정 값
+#### 1.4.1 URI 통계 수집을 위한 설정 값
 URI 통계 수집과 관련된 핀포인트 에이전트의 설정 기본값들은 아래와 같다.
 
 ```
@@ -263,21 +239,17 @@ profiler.uri.stat.tomcat.useuserinput=false
 
 위 설정 값들을 변경하려면 원하는 [핀포인트 프로파일 경로](https://github.com/pinpoint-apm/pinpoint/tree/master/agent/src/main/resources/profiles)의 `pinpoint.config` 파일에서 값을 변경하여 핀포인트를 재빌드한다. 파일을 수정하지 않고, 핀포인트 에이전트를 붙힐 어플리케이션을 실행할 때 `-Dprofiler.uri.stat.enable=false`와 같이 값을 넣어도 된다.
 
-### 1.6 핀포인트 콜렉터와 핀포인트 웹 설정 및 실행
-URI 통계를 수집하고 값을 확인하려면, 핀포인트 v2.5.0 이전 버전에서 사용하던 콜렉터와 웹 JAR 파일이 아니라 metric-module 밑에 생성되는 파일을 사용해야 한다.
+### 1.5 핀포인트 콜렉터와 핀포인트 웹 설정 및 실행
+URI 통계를 수집하려면 [collector starter](../getting-started/installation.md#collector-starter)를 `BASIC` 또는 `ALL` 타입으로 실행한다.
+URI 통계 데이터를 확인하려면 [web starter](../getting-started/installation.md#web-starter)를 실행한다.
 
-[핀포인트 메트릭 콜렉터를 설명한 문서](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.3-collector)에 자세한 설명이 있으니 참고해서 메트릭 콜렉터 설정값을 세팅하자. 
-
-- 위 설정 외에 URI 통계를 위해 [pinpoint.collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles)에 아래 설정값이 추가되었다:
+- URI 통계 수집을 활성화하려면 [pinpoint.collector.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/metric-module/collector-starter/src/main/resources/profiles)에 아래 설정값을 추가한다:
 
 	```
 	collector.stat.uri=true
 	```
-- URI 통계를 수집하기 위해서는 콜렉터를 시작할 때 `pinpoint.collector.type=BASIC` argument를 넣어야 한다.
 
-[핀포인트 메트릭 웹을 설명한 문서](https://pinpoint-apm.gitbook.io/pinpoint/documents/system_metric#3.4-web)에 자세한 설명이 있으니 참고해서 메트릭 웹 설정값을 세팅하자.
-
-- 위 설정 외에 URI 통계를 위해 [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles)에 아래 설정값이 추가되었다:
+- URI Statistics 메뉴를 표시하려면 [pinpoint-web-uristat.properties](https://github.com/pinpoint-apm/pinpoint/tree/master/uristat/uristat-web/src/main/resources/profiles)에 아래 설정값을 추가한다:
 
 	```
 	config.show.urlStat=true
@@ -286,8 +258,7 @@ URI 통계를 수집하고 값을 확인하려면, 핀포인트 v2.5.0 이전 �
 
 ## 2. URI 통계 데이터 조회
 ![](<../.gitbook/assets/uri_statistics_02.png>)
-1. 핀포인트 메트릭 웹을 실행하여 왼쪽 `URL Statistic` 메뉴를 선택한다.
-2. 상단의 seslect box에서 핀포인트 에이전트에 설정한 어플리케이션 이름을 조회한다..
+1. 핀포인트 웹을 실행하여 왼쪽 `URL Statistic` 메뉴를 선택한다.
+2. 상단의 select box에서 핀포인트 에이전트에 설정한 어플리케이션 이름을 조회한다.
 3. 초기 화면에서는 선택한 어플리케이션에서 가장 많이 사용한 상위 50개 URI가 빈 차트 밑에 표시된다.
 4. 원하는 URI를 클릭하면 차트에 데이터가 표시된다.
-

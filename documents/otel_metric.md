@@ -2,10 +2,10 @@
 
 ---
 
-[English](otel_metric.md#opentelemetry-metric) | [한국어](otel_metric.md#1-opentelemetry-metric-기능이란)
+[English](otel_metric.md#opentelemetry-metric) | [한국어](otel_metric.md#opentelemetry-metric-ko)
 
 
-# OpenTelemetry Metric
+# OpenTelemetry Metric <a id="opentelemetry-metric"></a>
 
 ## 1. Overview
 
@@ -19,7 +19,7 @@ Pinpoint provides OpenTelemetry metric ingestion via HTTP. Send metric data in O
 
 ## 2. Prerequisites
 
-- Apache Pinot must be installed.
+- Apache Pinot and Kafka must be installed. If they are already installed, you can skip this setup step. Otherwise, see [Pinot installation](../getting-started/installation.md#2-pinot).
 - Pinpoint Collector must be installed and deployed.
 - Pinpoint Web must be installed and deployed.
 - MySQL must be installed.
@@ -30,9 +30,21 @@ Pinpoint provides OpenTelemetry metric ingestion via HTTP. Send metric data in O
 
 You need to create tables in Apache Pinot to store OTel metric data.
 
-For Pinot installation and streaming table creation, refer to [Apache Pinot Getting Started](https://docs.pinot.apache.org/basics/getting-started).
+### 3.1 Pinot and Kafka Setup
 
-### 3.1 Table Schema
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating OTel Metric topics and tables.
+
+### 3.2 Create Kafka Topics
+
+Create 3 topics with the names below:
+
+- `otlp-metric-double-00`
+- `otlp-metric-long-00`
+- `otlp-metric-metadata`
+
+### 3.3 Create Pinot Tables
+
+For realtime tables, create the Kafka topics referenced by the table configuration before creating the Pinot tables.
 
 Three tables are required.
 
@@ -55,7 +67,7 @@ Schema and table configuration files are located in the [`otlpmetric/pinot-table
 | `pinot-otlpmetric-double-offline-table.json` | Double offline table config |
 | `pinot-otlpmetric-long-offline-table.json` | Long offline table config |
 
-### 3.2 Data Retention
+### 3.4 Data Retention
 
 Default retention is defined in the table configuration files. You can adjust it in the Pinot table settings as needed.
 
@@ -82,18 +94,15 @@ CREATE TABLE `application_metric_definition` (
 
 OTel metric ingestion is enabled by default.
 
-Pinpoint Collector uses the `--pinpoint.collector.type` option to specify its run mode. To receive OTel metrics, run it with the `METRIC` type.
+Configure and run the [collector starter](../getting-started/installation.md#collector-starter) with `METRIC` or `ALL` type.
 
-```bash
-java -jar pinpoint-collector-starter-{version}.jar --pinpoint.collector.type=METRIC
-```
-
-Running with `METRIC` type starts an HTTP server on port 9995, receiving metric data at the `POST /opentelemetry` endpoint.
+Running with `METRIC` or `ALL` type starts an HTTP server on port 9995, receiving metric data at the `POST /opentelemetry` endpoint.
 
 ---
 
 ## 6. Web Configuration
 
+Configure and run the [web starter](../getting-started/installation.md#web-starter).
 OTel metric viewing is enabled by default. When you run Web, the OpenTelemetry menu item appears in the left sidebar.
 
 ---
@@ -201,7 +210,7 @@ When the 'Save Dashboard' button in the upper right blinks, it means the dashboa
 ------------------------------------------
 
 
-# 1. OpenTelemetry Metric 기능이란?
+# 1. OpenTelemetry Metric 기능이란? <a id="opentelemetry-metric-ko"></a>
 
 ## 1. 개요
 
@@ -215,7 +224,7 @@ OpenTelemetry metric 데이터를 HTTP 방식으로 Pinpoint Collector에 전송
 
 ## 2. 사전 조건
 
-- Apache Pinot이 설치되어 있어야 합니다.
+- Apache Pinot와 Kafka가 설치되어 있어야 합니다. 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 [Pinot 설치](../getting-started/installation.md#2-pinot)를 참고하세요.
 - Pinpoint Collector가 설치 및 배포되어 있어야 합니다.
 - Pinpoint Web이 설치 및 배포되어 있어야 합니다.
 - MySQL이 설치되어 있어야 합니다.
@@ -226,9 +235,21 @@ OpenTelemetry metric 데이터를 HTTP 방식으로 Pinpoint Collector에 전송
 
 OTel metric 데이터 저장을 위해 Apache Pinot에 테이블을 생성해야 합니다.
 
-Pinot 설치 및 스트리밍 테이블 생성에 대한 자세한 내용은 [Apache Pinot Getting Started](https://docs.pinot.apache.org/basics/getting-started)를 참고하세요.
+### 3.1 Pinot와 Kafka 준비
 
-### 3.1 테이블 스키마
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 OTel Metric용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
+
+### 3.2 Kafka topic 생성
+
+아래 3개 topic을 생성합니다.
+
+- `otlp-metric-double-00`
+- `otlp-metric-long-00`
+- `otlp-metric-metadata`
+
+### 3.3 Pinot table 생성
+
+realtime table은 Pinot table을 생성하기 전에 table 설정에서 참조하는 Kafka topic을 먼저 생성해야 합니다.
 
 총 3개의 테이블이 필요합니다.
 
@@ -251,7 +272,7 @@ Pinot 설치 및 스트리밍 테이블 생성에 대한 자세한 내용은 [Ap
 | `pinot-otlpmetric-double-offline-table.json` | double offline 테이블 설정 |
 | `pinot-otlpmetric-long-offline-table.json` | long offline 테이블 설정 |
 
-### 3.2 Data Retention
+### 3.4 Data Retention
 
 기본 retention은 테이블 설정 파일에 정의되어 있습니다. 필요에 따라 Pinot 테이블 설정에서 변경할 수 있습니다.
 
@@ -278,18 +299,15 @@ CREATE TABLE `application_metric_definition` (
 
 OTel metric 수신 기능은 기본으로 활성화되어 있습니다.
 
-Pinpoint Collector는 `--pinpoint.collector.type` 옵션으로 실행 모드를 지정합니다. OTel metric을 수신하려면 `METRIC` 타입으로 실행해야 합니다.
+[collector starter](../getting-started/installation.md#collector-starter)를 `METRIC` 또는 `ALL` 타입으로 실행합니다.
 
-```bash
-java -jar pinpoint-collector-starter-{version}.jar --pinpoint.collector.type=METRIC
-```
-
-`METRIC` 타입으로 실행하면 포트 9995에서 HTTP 서버가 시작되며, `POST /opentelemetry` 엔드포인트로 metric 데이터를 수신합니다.
+`METRIC` 또는 `ALL` 타입으로 실행하면 포트 9995에서 HTTP 서버가 시작되며, `POST /opentelemetry` 엔드포인트로 metric 데이터를 수신합니다.
 
 ---
 
 ## 6. Web 설정
 
+[web starter](../getting-started/installation.md#web-starter)를 실행합니다.
 OTel metric 조회 기능은 기본으로 활성화되어 있습니다. Web을 실행하면 좌측 메뉴에 OpenTelemetry 항목이 노출됩니다.
 
 ---

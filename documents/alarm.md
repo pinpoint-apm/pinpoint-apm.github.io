@@ -8,9 +8,9 @@ disqus: false
 ---
 # Setting Alarm
 
-[English](alarm.md#alarm) | [한국어](alarm.md#alarm-1)
+[English](alarm.md#alarm) | [한국어](alarm.md#alarm-ko)
 
-## Alarm
+## Alarm <a id="alarm"></a>
 
 Application's status is periodically checked and alarm is triggered if certain pre-configured conditions (rules) are satisfied.
 
@@ -24,7 +24,7 @@ pinpoint-batch server checks every 3 minutes based on the last 5 minutes of data
 > **NOTICE!**
 >
 > * These logics were part of pinpoint-web server and ran in the background until v2.2.0 From v2.2.1 it is separated into pinpoint-batch server. Since the batch logic(code) in pinpoint-web will be deprecated in the future, we advise you to transfer the execution of batch to pinpoint-batch server.
-> * Webhook function is newly added in v2.1.1, and has some changes in v2.3.1. In both versions, MYSQL table needs to be changed. Please check the notice on these changes in [2.1.1](alarm.md#2.1-configuration-and-implementation-in-pinpoint-batch)&#x20;
+> * Webhook function is newly added in v2.1.1, and has some changes in v2.3.1. In both versions, MYSQL table needs to be changed. Please check the notice on these changes in [2.1.1](alarm.md#alarm-batch-implementation)&#x20;
 
 ### 1. User Guide
 
@@ -120,7 +120,7 @@ Few modifications are required in pinpoint-batch and pinpoint-web to use the ala
 
 ### 2.1 Configuration & Implementation in pinpoint-batch
 
-#### 2.1.1) Email configuration, sms and webhook implementation
+#### 2.1.1) Email configuration, sms and webhook implementation <a id="alarm-batch-implementation"></a>
 
 **A. Email alarm service**
 
@@ -195,7 +195,7 @@ Webhook alarm service is a feature that can transmit Pinpoint's alarm message th
 
 The webhook receiver service that receives the webhook message should be implemented by yourself, or use [a sample project](https://github.com/doll6777/slack-receiver) provided (in this case Slack).
 
-The alarm messages(refer to as payloads) sent to webhook receiver have the different schema depending on the Alarm Checker type. You can see the payload schemas in [3.Others - The Specification of webhook payloads and the examples](alarm.md##3.Others).
+The alarm messages(refer to as payloads) sent to webhook receiver have the different schema depending on the Alarm Checker type. You can see the payload schemas in [3.Others - The Specification of webhook payloads and the examples](alarm.md#alarm-others).
 
 To enable the webhook alarm service, You need to configure _pinpoint.modules.web.webhook_ in [application.yml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) file. Webhook receiver urls can be configured in web UI after configuring the web module to enable webhook as described in the following section.
 
@@ -310,7 +310,7 @@ As you enable the webhook alarm service, you can set the webhook as alarm type a
 
 ![](../.gitbook/assets/alarm\_select\_webhook.png)
 
-### 3. Others
+### 3. Others <a id="alarm-others"></a>
 
 ### 3.1 Configuration, Execution, Performance.
 
@@ -566,7 +566,7 @@ DataSourceAlarmListValueAgentChecker
 }
 ```
 
-## Alarm
+## Alarm <a id="alarm-ko"></a>
 
 Pinpoint는 application 상태를 주기적으로 체크하여 application 상태의 수치가 임계치를 초과할 경우 사용자에게 알람을 전송하는 기능을 제공한다.
 
@@ -581,7 +581,7 @@ Application 상태 값이 사용자가 설정한 임계치를 초과하는지 �
 > **알림**
 >
 > * Batch는 pinpoint 2.2.0 버전까지는 [pinpoint-web](https://github.com/pinpoint-apm/pinpoint/tree/master/web)에서 동작되었지만, 2.2.1 버전 부터는 batch가 [pinpoint-batch](https://github.com/pinpoint-apm/pinpoint/tree/master/batch)에서 동작되도록 로직을 분리했다.** **앞으로 pinpoint-web의 batch로직은 제거를 할 예정이므로, pinpoint-web에서 batch를 동작시키는 경우 pinpoint-batch에서 batch를 실행하도록 구성하는것을 추천한다.
-> * 웹훅 기능은 v2.1.1에 신규로 추가되었으며 v2.3.1에 기능이 개선되었다. 두 버전 모두에서 MYSQL 테이블 변경이 있으므로, 해당 버전 이전에서 업그레이드할 경우, [2.1.1 항목](alarm.md#2.1-pinpoint-batch)에서 관련 변경 사항을 확인 후 적용해야 한다.
+> * 웹훅 기능은 v2.1.1에 신규로 추가되었으며 v2.3.1에 기능이 개선되었다. 두 버전 모두에서 MYSQL 테이블 변경이 있으므로, 해당 버전 이전에서 업그레이드할 경우, [2.1.1 항목](alarm.md#alarm-batch-implementation-ko)에서 관련 변경 사항을 확인 후 적용해야 한다.
 
 ### 1. Alarm 기능 사용 방법
 
@@ -673,7 +673,7 @@ alarm 기능을 사용하려면 pinpoint-batch와 pinpoint-web를 수정해야�
 
 ### 2.1 pinpoint-batch 설정 및 구현 방법
 
-#### 2.1.1) email/sms/webhook 전송 설정 및 구현
+#### 2.1.1) email/sms/webhook 전송 설정 및 구현 <a id="alarm-batch-implementation-ko"></a>
 
 **A. email 전송**
 
@@ -746,10 +746,10 @@ public interface SmsSender {
 
 Webhook 전송 기능은 Pinpoint의 Alarm message를 Webhook API로 전송 할 수 있는 기능이다.
 
-webhook message를 전송받는 webhook receiver 서비스는 [**샘플 프로젝트**](https://github.com/doll6777/slack-receiver)**를 사용하거나 직접 구현해야 한다.** Webhook Receiver 서버에 전송되는 Alarm message(이하 payload)는 Alarm Checker 타입에 따라 스키마가 다르다. Checker 타입에 따른 payload 스키마는 [**3.기타** - webhook 페이로드 스키마 명세, 예시](alarm.md##3.기타)에서 설명한다.
+webhook message를 전송받는 webhook receiver 서비스는 [**샘플 프로젝트**](https://github.com/doll6777/slack-receiver)**를 사용하거나 직접 구현해야 한다.** Webhook Receiver 서버에 전송되는 Alarm message(이하 payload)는 Alarm Checker 타입에 따라 스키마가 다르다. Checker 타입에 따른 payload 스키마는 [**3.기타** - webhook 페이로드 스키마 명세, 예시](alarm.md#alarm-others-ko)에서 설명한다.
 
 webhook 기능을 활성화 하기위해서, [pinpoint.modules.web.webhook](
-https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) 파일에 Webhook 전송 여부(pinpoint.modules.web.webhook)를 설정한다. Receiver 서버 정보의 경우 [2.2 pinpoint-web 설정 방법](alarm.md#2.2-pinpoint-web) 같이 web 설정을 마친 후, UI를 통해 추가할 수 있다.
+https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) 파일에 Webhook 전송 여부(pinpoint.modules.web.webhook)를 설정한다. Receiver 서버 정보의 경우 [2.2 pinpoint-web 설정 방법](alarm.md#alarm-web-configuration-ko) 같이 web 설정을 마친 후, UI를 통해 추가할 수 있다.
 
 ```
 # webhook config
@@ -836,7 +836,7 @@ java -Dspring.profiles.active=XXXX -jar pinpoint-batch-VERSION.jar
 ex) java -Dspring.profiles.active=local -jar pinpoint-batch-2.1.1.jar
 ```
 
-### 2.2 pinpoint-web 설정 방법
+### 2.2 pinpoint-web 설정 방법 <a id="alarm-web-configuration-ko"></a>
 
 #### 2.2.1) MYSQL 서버 IP 주소 설정
 
@@ -863,7 +863,7 @@ webhook 기능을 활성화하면, 아래 그림처럼 알람 설정 화면에�
 
 ![](../.gitbook/assets/alarm\_select\_webhook.png)
 
-### 3. 기타
+### 3. 기타 <a id="alarm-others-ko"></a>
 
 ### 3.1 설정, 실행, 성능
 
