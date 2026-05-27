@@ -22,9 +22,9 @@ The property values shown below are the 3.1.0 defaults and use the new tables.
 5. Switch reads back to the new tables, if changed in step 3.
 6. Disable legacy writes once the new tables are confirmed healthy.
 
-## Application & Agent List
+### Application & Agent List
 
-### Tables
+#### Tables
 
 `ApplicationIndex` is split into two new tables:
 
@@ -32,16 +32,16 @@ The property values shown below are the 3.1.0 defaults and use the new tables.
 |---|---|
 | `ApplicationIndex` | `Application`, `AgentId` |
 
-### Properties
+#### Properties
 
-#### Collector
+**Collector**
 
 ```properties
 pinpoint.collector.application.index.v1.enabled=false
 pinpoint.collector.application.index.v2.enabled=true
 ```
 
-#### Web
+**Web**
 
 ```properties
 # v1/v2 enabled properties are used for delete operations.
@@ -50,7 +50,7 @@ pinpoint.web.application.index.v2.enabled=true
 pinpoint.web.application.index.read.v2=true
 ```
 
-#### Batch
+**Batch**
 
 ```properties
 pinpoint.batch.application.index.read.v2=true
@@ -72,14 +72,14 @@ job.cleanup.inactive.agent-application.dry-run=true
 job.cleanup.inactive.agent-application.threshold-days=30
 ```
 
-### Transition
+#### Transition
 
 - Collector: set `pinpoint.collector.application.index.v1.enabled=true` for dual write.
 - Web: set `pinpoint.web.application.index.v1.enabled=true` to delete from the legacy table during migration.
 - Web: set `pinpoint.web.application.index.read.v2=false` to read from the legacy table during migration.
 - Batch: set `pinpoint.batch.application.index.read.v2=false` to read from the legacy table during migration.
 
-### Data Migration
+#### Data Migration
 
 Application & Agent List supports historical data migration through Web copy APIs.
 
@@ -118,9 +118,9 @@ curl -X POST "/api/admin/copy/agents?applicationName=my-app"
 curl -X POST "/api/admin/copy/agents?serviceTypeCode=1000"
 ```
 
-## ServerMap
+### ServerMap
 
-### Tables
+#### Tables
 
 `ApplicationMapStatisticsSelf_Ver2` is split into two new tables:
 
@@ -131,51 +131,51 @@ curl -X POST "/api/admin/copy/agents?serviceTypeCode=1000"
 | `ApplicationMapStatisticsCallee_Ver2` | `MapAppIn` |
 | `ApplicationMapStatisticsSelf_Ver2` | `MapAppSelf`, `MapAgentSelf` |
 
-### Properties
+#### Properties
 
-#### Collector
+**Collector**
 
 ```properties
 # v2: legacy table, v3: new table, dual: dual write for data migration
 pinpoint.modules.uid.version=v3
 ```
 
-#### Web
+**Web**
 
 ```properties
 # v2: legacy table, v3: new table
 pinpoint.modules.uid.version=v3
 ```
 
-### Transition
+#### Transition
 
 - Collector: set `pinpoint.modules.uid.version=dual` for dual write.
 - Web: set `pinpoint.modules.uid.version=v2` to read from the legacy tables during migration.
 
-## TraceIndex
+### TraceIndex
 
-### Tables
+#### Tables
 
 | Legacy | New |
 |---|---|
 | `ApplicationTraceIndex` | `TraceIndex` |
 
-### Properties
+#### Properties
 
-#### Collector
+**Collector**
 
 ```properties
 pinpoint.collector.application.trace.index.v1.enabled=false
 pinpoint.collector.application.trace.index.v2.enabled=true
 ```
 
-#### Web
+**Web**
 
 ```properties
 pinpoint.web.trace.index.read.v2=true
 ```
 
-### Transition
+#### Transition
 
 - Collector: set `pinpoint.collector.application.trace.index.v1.enabled=true` for dual write.
 - Web: set `pinpoint.web.trace.index.read.v2=false` to read from the legacy table during migration.
