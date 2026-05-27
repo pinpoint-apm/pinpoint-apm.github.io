@@ -19,7 +19,7 @@ Pinpoint provides OpenTelemetry metric ingestion via HTTP. Send metric data in O
 
 ## 2. Prerequisites
 
-- Apache Pinot and Kafka must be installed. If they are already installed, you can skip this setup step. Otherwise, see [Pinot installation](../getting-started/installation.md#2-pinot).
+- Apache Pinot and Kafka must be installed. If they are already installed, you can skip this setup step. Otherwise, see [Pinot installation](../getting-started/installation.md#pinot).
 - Pinpoint Collector must be installed and deployed.
 - Pinpoint Web must be installed and deployed.
 - MySQL must be installed.
@@ -32,7 +32,7 @@ You need to create tables in Apache Pinot to store OTel metric data.
 
 ### 3.1 Pinot and Kafka Setup
 
-If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating OTel Metric topics and tables.
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating OTel Metric topics and tables.
 
 ### 3.2 Create Kafka Topics
 
@@ -224,7 +224,7 @@ OpenTelemetry metric 데이터를 HTTP 방식으로 Pinpoint Collector에 전송
 
 ## 2. 사전 조건
 
-- Apache Pinot와 Kafka가 설치되어 있어야 합니다. 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 [Pinot 설치](../getting-started/installation.md#2-pinot)를 참고하세요.
+- Apache Pinot와 Kafka가 설치되어 있어야 합니다. 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 [Pinot 설치](../getting-started/installation.md#pinot)를 참고하세요.
 - Pinpoint Collector가 설치 및 배포되어 있어야 합니다.
 - Pinpoint Web이 설치 및 배포되어 있어야 합니다.
 - MySQL이 설치되어 있어야 합니다.
@@ -237,7 +237,7 @@ OTel metric 데이터 저장을 위해 Apache Pinot에 테이블을 생성해야
 
 ### 3.1 Pinot와 Kafka 준비
 
-Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 OTel Metric용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 OTel Metric용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
 ### 3.2 Kafka topic 생성
 

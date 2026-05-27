@@ -27,10 +27,10 @@ $> softwareupdate --install-rosetta --agree-to-license
 
 ## Quick Overview of Installation
 
-1. HBase ([details](#1-hbase))
+1. HBase ([details](#hbase))
    1. Set up HBase cluster - [Apache HBase](http://hbase.apache.org)
    2. Create HBase Schemas - feed `/scripts/hbase-create.hbase` to hbase shell.
-2. Pinot ([details](#2-pinot))
+2. Pinot ([details](#pinot))
    1. Set up Pinot - [Apache Pinot](https://pinot.apache.org)
    2. Set up Kafka - [Apache Kafka](https://kafka.apache.org)
    3. Create Kafka topics first, then create Pinot tables. Refer to the documentation for the features you are using.
@@ -39,14 +39,14 @@ $> softwareupdate --install-rosetta --agree-to-license
       * [URI Statistics](../documents/uri_statistics.md)
       * [Error Analysis](../documents/error_analysis.md)
       * [OpenTelemetry Metric](../documents/otel_metric.md)
-3. Build Pinpoint (Optional)([details](#3-building-pinpoint)) - No need if you use the binaries.([here](https://github.com/pinpoint-apm/pinpoint/releases)).
+3. Build Pinpoint (Optional)([details](#building-pinpoint)) - No need if you use the binaries.([here](https://github.com/pinpoint-apm/pinpoint/releases)).
    4. Clone Pinpoint - `git clone $PINPOINT_GIT_REPOSITORY`
    5. Set JAVA\_HOME environment variable to JDK 8 home directory.
    6. Set JAVA\_8\_HOME environment variable to JDK 8 home directory.
    7. Set JAVA\_11\_HOME environment variable to JDK 11 home directory.
    8. Set JAVA\_17\_HOME environment variable to JDK 17 home directory.
    9. Run `./mvnw clean install -DskipTests=true` (or `./mvnw.cmd` for Windows)
-4. Pinpoint Collector ([details](#4-pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
+4. Pinpoint Collector ([details](#pinpoint-collector)) 1. Start _pinpoint-collector-boot-$VERSION.jar_ with java -jar command.
 
     ```
      java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-collector-boot-$VERSION.jar
@@ -54,7 +54,7 @@ $> softwareupdate --install-rosetta --agree-to-license
 
     * It will start with default settings. To learn more about default values or how to override them, please see the details below.
     * Use [collector starter](#collector-starter) to connect to Pinot and Kafka
-5. Pinpoint Web ([details](#5-pinpoint-web)) 1. Start _pinpoint-web-boot-$VERSION.jar_ with java -jar command.
+5. Pinpoint Web ([details](#pinpoint-web)) 1. Start _pinpoint-web-boot-$VERSION.jar_ with java -jar command.
 
     ```
      java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-web-boot-$VERSION.jar
@@ -62,7 +62,7 @@ $> softwareupdate --install-rosetta --agree-to-license
 
     * It will start with default settings. To learn more about default values or how to override them, please see the details below.
     * Use [web starter](#web-starter) to connect to Pinot
-6. Pinpoint Agent ([details](#6-pinpoint-agent))
+6. Pinpoint Agent ([details](#pinpoint-agent))
    1. Extract/move _pinpoint-agent/_ to a convenient location (`$AGENT_PATH`).
    2. Set `-javaagent:$AGENT_PATH/pinpoint-bootstrap-$VERSION.jar` JVM argument to attach the agent to a java application.
    3. Set `-Dpinpoint.agentId` and `-Dpinpoint.applicationName` command-line arguments.
@@ -71,7 +71,7 @@ $> softwareupdate --install-rosetta --agree-to-license
       * You can adjust the sampling rate with the above option.
    5. Launch java application with the options above.
 
-## 1. HBase <a id="1-hbase"></a>
+## 1. HBase <a id="hbase"></a>
 
 Pinpoint uses HBase as its storage backend for the Collector and the Web.
 
@@ -89,7 +89,7 @@ To run these scripts, feed them into the HBase shell like below:
 
 See [here](https://github.com/pinpoint-apm/pinpoint/tree/master/hbase/scripts) for a complete list of scripts.
 
-## 2. Pinot <a id="2-pinot"></a>
+## 2. Pinot <a id="pinot"></a>
 
 Pinpoint uses Pinot for metric and statistics data storage.
 Kafka is required for [Pinot stream ingestion](https://docs.pinot.apache.org/basics/data-import/pinot-stream-ingestion/import-from-apache-kafka), which is used by Pinot realtime tables.
@@ -142,7 +142,7 @@ pinpoint:
 ```
 
 
-## 3. Building Pinpoint <a id="3-building-pinpoint"></a>
+## 3. Building Pinpoint <a id="building-pinpoint"></a>
 
 There are two options:
 
@@ -174,7 +174,7 @@ There are two options:
 
 Regardless of your method, you should end up with the files and directories mentioned in the following sections.
 
-## 4. Pinpoint Collector <a id="4-pinpoint-collector"></a>
+## 4. Pinpoint Collector <a id="pinpoint-collector"></a>
 
 You should have the following **executable jar** file.
 
@@ -240,7 +240,7 @@ To add a custom profile, you need to rebuild `pinpoint-collector` module.
 2. Copy files from local or release profiles folder, and modify configuration values as needed.
 3. To use the new profile, rebuild `pinpoint-collector` module and configure `spring.profiles.active` as described in the previous section.
 
-When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](#4-pinpoint-collector).
+When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](#pinpoint-collector).
 
 ### Collector Starter <a id="collector-starter"></a>
 
@@ -287,7 +287,7 @@ java -Dspring.config.additional-location=collector-starter-application.yml -jar 
 Feature-specific enablement options are described in each feature document.
 
 
-## 5. Pinpoint Web <a id="5-pinpoint-web"></a>
+## 5. Pinpoint Web <a id="pinpoint-web"></a>
 
 You should have the following **executable jar** file.
 
@@ -354,7 +354,7 @@ To add a custom profile, you need to rebuild `pinpoint-web` module.
 2. Copy files from local or release profiles folder, and modify configuration values as needed.
 3. To use the new profile, rebuild `pinpoint-web` module and configure `spring.profiles.active` as described in the previous section.
 
-When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](#5-pinpoint-web).
+When using released binary, you cannot add a custom profile. Instead, you can manage your configuration values in separate files and use them to override default values as described in the [previous section](#pinpoint-web).
 
 ### Web Starter <a id="web-starter"></a>
 
@@ -382,7 +382,7 @@ spring:
 
 Feature-specific menu visibility options are described in each feature document.
 
-## 6. Pinpoint Agent <a id="6-pinpoint-agent"></a>
+## 6. Pinpoint Agent <a id="pinpoint-agent"></a>
 
 If downloaded, unzip the Pinpoint Agent file. You should have a **pinpoint-agent** directory with the layout below :
 

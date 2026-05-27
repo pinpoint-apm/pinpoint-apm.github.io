@@ -23,7 +23,7 @@ To set up your very own Pinpoint instance you can either **download the build re
 
 ### HBase
 
-Download, Configure, and Start HBase - [HBase](../installation.md#1-hbase).
+Download, Configure, and Start HBase - [HBase](../installation.md#hbase).
 
 ```text
 $ tar xzvf hbase-x.x.x-bin.tar.gz
@@ -39,7 +39,7 @@ $ ./bin/hbase shell hbase-create.hbase
 
 ### Pinpoint Collector
 
-Download, and Start Collector - [Pinpoint Collector](../installation.md#4-pinpoint-collector)
+Download, and Start Collector - [Pinpoint Collector](../installation.md#pinpoint-collector)
 
 ```text
 $ java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-collector-boot-2.2.1.jar
@@ -47,7 +47,7 @@ $ java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-collector-boot-2.2.1
 
 ### Pinpoint Web
 
-Download, and Start Web - [Pinpoint Web](../installation.md#5-pinpoint-web)
+Download, and Start Web - [Pinpoint Web](../installation.md#pinpoint-web)
 
 ```text
 $ java -Dpinpoint.zookeeper.address=localhost -jar pinpoint-web-boot-2.2.1.jar

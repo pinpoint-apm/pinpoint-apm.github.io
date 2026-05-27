@@ -23,7 +23,7 @@ Pinot is a real-time distributed OLAP datastore. For further information please 
 
 ## 3.1 Pinot and Kafka Setup
 
-If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating System Metric topics and tables.
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating System Metric topics and tables.
 
 ## 3.2 Create Kafka Topics for Pinpoint System Metrics
 Create 3 topics with the names below:
@@ -52,7 +52,7 @@ To show the System Metric menu, enable the following option in [pinpoint-web-met
 config.show.systemMetric=true
 ```
 
-## 3.5 Install and Configure Telegraf Agent <a id="3.5-install-and-configure-telegraf-agent"></a>
+## 3.5 Install and Configure Telegraf Agent <a id="install-and-configure-telegraf-agent"></a>
 Telegraf collects below metrics information on the host machine:
 
 - cpu
@@ -85,7 +85,7 @@ Telegraf collects below metrics information on the host machine:
 
 ## 4 View Collected System Metrics Data
 1. Click `Infrastructure` on the side bar menu in Pinpoint web.
-2. Search for the hostGroupName you have configured for Telegraf agents as described [in 3.5](#3.5-install-and-configure-telegraf-agent).
+2. Search for the hostGroupName you have configured for Telegraf agents as described [in 3.5](#install-and-configure-telegraf-agent).
 3. A list of hosts will be displayed on the left, and you can view the system metrics data by clicking each of them.
 
 ![](<../.gitbook/assets/system_metric_03.png>)
@@ -122,7 +122,7 @@ pinot는 실시간 분산 OLAP 데이터 저장소이다. 자세한 사항은 [p
 
 ## 3.1 Pinot와 Kafka 준비
 
-Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 된다. 아직 설치하지 않았다면 System Metric용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비한다.
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 된다. 아직 설치하지 않았다면 System Metric용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비한다.
 
 ## 3.2 Kafka topic 생성
 
