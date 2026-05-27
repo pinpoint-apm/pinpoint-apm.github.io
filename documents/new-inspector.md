@@ -12,7 +12,7 @@ And the APIs have been improved so that it is more easily extenable and their re
 
 ## 2.1 Pinot and Kafka Setup
 
-If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating New Inspector topics and tables.
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating New Inspector topics and tables.
 
 ## 2.2 Create Kafka Topics for New Inspector
 
@@ -215,7 +215,7 @@ New Inspector에서 사용자가 보는 화면은 크게 달라진 건은 없습
 
 ## 2.1 Pinot와 Kafka 준비
 
-Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 New Inspector용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 New Inspector용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
 ## 2.2 Kafka topic 생성
 

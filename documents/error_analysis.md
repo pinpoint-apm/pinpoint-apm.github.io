@@ -12,7 +12,7 @@ The Pinpoint agent collects more detailed exception information and transmits it
 
 ## 1.1. Pinot and Kafka Setup
 
-If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating Error Analysis topics and tables.
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating Error Analysis topics and tables.
 
 ## 1.2. Create Kafka Topics
 
@@ -99,7 +99,7 @@ Error Analysis 는 핀포인트 v3.0.0 에 신규로 추가되었다.
 # 1. 설치 및 설정 방법
 
 ## 1.1. Pinot와 Kafka 준비
-Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 Error Analysis용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 Error Analysis용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
 ## 1.2. Kafka topic 생성
 `exception-trace` 라는 이름의 topic 을 생성해야 한다.

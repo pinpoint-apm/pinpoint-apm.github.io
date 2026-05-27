@@ -10,7 +10,7 @@ Pinpoint Web accesses Pinot to display the data.
 
 ## 1. Installation and Configuration
 ### 1.1 Pinot and Kafka Setup
-If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#2-pinot) before creating URI Statistics topics and tables.
+If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating URI Statistics topics and tables.
 
 ### 1.2 Create Kafka Topics for Pinpoint URI Statistics
 Create a topic with the name `url-stat`
@@ -142,7 +142,7 @@ URI 통계 기능은 핀포인트 v2.5.0에 신규로 추가되었다.
 
 ## 1. 설치 및 설정 방법
 ### 1.1 Pinot와 Kafka 준비
-Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 URI Statistics용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#2-pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
+Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 URI Statistics용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
 ### 1.2 Kafka topic 생성
 아래와 같이 `url-stat` 토픽을 생성한다.
