@@ -1,4 +1,4 @@
-# HBase Table Migration
+# HBase Table Changes
 
 ## 3.1.0
 

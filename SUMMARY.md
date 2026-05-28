@@ -35,7 +35,7 @@
 * [Marking Transaction as Fail](documents/http-status-code-failure.md)
 * [Monitoring Proxy Server](documents/proxy-http-header.md)
 * [Upgrade Database Hbase2](documents/hbase-upgrade.md)
-* [HBase Table Migration](documents/hbase-table-migration.md)
+* [HBase Table Changes](documents/hbase-table-changes.md)
 
 ## Contribution <a id="contribution-1"></a>
 
