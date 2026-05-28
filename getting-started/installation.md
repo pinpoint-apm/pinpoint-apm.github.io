@@ -101,7 +101,9 @@ Install Pinot and Kafka before enabling Pinot-related features.
 
 ### Creating Pinot tables
 
-For realtime tables, create the Kafka topic before creating the Pinot table. Make sure the Kafka broker and topic settings in the Pinot table configuration match the Kafka topics created for each feature, because Pinot starts consuming from the configured topic when the realtime table is created.
+For realtime tables, create the Kafka topic before creating the Pinot table.
+
+When creating Kafka topics, it is recommended to specify an appropriate partition count for the expected ingestion volume and cluster size. If a Pinot table uses `tableIndexConfig.segmentPartitionConfig`, create the Kafka topic with the same partition count as `columnPartitionMap.*.numPartitions`. See the [Pinot ingestion FAQ](https://docs.pinot.apache.org/operate-pinot/troubleshooting/ingestion-faq#how-do-i-enable-partitioning-in-pinot-when-using-kafka-stream) for details.
 
 Use the following order for each Pinot-related feature:
 
