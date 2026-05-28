@@ -13,10 +13,10 @@ Pinpoint Web accesses Pinot to display the data.
 If Pinot and Kafka are already installed, you can skip this setup step. Otherwise, set them up by following the [Pinot installation guide](../getting-started/installation.md#pinot) before creating URI Statistics topics and tables.
 
 ### 1.2 Create Kafka Topics for Pinpoint URI Statistics
-Create a topic with the name `url-stat`
+Create the `url-stat` Kafka topic with 64 partitions. This matches the `numPartitions` value in Pinpoint's default Pinot table configuration, which uses `segmentPartitionConfig`.
 
 ```
-$ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic url-stat --partitions 64 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
 ### 1.3 Create Pinot Tables
@@ -145,10 +145,10 @@ URI 통계 기능은 핀포인트 v2.5.0에 신규로 추가되었다.
 Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰어도 됩니다. 아직 설치하지 않았다면 URI Statistics용 topic과 table을 생성하기 전에 [Pinot 설치 가이드](../getting-started/installation.md#pinot)를 참고하여 Pinot와 Kafka를 준비합니다.
 
 ### 1.2 Kafka topic 생성
-아래와 같이 `url-stat` 토픽을 생성한다.
+`url-stat` Kafka topic을 64 partitions로 생성한다. 이 값은 `segmentPartitionConfig`를 사용하는 Pinpoint 기본 Pinot table 설정의 `numPartitions` 값과 일치한다.
 
 ```
-$ bin/kafka-topics.sh --create --topic url-stat --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic url-stat --partitions 64 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
 ```
 
 ### 1.3 Pinot table 생성

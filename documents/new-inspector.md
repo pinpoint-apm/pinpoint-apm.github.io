@@ -16,9 +16,17 @@ If Pinot and Kafka are already installed, you can skip this setup step. Otherwis
 
 ## 2.2 Create Kafka Topics for New Inspector
 
-- Create 2 topics with the names below:
-  - inspector-stat-agent-00
-  - inspector-stat-app
+Create the Kafka topics below with the partition counts shown. These counts match the `numPartitions` values in Pinpoint's default Pinot table configurations, which use `segmentPartitionConfig`.
+
+| Kafka topic | Pinot table | Partitions |
+| --- | --- | --- |
+| `inspector-stat-agent-00` | `inspectorStatAgent00` | 32 |
+| `inspector-stat-app` | `inspectorStatApp` | 64 |
+
+```
+$ bin/kafka-topics.sh --create --topic inspector-stat-agent-00 --partitions 32 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic inspector-stat-app --partitions 64 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+```
 
 ## 2.3 Create Pinot Tables
 
@@ -219,9 +227,17 @@ Pinot와 Kafka가 이미 설치되어 있다면 이 준비 단계는 건너뛰�
 
 ## 2.2 Kafka topic 생성
 
-- 아래 2개 Kafka topic을 생성합니다.
-  - inspector-stat-agent-00
-  - inspector-stat-app
+아래 Kafka topic을 지정된 partition 수로 생성합니다. 이 partition 수는 `segmentPartitionConfig`를 사용하는 Pinpoint 기본 Pinot table 설정의 `numPartitions` 값과 일치합니다.
+
+| Kafka topic | Pinot table | partitions |
+| --- | --- | --- |
+| `inspector-stat-agent-00` | `inspectorStatAgent00` | 32 |
+| `inspector-stat-app` | `inspectorStatApp` | 64 |
+
+```
+$ bin/kafka-topics.sh --create --topic inspector-stat-agent-00 --partitions 32 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+$ bin/kafka-topics.sh --create --topic inspector-stat-app --partitions 64 --bootstrap-server ${YOUR_KAFKA_SERVER_ADDRESS}
+```
 
 
 ## 2.3 Pinot table 생성
