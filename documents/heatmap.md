@@ -23,7 +23,7 @@ Heatmap data flows through the following pipeline:
 3. Apache Pinot ingests from Kafka into the `heatmapStatApp` table, aggregating counts per time bucket (10-second intervals).
 4. Pinpoint Web queries Pinot to render the heatmap visualization.
 
-Schema and table configuration files are located in [`collector/src/main/pinot/`](https://github.com/pinpoint-apm/pinpoint/tree/master/collector/src/main/pinot).
+Pinot schema and table configuration details are described in [section 3.3](#33-create-pinot-tables) below.
 
 # 3 Installation and Configuration
 
@@ -153,7 +153,7 @@ Heatmap 데이터는 다음 파이프라인으로 처리됩니다:
 3. Apache Pinot가 Kafka에서 데이터를 수집하여 `heatmapStatApp` 테이블에 저장합니다 (10초 단위로 집계).
 4. Pinpoint Web이 Pinot에서 데이터를 조회하여 heatmap을 렌더링합니다.
 
-스키마 및 테이블 설정 파일은 소스코드의 [`collector/src/main/pinot/`](https://github.com/pinpoint-apm/pinpoint/tree/master/collector/src/main/pinot) 디렉토리에 있습니다.
+Pinot 스키마 및 테이블 설정은 아래 [3.3 Pinot table 생성](#33-pinot-table-생성)에서 자세히 설명합니다.
 
 # 3 설치/설정 방법
 
