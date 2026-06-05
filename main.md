@@ -43,6 +43,8 @@
   
   Pinpoint Collector now supports receiving metrics via the **OTLP protocol**. 
   Applications can send metrics using the OpenTelemetry SDK or OpenTelemetry Collector without requiring the Pinpoint Agent.
+  
+  📖 [Manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/otel_metric)
 
   ### Heatmap View
   
@@ -50,6 +52,8 @@
   While Scatter Chart plots individual transactions, Heatmap provides a statistics-based visualization for faster data overview.
 
 <img width="540" height="396" alt="image" src="https://github.com/user-attachments/assets/8b35f79d-90f9-406f-a97a-25d272e8bf26" />
+
+  📖 [Manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/heatmap)
 
   ### Error Reason Categorization
 
@@ -1093,6 +1097,7 @@
 * [#13054] Migrate to maven central publisher by @intr3p1d in https://github.com/pinpoint-apm/pinpoint/pull/13116
 * [#13114] Fix missing accessOrder in LRUCache by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13115
 * [#noissue] Refactor AcceptApplicationLocalCache by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13117
+
 
 
 <!-- </latestReleaseNotes.md> -->
