@@ -12,8 +12,6 @@ Both views coexist — users can switch between Heatmap and Scatter Chart via a 
 
 ![](<../.gitbook/assets/heatmap_01.png>)
 
-For background and motivation, see [GitHub Issue #12159](https://github.com/pinpoint-apm/pinpoint/issues/12159).
-
 # 2 Architecture
 
 Heatmap data flows through the following pipeline:
@@ -141,8 +139,6 @@ Scatter Chart는 개별 트랜잭션을 하나씩 점으로 표시하지만, Hea
 두 뷰는 공존하며, 토글 버튼으로 Heatmap과 Scatter Chart를 전환할 수 있습니다.
 
 ![](<../.gitbook/assets/heatmap_01.png>)
-
-기능 도입 배경과 동기는 [GitHub Issue #12159](https://github.com/pinpoint-apm/pinpoint/issues/12159)를 참고하세요.
 
 # 2 구조
 
