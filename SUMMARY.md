@@ -30,6 +30,7 @@
 * [OpenTelemetry Metric](documents/otel_metric.md)
 * [Heatmap](documents/heatmap.md)
 * [Error Analysis](documents/error_analysis.md)
+* [Service](documents/service.md)
 * [How to use Application Inspector](documents/application-inspector.md)
 * [Realtime Request Monitoring](documents/realtime.md)
 * [Separate Logging Per Request](documents/per-request_feature_guide.md)
