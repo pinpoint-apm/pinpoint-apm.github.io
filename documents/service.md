@@ -363,7 +363,7 @@ Pinpoint Web and Collector must look up the same Service Registry. If the two co
 
 The flow in which service information is stored and looked up is as follows.
 
-![Service feature architecture and data flow](<../.gitbook/assets/service_07.png>)
+![Service feature architecture and data flow](<../.gitbook/assets/service_07_en.png>)
 
 The MySQL Service Registry stores service names and UIDs. Monitoring data is stored in HBase and Pinot without passing through MySQL.
 
