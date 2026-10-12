@@ -1,1120 +1,797 @@
+> **Note** This guide is a preview published ahead of the official Pinpoint 4.0.0 release. Details may change until the release.  
+> **안내** 이 문서는 Pinpoint 4.0.0 정식 릴리스에 맞춰 공개되는 사전 공개본입니다. 릴리스 전까지 내용이 일부 변경될 수 있습니다.
+
 ---
-title: Setting Alarm
-keywords: alarm
-last_updated: Dec 15, 2021
-sidebar: mydoc_sidebar
-permalink: alarm.html
-disqus: false
----
-# Setting Alarm
+[English](alarm.md#service-alarm) | [한국어](alarm.md#service-alarm-ko)
+# Service Alarm <a id="service-alarm"></a>
 
-[English](alarm.md#alarm) | [한국어](alarm.md#alarm-ko)
+Pinpoint now has the Service feature, and a new Service Alarm screen lets you set alarms for each service. Service Alarm runs alarm rules on the applications of a service. When a rule condition is met, it sends a notification through a channel.
 
-## Alarm <a id="alarm"></a>
+The legacy alarm works only in the `DEFAULT` service. For a service that you create, manage the alarms of its applications on the Service Alarm screen.
 
-Application's status is periodically checked and alarm is triggered if certain pre-configured conditions (rules) are satisfied.
+Service Alarm requires the Service Map feature. If `pinpoint.modules.web.servicemap.enabled` is `false`, all applications belong to the `DEFAULT` service, and only the legacy alarm screen appears.
 
-pinpoint-batch server checks every 3 minutes based on the last 5 minutes of data. And if the conditions are satisfied, it sends sms/email/webhook to the users listed in the user group.
+### Main Changes
 
-> If an email/sms/webhook is sent everytime when the threshold is exceeded, even after the recipients are aware of the event they might get the same alarms continuously which we thought might be unneccessary. Therefore we decided to gradually increase the transmission frequency for alarms.\
-> ex) If an alarm occurs continuously, transmission frequency is increased by a factor of two. 3 min -> 6min -> 12min -> 24min
->
->
->
-> **NOTICE!**
->
-> * These logics were part of pinpoint-web server and ran in the background until v2.2.0 From v2.2.1 it is separated into pinpoint-batch server. Since the batch logic(code) in pinpoint-web will be deprecated in the future, we advise you to transfer the execution of batch to pinpoint-batch server.
-> * Webhook function is newly added in v2.1.1, and has some changes in v2.3.1. In both versions, MYSQL table needs to be changed. Please check the notice on these changes in [2.1.1](alarm.md#alarm-batch-implementation)&#x20;
+| Item | Legacy Alarm | Service Alarm |
+|---|---|---|
+| Service | `DEFAULT` | A service that you create |
+| Channel | Set for each rule | Registered once per service and shared by many rules and templates |
+| Rule registration | Register the same rule again for each application | Make a template and apply it to many applications |
+| Condition | One simple comparison on one metric | Many metrics combined with `AND`/`OR` |
+| Operator | Fixed for each checker | Select `>`, `>=`, `<`, `<=`, or `=` |
+| Evaluation window | Fixed at 5 minutes | Set for each rule |
+| Repeat notification | Sent at the 1st, 3rd, 7th, 15th... consecutive detection | Set the interval with Action Interval |
 
-### 1. User Guide
+For the full comparison, refer to [9. Legacy Alarm and Service Alarm Comparison](alarm.md#alarm-comparison).
 
-1\) Configuration menu
+### Notes
 
-![](<../.gitbook/assets/Configuration page.gif>)
+- Legacy rules do not move to Service Alarm automatically.
+  - If you move an application to a service, register its Service Alarm rules again.
+- The legacy alarm of the `DEFAULT` service continues to run in `alarmJob` of the `batch` module.
+- During the migration, if you enable the same condition in both the legacy alarm and Service Alarm, you get duplicate notifications.
 
-2\) Register users
+Service Alarm needs a separate Alarm Batch process. The operation guide starts at [10. Components](alarm.md#alarm-components).
 
-![](<../.gitbook/assets/add user.gif>)
+# User Guide
 
-3\) Create user groups
+## 1. Open the Alarm Screen
 
-![](<../.gitbook/assets/Add usergroup.gif>)
+1. Select the service to set alarms for.
+2. At the bottom left, click **Service → Alarm**.
+3. At the top, select an application.
 
-4\) (Optional) Add webhooks
+The alarm screen has three tabs.
 
-![](<../.gitbook/assets/add webhook.gif>)
+| Tab | Description |
+|---|---|
+| Rules | Register and manage the rules of the selected application. |
+| Channels | Register the channels that receive notifications. |
+| Templates | Group many rules into one template and apply it to many applications. |
 
-5\) Set alarm rules
+![Rules tab of the alarm screen](<../.gitbook/assets/service_alarm_01.png>)
 
-![](<../.gitbook/assets/add alarm.gif>)
+## 2. Register a Rule
 
-**Alarm Rules**
+On the **Rules** tab, click **Add Rule**, enter the items below, and click **Add**. To change a registered rule, click **Save**.
 
-```
-SLOW COUNT
-   Triggered when the number of slow requests sent to the application exceeds the configured threshold.
+| Item | Description |
+|---|---|
+| Name, Description | Rule name and description. They appear in the notification message. |
+| Severity | Notification level. `WARNING` or `CRITICAL` |
+| Data Source | Data that the condition uses. Refer to [3. Data Sources and Metrics](alarm.md#alarm-data-sources). |
+| Check Interval | How often the condition is checked |
+| Action Interval | Minimum interval before the same rule sends a notification again |
+| Condition | Condition that sends a notification. Refer to [Condition](alarm.md#alarm-condition) below. |
+| Filters | Conditions that narrow the target. Some data sources do not support filters. |
+| Notification Channels | Channels that receive the notification |
 
-SLOW RATE
-   Triggered when the percentage(%) of slow requests sent to the application exceeds the configured threshold.
+![Add Rule screen with the Data Source list](<../.gitbook/assets/service_alarm_02.jpg>)
 
-ERROR COUNT
-   Triggered when the number of failed requests sent to the application exceeds the configured threshold.
+### Condition <a id="alarm-condition"></a>
 
-ERROR RATE
-   Triggered when the percentage(%) of failed requests sent to the application exceeds the configured threshold.
+A condition has a metric, an aggregation, a comparison operator, a threshold, and an evaluation window (Window).
 
-TOTAL COUNT
-   Triggered when the number of all requests sent to the application exceeds the configured threshold.
+- Select a comparison operator from `>`, `>=`, `<`, `<=`, and `=`.
+- To add a condition, click **Add Condition**.
+- To combine conditions with `AND` or `OR`, click **Add Group**.
 
-APDEX SCORE
-   Triggered when the Apdex score goes down below the configured threshold.
+> Set the Window to the Check Interval or longer. If the Window is shorter, the data between two checks is not evaluated.
 
-SLOW COUNT TO CALLEE
-   Triggered when the number of slow requests sent by the application exceeds the configured threshold.
-   You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
-   ex) www.naver.com, 127.0.0.1:8080
+![Conditions combined with AND](<../.gitbook/assets/service_alarm_03.jpg>)
 
-SLOW RATE TO CALLEE
-   Triggered when the percentage(%) of slow requests sent by the application exceeds the configured threshold.
-   You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
-   ex) www.naver.com, 127.0.0.1:8080
+## 3. Data Sources and Metrics <a id="alarm-data-sources"></a>
 
-ERROR COUNT TO CALLEE
-   Triggered when the number of failed requests sent by the application exceeds the configured threshold.
-   You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
-   ex) www.naver.com, 127.0.0.1:8080
+| Data Source | Metric | Aggregation | Filter | Remarks |
+|---|---|---|---|---|
+| Application Response | Slow Count, Error Count, Total Count | SUM | Not supported | |
+| | Slow Rate (%), Error Rate (%) | Ratio over the whole window | | |
+| | Apdex Score | Score over the whole window | | 0 to 100 |
+| Calls To Another Application | Slow Count, Error Count, Total Count | SUM | `callee`, `callee_host` | |
+| | Slow Rate (%), Error Rate (%) | Ratio over the whole window | | |
+| Agent Stat | Heap Usage Rate (%), JVM CPU Usage Rate (%), System CPU Usage Rate (%), Open File Descriptor Count, Connection Pool Usage Rate (%) | MAX, MIN, AVG | Not supported | Aggregates the value of each agent. The notification shows the agents that crossed the threshold. |
+| Agent Event | Deadlock Detected | None | Not supported | Sends a notification when a new deadlock occurs. No threshold. |
 
-ERROR RATE TO CALLEE
-   Triggered when the percentage(%) of failed requests sent by the application exceeds the configured threshold.
-   You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
-   ex) www.naver.com, 127.0.0.1:8080
+### Application Response and Calls To Another Application
 
-TOTAL COUNT TO CALLEE
-   Triggered when the number of all requests sent by the application exceeds the configured threshold.
-   You must specify the domain or the address(ip, port) in the configuration UI's "Note..." box 
-   ex) www.naver.com, 127.0.0.1:8080
+- `Application Response` counts the requests that the application receives.
+- `Calls To Another Application` counts the calls that the application sends to other targets, such as a DB or an external API.
 
-HEAP USAGE RATE
-   Triggered when the application's heap usage(%) exceeds the configured threshold.
+For example, one incoming request calls the DB three times and an external API once. Then the Total Count of `Application Response` is 1, and the Total Count of `Calls To Another Application` is 4.
 
-JVM CPU USAGE RATE
-   Triggered when the application's CPU usage(%) detected by JVM exceeds the configured threshold.
+### Filters
 
-SYSTEM CPU USAGE RATE
-   Triggered when the application's CPU usage(%) detected by system exceeds the configured threshold.
+- Only `Calls To Another Application` supports filters. For a data source without filter support, the add filter button is disabled.
+- `callee` specifies the target application. `callee_host` specifies the target host.
+- If you add many filters, only the calls that match all filters are counted.
+- Without a filter, the calls to all targets are added together. Then the failures of one target can be hidden by the successful calls to other targets. Specify the target.
+  - Example: 9,900 successful DB calls and 100 failed external API calls give a total Error Rate of 1%.
 
-DATASOURCE CONNECTION USAGE RATE
-   Triggered when the application's DataSource connection usage(%) exceeds the configured threshold.
+## 4. Register a Channel
 
-FILE DESCRIPTOR COUNT
-   Triggered when the number of open file descriptors exceeds the configured threshold.
-```
+1. On the **Channels** tab, click **Add Channel**.
+2. Enter the name, the channel type, and the recipient, and click **Add**.
 
-### 2. Configuration & Implementation
+| Type | Recipient | Remarks |
+|---|---|---|
+| EMAIL | User Group | Sends to the email addresses of the user group members. |
+| SMS | User Group | The operator must register an SMS implementation. Refer to [12. Run Alarm Batch](alarm.md#alarm-batch). |
+| WEBHOOK | URL | Format is `DEFAULT` or `SLACK`. A private address works only for hosts that the operator allows. A channel with a blocked address can be saved, but it sends no notification. |
 
-Alarms generated by Pinpoint can be configured to be sent over email, sms and webhook.
-
-Sending alarms over email is simple - you will simply need to configure the property file. Sending alarms over sms requires some implementation. Read on to find out how to do this. The alarm using webhook requires a separate webhook receiver service. You should implement the webhook receiver service - which is not provided by Pinpoint, or You can use [the sample project](https://github.com/doll6777/slack-receiver).
-
-Few modifications are required in pinpoint-batch and pinpoint-web to use the alarm feature. Add some implementations and settings in pinpoint-batch. Configure Pinpoint-web for user to set an alarm settings.
-
-### 2.1 Configuration & Implementation in pinpoint-batch
-
-#### 2.1.1) Email configuration, sms and webhook implementation <a id="alarm-batch-implementation"></a>
-
-**A. Email alarm service**
-
-To use the mailing feature, you need to configure the SMTP server information and information to be included in the email in the [batch-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/batch-root.properties) file.
-
-```
-pinpoint.url= #pinpoint-web server url
-alarm.mail.server.url= #smtp server address
-alarm.mail.server.port= #smtp server port
-alarm.mail.server.username= #username for smtp server authentication
-alarm.mail.server.password= #password for smtp server authentication
-alarm.mail.sender.address= #sender's email address
-
-ex)
-pinpoint.url=http://pinpoint.com
-alarm.mail.server.url=stmp.server.com
-alarm.mail.server.port=587
-alarm.mail.server.username=pinpoint
-alarm.mail.server.password=pinpoint
-alarm.mail.sender.address=pinpoint_operator@pinpoint.com
-```
-
-The class that sends emails is already registered as Spring bean in [applicationContext-batch-sender.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-sender.xml).
-
-```
-    <bean id="mailSender" class="com.navercorp.pinpoint.batch.alarm.SpringSmtpMailSender">
-        <constructor-arg ref="batchConfiguration"/>
-        <constructor-arg ref="userGroupService"/>
-        <constructor-arg ref="javaMailSenderImpl"/>
-    </bean>
-
-    <bean id="javaMailSenderImpl" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${alarm.mail.server.url:}" />
-        <property name="port" value="${alarm.mail.server.port:587}" />
-        <property name="username" value="${alarm.mail.server.username:}" />
-        <property name="password" value="${alarm.mail.server.password:}" />
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.transport.protocol">${alarm.mail.transport.protocol:}</prop>
-                <prop key="mail.smtp.port">${alarm.mail.smtp.port:}</prop>
-                <prop key="mail.smtp.from">${alarm.mail.sender.address:}</prop>
-                <prop key="mail.smtp.auth">${alarm.mail.smtp.auth:false}</prop>
-                <prop key="mail.smtp.starttls.enable">${alarm.mail.smtp.starttls.enable:false}</prop>
-                <prop key="mail.smtp.starttls.required">${alarm.mail.smtp.starttls.required:false}</prop>
-                <prop key="mail.debug">${alarm.mail.debug:false}</prop>
-            </props>
-        </property>
-    </bean>
-```
-
-If you would like to implement your own mail sender, simply replace the `SpringSmtpMailSender`, `JavaMailSenderImpl` beans above with your own implementation that implements `com.navercorp.pinpoint.web.alarm.MailSender` interface.
-
-```
-public interface MailSender {
-   void sendEmail(AlarmChecker checker, int sequenceCount);
-}
-```
-
-**B. Sms alarm service**
-
-To send alarms over sms, you will need to implement your own sms sender by implementing `com.navercorp.pinpoint.batch.alarm.SmsSender` interface. If there is no `SmsSender` implementation, then alarms will not be sent over sms.
-
-```
-public interface SmsSender {
-    public void sendSms(AlarmChecker checker, int sequenceCount);
-}
-```
-
-**C. Webhook alarm service**
-
-Webhook alarm service is a feature that can transmit Pinpoint's alarm message through Webhook API.
-
-The webhook receiver service that receives the webhook message should be implemented by yourself, or use [a sample project](https://github.com/doll6777/slack-receiver) provided (in this case Slack).
-
-The alarm messages(refer to as payloads) sent to webhook receiver have the different schema depending on the Alarm Checker type. You can see the payload schemas in [3.Others - The Specification of webhook payloads and the examples](alarm.md#alarm-others).
-
-To enable the webhook alarm service, You need to configure _pinpoint.modules.web.webhook_ in [application.yml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) file. Webhook receiver urls can be configured in web UI after configuring the web module to enable webhook as described in the following section.
-
-```
-# webhook config
-pinpoint.modules.web:
-    webhook: true
-```
-
-> **NOTICE!**
->
-> \*\*\* **MYSQL table ALTER for migrating to Pinpoint v2.1.1 **\*\*\*
->
-> As the webhook alarm service is newly added in Pinpoint 2.1.1, you should add column `webhook_send` in table `alarm_rule` to your MYSQL server used for previous versions of Pinpoint.
->
-> ```
-> ALTER TABLE alarm_rule ADD COLUMN webhook_send CHAR(1) DEFAULT NULL;
-> ```
->
-> **\*\*\* MYSQL table CREATE for migrating to Pinpoint v2.3.1 \*\*\***
->
-> Different webhook destinations can be specified to different alarms and new tables are added for this. Create table `webhook` and `webhook_send` as below in your MYSQL server used for previous versions of Pinpoint.
->
-> ```
-> CREATE TABLE `webhook` (
->   `webhook_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
->   `alias` VARCHAR(45) NULL,
->   `url` VARCHAR(45) NOT NULL,
->   `application_id` VARCHAR(45) NULL,
->   `service_name` VARCHAR(45) NULL,
->   PRIMARY KEY (`webhook_id`)
-> );
->
-> CREATE TABLE `webhook_send` (
->   `webhook_send_info_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
->   `webhook_id` INT UNSIGNED NOT NULL,
->   `rule_id` INT UNSIGNED NOT NULL,
->   PRIMARY KEY (`webhook_send_info_id`)
-> );
-> ```
->
-> Of course if you are migrating from versions lower than v2.1.1 to v2.3.1, all the changes above need to be applied.
+![Add Channel screen for a Slack webhook](<../.gitbook/assets/service_alarm_04.jpg>)
 
-WebhookSenderImpl class, which sends the webhook, is already implemented for you and is added as webhookSender bean in [applicationContext-batch-sender.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-sender.xml) of Pinpoint-batch.
+Channels work as follows.
 
-```markup
-   <bean id="webHookSender" class="com.navercorp.pinpoint.web.alarm.WebhookSenderImpl">
-        <constructor-arg ref="batchConfiguration"/>
-        <constructor-arg ref="userServiceImpl"/>
-        <constructor-arg ref="restTemplate" />
-    </bean>
-```
+- If you select a user group without recipients, a warning appears in the channel list and in the channel selection of rules and templates.
+- Many rules and templates in the same service can share one channel.
+- When you change a channel, all later notifications through that channel use the change.
 
-#### 2.1.2) Configuring MYSQL
+![Channel list](<../.gitbook/assets/service_alarm_05.jpg>)
 
-**step 1**
+## 5. Templates and Presets
 
-Prepare MYSQL Instance to persist the alarm service metadata.
+A template is a group of rules. Apply one template to many applications to use the same alarm criteria.
 
-**step 2**
+### Make a Template
 
-Set up a MYSQL server and configure connection information in [jdbc-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/jdbc-root.properties) file.
+1. On the **Templates** tab, click **Add Template**.
+2. Select the rules for the template and click **Start with N rules**. You can select many items from the three groups below.
+3. Adjust the template name, channels, and rules, and click **Save**.
 
-```
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:13306/pinpoint
-jdbc.username=admin
-jdbc.password=admin
-```
+| Group | Description |
+|---|---|
+| Start from a preset | Built-in rule groups. Refer to [Built-in Presets](alarm.md#alarm-presets). |
+| Copy one of my templates | Templates registered in this service |
+| Import standalone rules | Rules registered directly on an application |
 
-**step 3**
+- The selected rules are copied into the new template. Later changes to the source preset, template, or rule do not change the new template.
+- To start with an empty template, select nothing and click **Start empty**.
 
-Create tables for the alarm service. Use below DDL files.
+![Make a template from a preset](<../.gitbook/assets/service_alarm_06.gif>)
 
-* [CreateTableStatement-mysql.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/sql/CreateTableStatement-mysql.sql)
-* [SpringBatchJobRepositorySchema-mysql.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/sql/SpringBatchJobRepositorySchema-mysql.sql)
+### Apply a Template to an Application
 
-#### 2.1.3) How to execute pinpoint-batch
+1. On the **Rules** tab, select an application.
+2. Click **Add from template** and select a template.
 
-The pinpoint-batch project is based on spring boot and can be executed with the following command. When building is successfully finished, the executable file is placed under the target/deploy folder of the pinpoint-batch.
+You cannot select a template that is already applied to the application.
 
-```
-java -Dspring.profiles.active=XXXX -jar pinpoint-batch-VERSION.jar 
+![Apply a template to an application](<../.gitbook/assets/service_alarm_07.gif>)
 
-ex) java -Dspring.profiles.active=local -jar pinpoint-batch-2.1.1.jar
-```
+### Effect of Template Changes
 
-### 2.2 How to configure pinpoint-web
+| Action | Effect |
+|---|---|
+| Change a template | The change applies to the rules of all applications that use the template. Added and removed rules also apply. |
+| Change template channels | The change applies to all rules made from the template. |
+| Remove a template from an application | Deletes only the rules made from that template in the selected application. |
+| Delete a template | Deletes the rules made from that template in all applications. |
 
-#### 2.2.1) Configuring MYSQL Server IP
+> If you change a value of a template rule directly on an application, later template changes do not change that value.
 
-In order to persist user alarm settings, set the mysql connection information in [jdbc-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/jdbc-root.properties) file in pinpoint-web.
+### Built-in Presets <a id="alarm-presets"></a>
 
-```
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:13306/pinpoint
-jdbc.username=admin
-jdbc.password=admin
-```
+**Agent Health Basics**: Monitors agent health with heap, CPU, and connection pool usage, and deadlocks.
 
-#### 2.2.2) Enabling Webhook Alarm Service
+| Rule | Severity | Condition | Check / Action |
+|---|---|---|---|
+| High heap usage | WARNING | Heap Usage Rate MAX >= 90% in 10 minutes | 5 min / 30 min |
+| High JVM CPU usage | WARNING | JVM CPU Usage Rate MAX >= 90% in 10 minutes | 5 min / 30 min |
+| High connection pool usage | CRITICAL | Connection Pool Usage Rate MAX >= 90% in 10 minutes | 5 min / 30 min |
+| Deadlock detected | CRITICAL | A new deadlock occurs | 5 min / 60 min |
 
-Set _pinpoint.modules.web.webhook_ in [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/application.yml) as _true_ for user to configure the webhook alarm in _Alarm_ menu.
+**Response Quality Basics**: Monitors response quality with error rate, slow rate, and Apdex.
 
-```
-# webhook config
-pinpoint.modules.web:
-    webhook: true
-```
+| Rule | Severity | Condition | Check / Action |
+|---|---|---|---|
+| High error rate | CRITICAL | Error Rate >= 10% in 5 minutes | 3 min / 30 min |
+| High slow rate | WARNING | Slow Rate >= 20% in 5 minutes | 3 min / 30 min |
+| Apdex drop | WARNING | Apdex Score < 70 in 5 minutes | 3 min / 30 min |
 
-As you enable the webhook alarm service, you can set the webhook as alarm type and specify the target webhook.
+## 6. Status and History
 
-![](../.gitbook/assets/alarm\_select\_webhook.png)
+### Rule Status
 
-### 3. Others <a id="alarm-others"></a>
+| Status | Description |
+|---|---|
+| `NORMAL` | The condition is not met. |
+| `FIRING` | The condition is met and the alarm fired. |
+| `CHECK_FAILED` | The data query, the evaluation, or the notification preparation failed. |
 
-### 3.1 Configuration, Execution, Performance.
+### History
 
-**1) You may change the batch execution period by modifying the cron expression in **[_**applicationContext-batch-schedule.xml**_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-schedule.xml)** file**
+| Event | When it is recorded | Notification |
+|---|---|---|
+| `FIRED` | When the alarm fires and sends a notification. A repeat inside the Action Interval is not recorded. | Sent |
+| `RESOLVED` | When the rule returns to normal from `FIRING` or `CHECK_FAILED` | Not sent |
+| `CHECK_FAILED` | When a check fails for the first time. Continued failures are not recorded again. | Not sent |
 
-```
-<task:scheduled-tasks scheduler="scheduler">
-    <task:scheduled ref="batchJobLauncher" method="alarmJob" cron="0 0/3 * * * *" />
-</task:scheduled-tasks>
+- In the rule list, click **Actions → History** to see the current status and the history of a rule.
+- The history keeps the rule settings and the measured values at the time of the alarm. Later rule changes do not change the history.
+
+![Rule History](<../.gitbook/assets/service_alarm_08.jpg>)
+
+### Notification Content
+
+A notification includes the service, the application, the rule, and the measured values.
+
+| Button | Destination |
+|---|---|
+| View Details | The Service Map for the time range of the alarm. Inspector for Agent Stat and Agent Event rules |
+| Alarm History | The history of the rule |
+
+![Alarm notification email](<../.gitbook/assets/service_alarm_09.png>)
+
+## 7. Input Limits
+
+| Item | Limit |
+|---|---|
+| Rule name / description | 255 / 1000 characters |
+| Rules in a template | 30 per template |
+| Conditions | 10 conditions and groups in total, group depth 2 |
+| One group | 3 conditions, 2 subgroups |
+| Filters | 5 per rule, 512 characters per value |
+| Window | 1 minute to 24 hours (except metrics without a threshold) |
+| Check Interval | 1, 3, 5, 10, 30, 60 minutes |
+| Action Interval | 5, 10, 30 minutes, 1, 6, 12, 24 hours |
+
+## 8. Migrate Legacy Alarm Rules
+
+Legacy rules do not move automatically. Legacy rules have no severity, Action Interval, or shared channel, and their window and check interval are fixed. Register new Service Alarm rules with the mapping below.
+
+| Legacy checker | Data Source | Metric and settings |
+|---|---|---|
+| `SLOW_COUNT`, `SLOW_RATE` | Application Response | Slow Count, Slow Rate (%) |
+| `ERROR_COUNT`, `ERROR_RATE` | Application Response | Error Count, Error Rate (%) |
+| `TOTAL_COUNT` | Application Response | Total Count |
+| `APDEX_SCORE` | Application Response | Apdex Score. To keep the legacy behavior, select `<=`. |
+| `*_TO_CALLEE` | Calls To Another Application | Same metric. Move the target in the notes of the legacy rule to the `callee` or `callee_host` filter. |
+| `HEAP_USAGE_RATE`, `JVM_CPU_USAGE_RATE`, `SYSTEM_CPU_USAGE_RATE`, `FILE_DESCRIPTOR_COUNT` | Agent Stat | Same metric. To keep the legacy behavior, select the `MAX` aggregation and `>=`. |
+| `DATASOURCE_CONNECTION_USAGE_RATE` | Agent Stat | Connection Pool Usage Rate (%). To keep the legacy behavior, select the `MAX` aggregation and `>`. |
+| `DEADLOCK_OCCURRENCE` | Agent Event | Deadlock Detected |
+
+The SMS, email, and webhook settings of legacy rules do not move. Register channels in the service and connect them to the rules.
+
+### Migration Steps
+
+1. Make the Service Alarm rule in the disabled state.
+2. Compare the service, condition, threshold, target, and recipients with the legacy rule.
+3. Disable the legacy rule and enable the Service Alarm rule immediately.
+4. Make sure that notifications arrive and the history is recorded.
+
+## 9. Legacy Alarm and Service Alarm Comparison <a id="alarm-comparison"></a>
+
+| Item | Legacy Alarm | Service Alarm |
+|---|---|---|
+| Management unit | Application | Application of a service |
+| Condition | One metric per rule | Combined conditions with `AND`/`OR` |
+| Comparison | Fixed for each checker (Apdex: less than or equal, connection pool: greater than, others: greater than or equal) | Select `>`, `>=`, `<`, `<=`, or `=` |
+| Evaluation window | Fixed at 5 minutes | Window for each rule |
+| Check interval | Fixed at 3 minutes | 1, 3, 5, 10, 30, 60 minutes |
+| Repeat notification | Sent at the 1st, 3rd, 7th, 15th... consecutive detection | Action Interval |
+| Agent condition | Fires when any agent crosses the threshold | `MAX`, `MIN`, `AVG` (`MAX` matches the legacy behavior) |
+| Target selection | One target in the notes of the rule | `callee`, `callee_host` filters |
+| Severity | None | `WARNING`, `CRITICAL` |
+| Channel | User group and SMS, email, webhook on/off | Shared service channels connected to rules and templates |
+| Reuse | Register rules for each application | Templates and presets |
+| History | Not shown on screen | Status and history for each rule, history link in the notification |
+
+# Operation Guide
+
+## 10. Components <a id="alarm-components"></a>
+
+| Component | Role |
+|---|---|
+| Pinpoint Web | Provides the API and the screen for rules, channels, and templates. Included without extra settings. |
+| Alarm Batch (`alarm-batch-starter`) | Checks the rules and sends notifications. Runs as a separate process. |
+| MySQL | Stores the alarm tables and the Spring Batch metadata. |
+| HBase, Pinot | Alarm Batch reads metrics from them. |
+
+- The legacy alarm is evaluated by `alarmJob` of the `batch` module and checks only the applications of the `DEFAULT` service.
+- Service Alarm is evaluated and sent by Alarm Batch.
+
+```mermaid
+flowchart LR
+    user(["User"])
+    api["Pinpoint Web<br/>Alarm API"]
+    mysql[("MySQL<br/>Alarm tables")]
+
+    subgraph batch["Alarm Batch"]
+        direction TB
+        eval["Rule evaluation<br/>every 10 seconds"]
+        send["Notification delivery<br/>every 5 seconds"]
+    end
+
+    subgraph metrics["Metric storage"]
+        direction TB
+        hbase[("HBase<br/>Map statistics · Agent Event")]
+        pinot[("Pinot<br/>Agent statistics")]
+    end
+
+    ch["Email · SMS · Webhook"]
+
+    user -- "Manage rules, channels, templates" --> api
+    api -- "Save" --> mysql
+    mysql <-- "Read rules / save status and history" --> eval
+    eval -- "Query metrics" --> metrics
+    eval -. "Queue delivery<br/>(MySQL)" .-> send
+    send -- "Send" --> ch
 ```
 
-**2) Ways to improve alarm batch performance**
+| Data Source | Source |
+|---|---|
+| Application Response, Calls To Another Application | HBase map statistics |
+| Agent Stat | Pinot agent statistics table |
+| Agent Event | HBase Agent Event |
 
-The alarm batch was designed to run concurrently. If there are a lot of applications using alarms, you may increase the size of the executor's thread pool by modifying `pool-size` in [_applicationContext-alarmJob.xml_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/job/applicationContext-alarmJob.xml) file.
+> Pinpoint Web does not check permissions on the alarm API. A user who can access Web can read and change the rules, channels, and templates of all services.
 
-Note that increasing this value will result in higher resource usage.
+## 11. Prepare the Database
 
-```
-<task:executor id="poolTaskExecutorForPartition" pool-size="1" />
-```
+MySQL 5.7.8 or later is necessary, because the configuration columns of the alarm tables use the JSON type.
 
-If there are a lot of alarms registered to each application, you may set the `alarmStep` registered in [_applicationContext-alarmJob.xml_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/job/applicationContext-alarmJob.xml) file to run concurrently.
+Make the alarm tables with this script.
 
-```
-<step id="alarmStep" xmlns="http://www.springframework.org/schema/batch">
-    <tasklet task-executor="poolTaskExecutorForStep" throttle-limit="3">
-        <chunk reader="reader" processor="processor" writer="writer" commit-interval="1"/>
-    </tasklet>
-</step>
-<task:executor id="poolTaskExecutorForStep" pool-size="10" />
+```text
+alarm/alarm-common/src/main/resources/sql/alarm/CreateTableStatement-mysql.sql
 ```
 
-**3) Use quickstart's web**
+| Group | Tables |
+|---|---|
+| Template | `alarm_template`, `alarm_template_item` |
+| Rule | `alarm_rule_v2`, `alarm_rule_local_config` |
+| Channel | `alarm_notification_channel`, `alarm_channel_binding` |
+| Status and history | `alarm_state`, `alarm_history_v2` |
+| Delivery queue | `alarm_notification_outbox` |
 
-Pinpoint Web uses Mysql to persist users, user groups, and alarm configurations, but our Quickstart example uses MockDAO to reduce memory usage. If you want to use Mysql with Quickstart, please refer to Pinpoint Web's [applicationContext-dao-config.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/applicationContext-dao-config.xml) and [jdbc.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/jdbc.properties).
+Alarm Batch does not make the Spring Batch metadata schema. Make it with this script.
 
-### 3.2 Details on Webhook
-
-#### 3.2.1) webhook receiver sample project
-
-[Slack-Receiver](https://github.com/doll6777/slack-receiver) is an example project for the webhook receiver. The project can receive alarms from Pinpoint through webhook and send the message to Slack. If you want more details, see [the project repository](https://github.com/doll6777/slack-receiver).
-
-#### 3.2.2) The Specification of webhook payloads and the examples
-
-**The Schemas of webhook payloads**
-
-Key
-
-| Name          | Type      | Description                                                  | Nullable |
-| ------------- | --------- | ------------------------------------------------------------ | -------- |
-| pinpointUrl   | String    | Pinpoint-web server URL                                      | O        |
-| batchEnv      | String    | Batch server environment variable                            | X        |
-| applicationId | String    | Alarm target application Id                                  | X        |
-| serviceType   | String    | Alarm target application service type                        | X        |
-| userGroup     | UserGroup | The UserGroup in the user group page                         | X        |
-| checker       | Checker   | The checker info in the alarm setting page                   | X        |
-| unit          | String    | The unit of detected value by checker                        | O        |
-| threshold     | Integer   | The threshold of value detected by checker during a set time | X        |
-| notes         | String    | The notes in the alarm setting page                          | O        |
-| sequenceCount | Integer   | The number of alarm occurence                                | X        |
-
-UserGroup
-
-| Name             | Type          | Description                              | Nullable |
-| ---------------- | ------------- | ---------------------------------------- | -------- |
-| userGroupId      | String        | The user group id in the user group page | X        |
-| userGroupMembers | UserMember\[] | Members Info of a specific user group    | X        |
-
-Checker
-
-| Name          | Type                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Nullable |
-| ------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| name          | String                      | The name of checker in the alarm setting page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | X        |
-| type          | String                      | <p>The type of checker abstracted by value detected by checker<br>"LongValueAlarmChecker" type is the abstracted checker type of “Slow Count”, “Slow Rate”, “Error Count”, “Error Rate”, “Total Count”, “Slow Count To Callee”, “Slow Rate To Callee”, “Error Count To Callee”, “Error Rate To Callee”, “Total Count to Callee”.<br>"LongValueAgentChecker" type is the abstracted checker type of "Heap Usage Rate", "Jvm Cpu Usage Rate", "System Cpu Usage Rate", "File Descriptor Count".<br>"BooleanValueAgentChecker" type is the abstracted checker type of "Deadlock or not".<br>"DataSourceAlarmListValueAgentChecker" type is the abstracted checker type of "DataSource Connection Usage Rate".</p> | X        |
-| detectedValue | Integer or DetectedAgent\[] | <p>The value detected by checker<br>If “type” is “LongValueAlarmChecker”, “detectedValue” is Integer type.<br>If "type" is not "LongValueAlarmChecker", "detectedValue" is DetectedAgents[] type.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | X        |
-
-UserMember
-
-| Name             | Type   | Description               | Nullable |
-| ---------------- | ------ | ------------------------- | -------- |
-| id               | String | Member id                 | X        |
-| name             | String | Member name               | X        |
-| email            | String | Member email              | O        |
-| department       | String | Member department         | O        |
-| phoneNumber      | String | Member phone number       | O        |
-| phoneCountryCode | String | Member phone country code | O        |
-
-DetectedAgent
-
-| Name       | Type                                                 | Description                                                                                                                                                                                                                                                                                  | Nullable |
-| ---------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| agentId    | String                                               | Agent id detected by checker                                                                                                                                                                                                                                                                 | X        |
-| agentValue | <p>Integer or<br>Boolean or<br>DataSourceAlarm[]</p> | <p>The value of Agent detected by checker<br>If “type” is “LongValueAgentChecker”, “agentValue” is Integer type.<br>If “type” is “BooleanValueAgentChecker”,“agentValue” is Boolean type.<br>If “type” is “DataSourceAlarmListValueAgentChecker”, “agentValue” is DataSourceAlarm[] type</p> | X        |
-
-DataSourceAlarm
-
-| Name            | Type    | Description                                   | Nullable |
-| --------------- | ------- | --------------------------------------------- | -------- |
-| databaseName    | String  | The database name connected to application    | X        |
-| connectionValue | Integer | The application's DataSource connection usage | X        |
-
-**The Examples of the webhook Payload**
-
-LongValueAlarmChecker
-
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "TOTAL COUNT",
-   "type": "LongValueAlarmChecker",
-   "detectedValue": 33
- },
- "unit": "",
- "threshold": 15,
- "notes": "Note Example",
- "sequenceCount": 4
-}
+```text
+web/src/main/resources/sql/SpringBatchJobRepositorySchema-mysql.sql
 ```
 
-LongValueAgentChecker
+## 12. Run Alarm Batch <a id="alarm-batch"></a>
 
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "HEAP USAGE RATE",
-   "type": "LongValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": 8
-     }
-   ]
- },
- "unit": "%",
- "threshold": 5,
- "notes": "Note Example",
- "sequenceCount": 4
-}
+- Executable: `pinpoint-alarm-batch-starter-<version>-exec.jar`
+- Container image: `pinpoint-alarm-batch`
+- External configuration file: `-Dpinpoint.alarm.batch.config.location=<path>`
+
+### Required Settings
+
+| Item | Setting | Remarks |
+|---|---|---|
+| MySQL | `jdbc.properties` | Use the same alarm tables as Web. |
+| Spring Batch metadata | `spring.meta-datasource.*` | If not set, uses the same DB as the MySQL setting. |
+| HBase | `hbase.properties` | |
+| Pinot | `spring.pinot-datasource.*` | |
+| Agent statistics table | `alarm.agent-stat.table.prefix`, `alarm.agent-stat.table.padding-length`, `alarm.agent-stat.table.count` | Startup fails without these values. The release profile has them only as comments, so set them yourself. |
+
+### Notification Settings
+
+| Item | Setting | Remarks |
+|---|---|---|
+| Notification link | `alarm.pinpoint.web.url` | If empty, notifications have no View Details or Alarm History link. |
+| Email | `alarm.email.sender`, `spring.mail.*` | If `alarm.email.sender` is empty, no email is sent. |
+| Webhook private addresses | `pinpoint.webhook.allowed-private-hosts`, `pinpoint.webhook.allowed-private-host-suffixes` | By default, all private addresses are blocked. |
+| SMS | `SmsAlarmSender` bean | No default implementation. Refer to the description below. |
+
+To use SMS channels, implement the interfaces below and register them as a `SmsAlarmSender` bean.
+
+- `SmsDispatcher`: Receives a list of phone numbers and a message, and sends the SMS.
+- `UserGroupPhoneResolver`: Finds the phone numbers of the user group members.
+
+Without this bean, SMS channels send no notification, and the failure is recorded in the alarm history. The other channels of the same rule still send notifications.
+
+### Tunable Settings
+
+| Setting | Default | Description |
+|---|---|---|
+| `pinpoint.modules.batch.alarm.fixedDelayMs` | `10000` | Rule check interval (ms) |
+| `pinpoint.modules.batch.alarm.batchSize` | `300` | Number of rules read at a time |
+| `pinpoint.modules.batch.alarm.worker.coreSize`, `.maxSize` | `4`, `4` | Number of rule evaluation threads |
+| `pinpoint.modules.batch.alarm.jobName` | `alarmEvaluationJob` | Name that separates this job from the legacy alarm (`alarmJob`) when both use the same metadata schema |
+| `pinpoint.modules.batch.alarm.outbox.fixedDelayMs` | `5000` | Notification delivery interval (ms) |
+| `pinpoint.modules.batch.alarm.outbox.batchSize` | `100` | Number of notifications sent at a time |
+| `pinpoint.modules.batch.alarm.outbox.maxAttempts` | `5` | Maximum delivery attempts, including the first attempt (1 to 255) |
+| `pinpoint.modules.batch.alarm.outbox.leaseSec` | `60` | Time (seconds) during which no other process takes a notification that is being sent |
+| `alarm.pinpoint.web.alarm-path` | `/config/alarm` | Path of the Alarm History link |
+
+> The alarm history (`alarm_history_v2`) and the sent items of the delivery queue are not deleted automatically. If necessary, delete old rows periodically.
+
+
+# Service 알람 가이드 <a id="service-alarm-ko"></a>
+
+Pinpoint에 Service 기능이 추가되면서, Service 단위로 알람을 설정할 수 있는 Service 알람 화면이 추가되었습니다. Service 알람은 Service의 Application에 알람 룰을 등록하고, 조건을 만족하면 채널로 알림을 보냅니다.
+
+기존 알람은 `DEFAULT` Service에서만 사용할 수 있습니다. 직접 생성한 Service에서는 Service 알람 화면에서 그 Service의 Application 알람을 관리합니다.
+
+Service 알람은 Service Map 기능이 켜져 있을 때만 사용할 수 있습니다. `pinpoint.modules.web.servicemap.enabled`가 `false`이면 모든 Application이 `DEFAULT` Service로 처리되어 기존 알람 화면만 표시됩니다.
+
+### 주요 변경 사항
+
+| 항목 | 기존 알람 | Service 알람 |
+|---|---|---|
+| 사용하는 Service | `DEFAULT` | 직접 생성한 Service |
+| 채널 | 룰마다 지정 | Service 단위로 등록하고 여러 룰·템플릿에서 재사용 |
+| 룰 등록 | Application마다 같은 룰을 새로 등록 | 템플릿을 만들어 여러 Application에 적용 |
+| 조건 | 단일 지표 단순 비교 | 여러 지표를 `AND`/`OR`로 결합 |
+| 연산자 | checker마다 고정 | `>`, `>=`, `<`, `<=`, `=` 중 선택 |
+| 평가 구간 | 5분 고정 | 룰별로 지정 |
+| 재알림 | 연속 감지 1·3·7·15...번째에 발송 | Action Interval로 재알림 간격 지정 |
+
+자세한 비교는 [9. 기존 알람과 Service 알람 비교](alarm.md#alarm-comparison-ko)를 참고합니다.
+
+### 안내 사항
+
+- 기존 룰은 자동 이전되지 않습니다.
+  - Application을 Service로 옮겼다면 Service 알람 룰을 다시 등록해야 합니다.
+- `DEFAULT` Service의 기존 알람은 `batch` 모듈의 `alarmJob`에서 계속 동작합니다.
+- 전환 기간에 같은 조건을 기존 알람과 Service 알람에서 모두 켜면 알림이 중복됩니다.
+
+Service 알람을 운영하려면 별도의 Alarm Batch 프로세스가 필요합니다. [10. 구성 요소](alarm.md#alarm-components-ko)부터 운영 방법을 설명합니다.
+
+# 사용 가이드
+
+## 1. 알람 화면 열기
+
+1. 알람을 설정할 Service를 선택합니다.
+2. 왼쪽 아래 **Service → Alarm**을 누릅니다.
+3. 상단에서 Application을 선택합니다.
+
+알람 화면은 세 개의 탭으로 구성됩니다.
+
+| 탭 | 내용 |
+|---|---|
+| Rules | 선택한 Application의 룰을 등록하고 관리합니다. |
+| Channels | 알림을 받을 채널을 등록합니다. |
+| Templates | 여러 룰을 하나의 템플릿으로 묶고 여러 Application에 적용합니다. |
+
+![알람 화면의 Rules 탭](<../.gitbook/assets/service_alarm_01.png>)
+
+## 2. 룰 등록
+
+**Rules** 탭에서 **Add Rule**을 누르고, 아래 항목을 입력한 뒤 **Add**를 누릅니다. 등록한 룰을 수정할 때는 **Save**를 누릅니다.
+
+| 항목 | 설명 |
+|---|---|
+| Name, Description | 룰 이름과 설명. 알림 메시지에 표시됩니다. |
+| Severity | 알림 등급. `WARNING` 또는 `CRITICAL` |
+| Data Source | 조건에 사용할 데이터. [3. 데이터 소스와 지표](alarm.md#alarm-data-sources-ko)에서 설명합니다. |
+| Check Interval | 조건을 검사하는 주기 |
+| Action Interval | 같은 룰의 알림을 다시 보내기까지의 최소 간격 |
+| Condition | 알림을 보낼 조건. 아래 [조건 구성](alarm.md#alarm-condition-ko)에서 설명합니다. |
+| Filters | 검사 대상을 좁히는 조건. 일부 Data Source는 필터를 지원하지 않습니다. |
+| Notification Channels | 알림을 보낼 채널 |
+
+![Data Source 목록을 연 Add Rule 화면](<../.gitbook/assets/service_alarm_02.jpg>)
+
+### 조건 구성 <a id="alarm-condition-ko"></a>
+
+조건 하나는 지표, 집계 방식, 비교 연산자, 임계값, 평가 구간(Window)으로 구성됩니다.
+
+- 비교 연산자는 `>`, `>=`, `<`, `<=`, `=` 중에서 선택합니다.
+- 조건을 더 추가하려면 **Add Condition**을 누릅니다.
+- 여러 조건을 `AND` 또는 `OR`로 묶으려면 **Add Group**을 누릅니다.
+
+> Window는 Check Interval 이상으로 설정합니다. Window가 더 짧으면 두 검사 사이의 데이터가 평가에서 빠집니다.
+
+![AND로 결합한 조건](<../.gitbook/assets/service_alarm_03.jpg>)
+
+## 3. 데이터 소스와 지표 <a id="alarm-data-sources-ko"></a>
+
+| Data Source | 지표 | 집계 | 필터 | 비고 |
+|---|---|---|---|---|
+| Application Response | Slow Count, Error Count, Total Count | SUM | 지원 안 함 | |
+| | Slow Rate (%), Error Rate (%) | 평가 구간 전체의 비율 | | |
+| | Apdex Score | 평가 구간 전체의 점수 | | 0~100 |
+| Calls To Another Application | Slow Count, Error Count, Total Count | SUM | `callee`, `callee_host` | |
+| | Slow Rate (%), Error Rate (%) | 평가 구간 전체의 비율 | | |
+| Agent Stat | Heap Usage Rate (%), JVM CPU Usage Rate (%), System CPU Usage Rate (%), Open File Descriptor Count, Connection Pool Usage Rate (%) | MAX, MIN, AVG | 지원 안 함 | Agent별로 집계하고, 기준을 넘은 Agent를 알림에 표시합니다. |
+| Agent Event | Deadlock Detected | 없음 | 지원 안 함 | 새 데드락이 발생하면 임계값 없이 알림 |
+
+### Application Response와 Calls To Another Application
+
+- `Application Response`는 Application으로 들어온 요청을 집계합니다.
+- `Calls To Another Application`은 Application이 DB, 외부 API 같은 다른 대상으로 보낸 호출을 집계합니다.
+
+예를 들어 들어온 요청 하나가 DB를 세 번, 외부 API를 한 번 호출하면 `Application Response`의 Total Count는 1, `Calls To Another Application`의 Total Count는 4입니다.
+
+### 필터
+
+- `Calls To Another Application`만 필터를 지원합니다. 필터를 지원하지 않는 Data Source에서는 필터 추가 버튼이 비활성화됩니다.
+- `callee`는 호출 대상 Application을, `callee_host`는 호출 대상 host를 지정합니다.
+- 여러 필터를 등록하면 모든 필터를 만족하는 호출만 집계합니다.
+- 필터가 없으면 모든 호출 대상을 합산합니다. 이 경우 특정 대상의 실패가 다른 대상의 정상 호출에 묻힐 수 있으므로 대상을 지정합니다.
+  - 예: 정상 DB 호출 9,900건과 모두 실패한 외부 API 호출 100건이 있으면 전체 Error Rate는 1%입니다.
+
+## 4. 채널 등록
+
+1. **Channels** 탭에서 **Add Channel**을 누릅니다.
+2. 이름, 채널 종류, 수신 대상을 입력하고 **Add**를 누릅니다.
+
+| 종류 | 수신 대상 | 비고 |
+|---|---|---|
+| EMAIL | User Group | User Group 구성원의 이메일로 보냅니다. |
+| SMS | User Group | 운영자가 SMS 발송 구현을 등록해야 합니다. [12. Alarm Batch 실행](alarm.md#alarm-batch-ko)을 참고합니다. |
+| WEBHOOK | URL | 형식은 `DEFAULT` 또는 `SLACK`. 사설 주소는 운영자가 허용한 호스트만 사용할 수 있으며, 허용되지 않은 주소는 저장되어도 알림이 발송되지 않습니다. |
+
+![Slack 웹훅 채널 추가 화면](<../.gitbook/assets/service_alarm_04.jpg>)
+
+채널은 다음과 같이 동작합니다.
+
+- 수신자가 없는 User Group을 선택하면 채널 목록과 룰·템플릿의 채널 선택 화면에 경고가 표시됩니다.
+- 채널은 같은 Service의 여러 룰과 템플릿에서 재사용할 수 있습니다.
+- 채널 정보를 수정하면 그 채널을 사용하는 이후 알림에 모두 반영됩니다.
+
+![채널 목록](<../.gitbook/assets/service_alarm_05.jpg>)
+
+## 5. 템플릿과 Preset
+
+템플릿은 여러 룰을 하나로 묶은 것입니다. 템플릿 하나를 여러 Application에 적용하면 같은 기준으로 알람을 설정할 수 있습니다.
+
+### 템플릿 만들기
+
+1. **Templates** 탭에서 **Add Template**을 누릅니다.
+2. 템플릿에 넣을 룰을 고르고 **Start with N rules**를 누릅니다. 아래 세 그룹에서 여러 개를 함께 고를 수 있습니다.
+3. 템플릿 이름, 채널, 룰을 조정하고 **Save**를 누릅니다.
+
+| 그룹 | 설명 |
+|---|---|
+| Start from a preset | 기본 제공 룰 묶음. [기본 제공 Preset](alarm.md#alarm-presets-ko)을 참고합니다. |
+| Copy one of my templates | 이 Service에 등록한 템플릿 |
+| Import standalone rules | Application에 직접 등록한 룰 |
+
+- 고른 룰은 새 템플릿으로 복사됩니다. 원본 Preset, 템플릿, 룰을 나중에 바꿔도 새 템플릿은 바뀌지 않습니다.
+- 아무것도 고르지 않으면 **Start empty**를 눌러 빈 템플릿으로 시작합니다.
+
+![Preset으로 템플릿 만들기](<../.gitbook/assets/service_alarm_06.gif>)
+
+### Application에 적용
+
+1. **Rules** 탭에서 Application을 선택합니다.
+2. **Add from template**을 누르고 템플릿을 선택합니다.
+
+이미 그 Application에 적용한 템플릿은 다시 선택할 수 없습니다.
+
+![Application에 템플릿 적용](<../.gitbook/assets/service_alarm_07.gif>)
+
+### 템플릿 변경의 영향
+
+| 작업 | 영향 |
+|---|---|
+| 템플릿 수정 | 템플릿을 적용한 모든 Application의 룰에 반영됩니다. 룰을 추가하거나 삭제해도 함께 반영됩니다. |
+| 템플릿 채널 변경 | 템플릿으로 만든 모든 룰에 반영됩니다. |
+| 템플릿 적용 해제 | 선택한 Application에서 그 템플릿으로 만든 룰만 삭제됩니다. |
+| 템플릿 삭제 | 모든 Application에서 그 템플릿으로 만든 룰이 삭제됩니다. |
+
+> Application에서 템플릿 룰의 값을 직접 바꾸면 그 항목은 템플릿을 수정해도 바뀌지 않습니다.
+
+### 기본 제공 Preset <a id="alarm-presets-ko"></a>
+
+**Agent Health Basics**: 힙, CPU, 커넥션 풀 사용률과 데드락으로 Agent 상태를 감시합니다.
+
+| 룰 | Severity | 조건 | Check / Action |
+|---|---|---|---|
+| High heap usage | WARNING | 10분 동안 Heap Usage Rate MAX >= 90% | 5분 / 30분 |
+| High JVM CPU usage | WARNING | 10분 동안 JVM CPU Usage Rate MAX >= 90% | 5분 / 30분 |
+| High connection pool usage | CRITICAL | 10분 동안 Connection Pool Usage Rate MAX >= 90% | 5분 / 30분 |
+| Deadlock detected | CRITICAL | 새 데드락 발생 | 5분 / 60분 |
+
+**Response Quality Basics**: 에러율, 느린 응답 비율, Apdex로 응답 품질을 감시합니다.
+
+| 룰 | Severity | 조건 | Check / Action |
+|---|---|---|---|
+| High error rate | CRITICAL | 5분 동안 Error Rate >= 10% | 3분 / 30분 |
+| High slow rate | WARNING | 5분 동안 Slow Rate >= 20% | 3분 / 30분 |
+| Apdex drop | WARNING | 5분 동안 Apdex Score < 70 | 3분 / 30분 |
+
+## 6. 상태와 이력
+
+### 룰 상태
+
+| 상태 | 의미 |
+|---|---|
+| `NORMAL` | 조건을 만족하지 않는 상태 |
+| `FIRING` | 조건을 만족해 알람이 발생한 상태 |
+| `CHECK_FAILED` | 데이터 조회, 평가, 알림 준비 중 하나가 실패한 상태 |
+
+### 이력
+
+| 이벤트 | 기록 시점 | 알림 |
+|---|---|---|
+| `FIRED` | 알람이 발생해 알림을 보낼 때. Action Interval 안에 다시 발생하면 기록하지 않습니다. | 보냄 |
+| `RESOLVED` | `FIRING` 또는 `CHECK_FAILED`에서 정상으로 돌아왔을 때 | 보내지 않음 |
+| `CHECK_FAILED` | 검사에 처음 실패했을 때. 실패가 이어지는 동안에는 다시 기록하지 않습니다. | 보내지 않음 |
+
+- 룰 목록에서 룰의 **Actions → History**를 누르면 현재 상태와 이력을 확인할 수 있습니다.
+- 이력에는 알람이 발생한 시점의 룰 설정과 측정값이 남습니다. 이후에 룰을 수정해도 이력은 바뀌지 않습니다.
+
+![룰 이력](<../.gitbook/assets/service_alarm_08.jpg>)
+
+### 알림 내용
+
+알림에는 Service, Application, 룰, 측정값이 포함됩니다.
+
+| 버튼 | 이동하는 화면 |
+|---|---|
+| View Details | 알람이 발생한 시간 범위의 Service Map. Agent Stat, Agent Event 룰은 Inspector |
+| Alarm History | 그 룰의 이력 |
+
+![알람 알림 메일](<../.gitbook/assets/service_alarm_09.png>)
+
+## 7. 입력 제한
+
+| 항목 | 제한 |
+|---|---|
+| 룰 이름 / 설명 | 255자 / 1000자 |
+| 템플릿의 룰 | 템플릿당 30개 |
+| 조건 | 조건과 그룹을 합쳐 10개, 그룹 깊이 2단 |
+| 그룹 하나 | 조건 3개, 하위 그룹 2개 |
+| 필터 | 룰당 5개, 값 512자 |
+| Window | 1분 이상 24시간 이하 (임계값이 없는 지표는 제외) |
+| Check Interval | 1, 3, 5, 10, 30, 60분 |
+| Action Interval | 5, 10, 30분, 1, 6, 12, 24시간 |
+
+## 8. 기존 알람 룰 전환
+
+기존 룰은 자동으로 이전되지 않습니다. 기존 룰에는 Severity, Action Interval, 공용 채널이 없고 평가 구간과 검사 주기가 고정되어 있어서 그대로 옮길 수 없기 때문입니다. 아래 대응표를 보고 Service 알람 룰을 새로 등록합니다.
+
+| 기존 checker | Data Source | 지표와 설정 |
+|---|---|---|
+| `SLOW_COUNT`, `SLOW_RATE` | Application Response | Slow Count, Slow Rate (%) |
+| `ERROR_COUNT`, `ERROR_RATE` | Application Response | Error Count, Error Rate (%) |
+| `TOTAL_COUNT` | Application Response | Total Count |
+| `APDEX_SCORE` | Application Response | Apdex Score. 기존 동작과 같게 하려면 `<=`를 선택합니다. |
+| `*_TO_CALLEE` | Calls To Another Application | 같은 지표. 기존 룰의 notes에 적은 호출 대상은 `callee` 또는 `callee_host` 필터로 옮깁니다. |
+| `HEAP_USAGE_RATE`, `JVM_CPU_USAGE_RATE`, `SYSTEM_CPU_USAGE_RATE`, `FILE_DESCRIPTOR_COUNT` | Agent Stat | 같은 지표. 기존 동작과 같게 하려면 집계 `MAX`와 `>=`를 선택합니다. |
+| `DATASOURCE_CONNECTION_USAGE_RATE` | Agent Stat | Connection Pool Usage Rate (%). 기존 동작과 같게 하려면 집계 `MAX`와 `>`를 선택합니다. |
+| `DEADLOCK_OCCURRENCE` | Agent Event | Deadlock Detected |
+
+기존 룰의 SMS, 메일, 웹훅 설정은 옮겨지지 않습니다. Service에 채널을 등록하고 룰에 연결합니다.
+
+### 전환 순서
+
+1. Service 알람 룰을 꺼진 상태로 만듭니다.
+2. 기존 룰과 Service, 조건, 임계값, 호출 대상, 수신자를 대조합니다.
+3. 기존 룰을 끄고 바로 Service 알람 룰을 켭니다.
+4. 실제로 알림이 오는지, 이력이 남는지 확인합니다.
+
+## 9. 기존 알람과 Service 알람 비교 <a id="alarm-comparison-ko"></a>
+
+| 구분 | 기존 알람 | Service 알람 |
+|---|---|---|
+| 관리 단위 | Application | Service의 Application |
+| 조건 | 룰당 지표 1개 | `AND`/`OR` 복합 조건 |
+| 비교 방식 | checker마다 고정 (Apdex는 이하, 커넥션 풀은 초과, 나머지는 이상) | `>`, `>=`, `<`, `<=`, `=` 중 선택 |
+| 평가 구간 | 5분 고정 | 룰별 Window |
+| 검사 주기 | 3분 고정 | 1, 3, 5, 10, 30, 60분 |
+| 반복 알림 | 연속 감지 1·3·7·15...번째에 발송 | Action Interval |
+| Agent 조건 | Agent 하나라도 넘으면 발생 | `MAX`, `MIN`, `AVG` (`MAX`가 기존과 같음) |
+| 호출 대상 지정 | 룰의 notes에 1개 | `callee`, `callee_host` 필터 |
+| Severity | 없음 | `WARNING`, `CRITICAL` |
+| 채널 | User Group과 SMS·메일·웹훅 on/off | Service 공용 채널을 룰과 템플릿에 연결 |
+| 재사용 | Application마다 룰 등록 | 템플릿과 Preset |
+| 이력 | 화면에서 볼 수 없음 | 룰별 상태와 이력, 알림의 이력 링크 |
+
+# 운영 가이드
+
+## 10. 구성 요소 <a id="alarm-components-ko"></a>
+
+| 구성 요소 | 역할 |
+|---|---|
+| Pinpoint Web | 룰, 채널, 템플릿 API와 화면을 제공합니다. 별도 설정 없이 포함됩니다. |
+| Alarm Batch (`alarm-batch-starter`) | 룰을 검사하고 알림을 보냅니다. 별도 프로세스로 실행합니다. |
+| MySQL | 알람 테이블과 Spring Batch 메타데이터를 저장합니다. |
+| HBase, Pinot | Alarm Batch가 지표를 조회합니다. |
+
+- 기존 알람은 `batch` 모듈의 `alarmJob`에서 평가하며, `DEFAULT` Service의 Application만 검사합니다.
+- Service 알람은 Alarm Batch에서 평가하고 발송합니다.
+
+```mermaid
+flowchart LR
+    user(["사용자"])
+    api["Pinpoint Web<br/>알람 API"]
+    mysql[("MySQL<br/>알람 테이블")]
+
+    subgraph batch["Alarm Batch"]
+        direction TB
+        eval["룰 평가<br/>10초마다"]
+        send["알림 발송<br/>5초마다"]
+    end
+
+    subgraph metrics["지표 저장소"]
+        direction TB
+        hbase[("HBase<br/>Map 통계 · Agent Event")]
+        pinot[("Pinot<br/>Agent 통계")]
+    end
+
+    ch["메일 · SMS · 웹훅"]
+
+    user -- "룰·채널·템플릿 관리" --> api
+    api -- "저장" --> mysql
+    mysql <-- "룰 조회 / 상태·이력 저장" --> eval
+    eval -- "지표 조회" --> metrics
+    eval -. "발송 대기 등록<br/>(MySQL)" .-> send
+    send -- "발송" --> ch
 ```
 
-BooleanValueAgentChecker
+| Data Source | 조회 대상 |
+|---|---|
+| Application Response, Calls To Another Application | HBase Map 통계 |
+| Agent Stat | Pinot Agent 통계 테이블 |
+| Agent Event | HBase Agent Event |
 
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "DEADLOCK OCCURRENCE",
-   "type": "BooleanValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": true
-     }
-   ]
- },
- "unit": "BOOLEAN",
- "threshold": 1,
- "notes": "Note Example",
- "sequenceCount": 4
-}
+> Pinpoint Web은 알람 API에 권한 검사를 적용하지 않습니다. Web에 접근할 수 있는 사용자는 모든 Service의 룰, 채널, 템플릿을 조회하고 수정할 수 있습니다.
+
+## 11. DB 준비
+
+MySQL 5.7.8 이상이 필요합니다. 알람 테이블의 설정 컬럼이 JSON 타입이기 때문입니다.
+
+다음 스크립트로 알람 테이블을 만듭니다.
+
+```text
+alarm/alarm-common/src/main/resources/sql/alarm/CreateTableStatement-mysql.sql
 ```
 
-DataSourceAlarmListValueAgentChecker
+| 구분 | 테이블 |
+|---|---|
+| 템플릿 | `alarm_template`, `alarm_template_item` |
+| 룰 | `alarm_rule_v2`, `alarm_rule_local_config` |
+| 채널 | `alarm_notification_channel`, `alarm_channel_binding` |
+| 평가 상태와 이력 | `alarm_state`, `alarm_history_v2` |
+| 발송 대기열 | `alarm_notification_outbox` |
 
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "DATASOURCE CONNECTION USAGE RATE",
-   "type": "DataSourceAlarmListValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": [
-                 {
-                     "databaseName": "test",
-                     "connectionValue": 32
-                 }
-        ]
-     }
-   ]
- },
- "unit": "%",
- "threshold": 16,
- "notes": "Note Example",
- "sequenceCount": 4
-}
+Alarm Batch는 Spring Batch 메타데이터 스키마를 자동으로 만들지 않습니다. 다음 스크립트로 직접 만듭니다.
+
+```text
+web/src/main/resources/sql/SpringBatchJobRepositorySchema-mysql.sql
 ```
 
-## Alarm <a id="alarm-ko"></a>
-
-Pinpoint는 application 상태를 주기적으로 체크하여 application 상태의 수치가 임계치를 초과할 경우 사용자에게 알람을 전송하는 기능을 제공한다.
-
-Application 상태 값이 사용자가 설정한 임계치를 초과하는지 판단하는 batch는 [pinpoint-batch](https://github.com/pinpoint-apm/pinpoint/tree/master/batch)에서 동작 한다. Alarm batch는 기본적으로 3분에 한번씩 동작이 된다. 최근 5분동안의 데이터를 수집해서 alarm 조건을 만족하면 user group에 속한 user 들에게 sms/email/webhook message를 전송한다.
-
-> 연속적으로 알람 조건이 임계치를 초과한 경우에 매번 sms/email/webhook를 전송하지 않는다.\
-> 알람 조건이 만족할때마다 매번 sms/email/webhook이 전송되는것은 오히려 방해가 된다고 생각하기 때문이다. 그래서 연속해서 알람이 발생할 경우 sms/email/webhook 전송 주기가 점증적으로 증가된다.\
-> 예) 알람이 연속해서 발생할 경우, 전송 주기는 3분 -> 6분 -> 12분 -> 24분 으로 증가한다.
->
-> ****
->
-> **알림**
->
-> * Batch는 pinpoint 2.2.0 버전까지는 [pinpoint-web](https://github.com/pinpoint-apm/pinpoint/tree/master/web)에서 동작되었지만, 2.2.1 버전 부터는 batch가 [pinpoint-batch](https://github.com/pinpoint-apm/pinpoint/tree/master/batch)에서 동작되도록 로직을 분리했다.** **앞으로 pinpoint-web의 batch로직은 제거를 할 예정이므로, pinpoint-web에서 batch를 동작시키는 경우 pinpoint-batch에서 batch를 실행하도록 구성하는것을 추천한다.
-> * 웹훅 기능은 v2.1.1에 신규로 추가되었으며 v2.3.1에 기능이 개선되었다. 두 버전 모두에서 MYSQL 테이블 변경이 있으므로, 해당 버전 이전에서 업그레이드할 경우, [2.1.1 항목](alarm.md#alarm-batch-implementation-ko)에서 관련 변경 사항을 확인 후 적용해야 한다.
-
-### 1. Alarm 기능 사용 방법
-
-1\) 설정 화면으로 이동
-
-![](<../.gitbook/assets/Configuration page.gif>)
-
-2\) user를 등록
-
-![](<../.gitbook/assets/add user.gif>)
-
-3\) userGroup을 생성
-
-![](<../.gitbook/assets/Add usergroup.gif>)
-
-4\) (선택사항) webhook 등
-
-![](<../.gitbook/assets/add webhook.gif>)
-
-5\) alarm rule을 등록
-
-![](<../.gitbook/assets/add alarm.gif>)
-
-alarm rule에 대한 설명은 아래를 참고하시오.
-
-```
-SLOW COUNT
-   외부에서 application을 호출한 요청 중에 외부서버로 응답을 늦게 준 요청의 개수가 임계치를 초과한 경우 알람이 전송된다.
-
-SLOW RATE
-   외부에서 application을 호출한 요청 중에 외부서버로 응답을 늦게 준 요청의 비율(%)이 임계치를 초과한 경우 알람이 전송된다.
-
-ERROR COUNT
-   외부에서 application을 호출한 요청 중에 에러가 발생한 요청의 개수가 임계치를 초과한 경우 알람이 전송된다.
-
-ERROR RATE
-   외부에서 application을 호출한 요청 중에 에러가 발생한 요청의 비율(%)이 임계치를 초과한 경우 알람이 전송된다.
-
-TOTAL COUNT
-   외부에서 application을 호출한 요청 개수가 임계치를 초과한 경우 알람이 전송된다.
-   
-APDEX SCORE
-   Apdex 점수가 임계치 이하로 내려간 경우 알람이 전송된다.
-
-SLOW COUNT TO CALLEE
-   application 내에서 외부서버를 호출한 요청 중 slow 호출의 개수가 임계치를 초과한 경우 알람이 전송된다.
-   설정 화면의 Note 항목에 외부서버의 도메인 이나 주소(ip, port)를 입력해야 합니다. ex) naver.com, 127.0.0.1:8080
-
-SLOW RATE TO CALLEE
-   application 내에서 외부서버를 호출한 요청 중 slow 호출의 비율(%)이 임계치를 초과한 경우 알람이 전송된다.
-   설정 화면의 Note 항목에 외부서버의 도메인 이나 주소(ip, port)를 입력해야 합니다. ex) naver.com, 127.0.0.1:8080
-
-ERROR COUNT TO CALLEE
-   application 내에서 외부서버를 호출한 요청 중 error 가 발생한 호출의 개수가 임계치를 초과한 경우 알람이 전송된다.
-   설정 화면의 Note 항목에 외부서버의 도메인 이나 주소(ip, port)를 입력해야 합니다. ex) naver.com, 127.0.0.1:8080
-
-ERROR RATE TO CALLEE
-   application 내에서 외부서버를 호출한 요청 중 error 가 발생한 호출의 비율이 임계치를 초과한 경우 알람이 전송된다.
-   설정 화면의 Note 항목에 외부서버의 도메인 이나 주소(ip, port)를 입력해야 합니다. ex) naver.com, 127.0.0.1:8080
-
-TOTAL COUNT TO CALLEE
-   application 내에서 외부서버를 호출한 요청의 개수가 임계치를 초과한 경우 알람이 전송된다.
-   설정 화면의 Note 항목에 외부서버의 도메인 이나 주소(ip, port)를 입력해야 합니다. ex) naver.com, 127.0.0.1:8080
-
-HEAP USAGE RATE
-   heap의 사용률이 임계치를 초과한 경우 알람이 전송된다.
-
-JVM CPU USAGE RATE
-   applicaiton의 CPU 사용률이 임계치를 초과한 경우 알람이 전송된다.
-
-SYSTEM CPU USAGE RATE
-   서버의 CPU 사용률이 임계치를 초과한 경우 알람이 전송된다.
-
-DATASOURCE CONNECTION USAGE RATE
-   applicaiton의 DataSource내의 Connection 사용률이 임계치를 초과한 경우 알람이 전송된다.
-
-FILE DESCRIPTOR COUNT
-   열려있는 File Descriptor 개수가 임계치를 초가한 경우 알람이 전송된다.
-```
-
-### 2. 설정 및 구현 방법
-
-알람을 전송하는 방법은 총 3가지로서, email, sms와 webhook으로 알람을 전송할 수 있다.
-
-email 전송은 설정만 추가하면 기능을 사용할 수 있고, sms 전송을 하기 위해서는 직접 전송 로직을 구현해야 한다.\
-webhook 전송은 webhook message를 받는 webhook receiver 서비스를 별도로 준비해야한다. webhook receiver 서비스는 [샘플 프로젝트](https://github.com/doll6777/slack-receiver)를 사용하거나 직접 구현해야 한다.
-
-alarm 기능을 사용하려면 pinpoint-batch와 pinpoint-web를 수정해야한다. pinpoint-batch에는 alarm batch 동작을 위해서 설정 및 구현체를 추가해야 한다. pinpoint-web에는 사용자가 알람을 추가할 수 있도록 설정해야한다.
-
-### 2.1 pinpoint-batch 설정 및 구현 방법
-
-#### 2.1.1) email/sms/webhook 전송 설정 및 구현 <a id="alarm-batch-implementation-ko"></a>
-
-**A. email 전송**
-
-email 전송 기능을 사용하기 위해서 [batch-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/batch-root.properties)파일에 smtp 서버 정보와 email에 포함될 정보들을 설정해야 한다.
-
-```
-pinpoint.url= #pinpoint-web 서버의 url 
-alarm.mail.server.url= #smtp 서버 주소  
-alarm.mail.server.port= #smtp 서버 port 
-alarm.mail.server.username= #smtp 인증을 위한 userName
-alarm.mail.server.password= #smtp 인증을 위한 password
-alarm.mail.sender.address= # 송신자 email
-
-ex)
-pinpoint.url=http://pinpoint.com
-alarm.mail.server.url=stmp.server.com
-alarm.mail.server.port=587
-alarm.mail.server.username=pinpoint
-alarm.mail.server.password=pinpoint
-alarm.mail.sender.address=pinpoint_operator@pinpoint.com
-```
-
-참고로 [applicationContext-batch-sender.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-sender.xml) 파일에 email을 전송하는 class가 bean으로 등록 되어있다.
-
-```
-    <bean id="mailSender" class="com.navercorp.pinpoint.batch.alarm.SpringSmtpMailSender">
-        <constructor-arg ref="batchConfiguration"/>
-        <constructor-arg ref="userGroupService"/>
-        <constructor-arg ref="javaMailSenderImpl"/>
-    </bean>
-
-    <bean id="javaMailSenderImpl" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${alarm.mail.server.url:}" />
-        <property name="port" value="${alarm.mail.server.port:587}" />
-        <property name="username" value="${alarm.mail.server.username:}" />
-        <property name="password" value="${alarm.mail.server.password:}" />
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.transport.protocol">${alarm.mail.transport.protocol:}</prop>
-                <prop key="mail.smtp.port">${alarm.mail.smtp.port:}</prop>
-                <prop key="mail.smtp.from">${alarm.mail.sender.address:}</prop>
-                <prop key="mail.smtp.auth">${alarm.mail.smtp.auth:false}</prop>
-                <prop key="mail.smtp.starttls.enable">${alarm.mail.smtp.starttls.enable:false}</prop>
-                <prop key="mail.smtp.starttls.required">${alarm.mail.smtp.starttls.required:false}</prop>
-                <prop key="mail.debug">${alarm.mail.debug:false}</prop>
-            </props>
-        </property>
-    </bean>
-```
-
-만약 email 전송 로직을 직접 구현하고 싶다면 위의 SpringSmtpMailSender, JavaMailSenderImpl bean 선언을 제거하고 com.navercorp.pinpoint.web.alarm.MailSender interface를 구현해서 bean을 등록하면 된다.
-
-```
-public interface MailSender {
-   void sendEmail(AlarmChecker checker, int sequenceCount);
-}
-```
-
-**B. sms 전송**
-
-sms 전송 기능을 사용 하려면 com.navercorp.pinpoint.batch.alarm.SmsSender interface를 구현하고 bean으로 등록해야 한다. SmsSender 구현 class가 없는 경우 sms는 전송되지 않는다.
-
-```
-public interface SmsSender {
-    public void sendSms(AlarmChecker checker, int sequenceCount);
-}
-```
-
-**C. webhook 전송**
-
-Webhook 전송 기능은 Pinpoint의 Alarm message를 Webhook API로 전송 할 수 있는 기능이다.
-
-webhook message를 전송받는 webhook receiver 서비스는 [**샘플 프로젝트**](https://github.com/doll6777/slack-receiver)**를 사용하거나 직접 구현해야 한다.** Webhook Receiver 서버에 전송되는 Alarm message(이하 payload)는 Alarm Checker 타입에 따라 스키마가 다르다. Checker 타입에 따른 payload 스키마는 [**3.기타** - webhook 페이로드 스키마 명세, 예시](alarm.md#alarm-others-ko)에서 설명한다.
-
-webhook 기능을 활성화 하기위해서, [pinpoint.modules.web.webhook](
-https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/application.yml) 파일에 Webhook 전송 여부(pinpoint.modules.web.webhook)를 설정한다. Receiver 서버 정보의 경우 [2.2 pinpoint-web 설정 방법](alarm.md#alarm-web-configuration-ko) 같이 web 설정을 마친 후, UI를 통해 추가할 수 있다.
-
-```
-# webhook config
-pinpoint.modules.web:
-    webhook: true
-```
-
-> **알림**\
-> **\*\*\* Pinpoint v2.1.1로 업그레이드를 하기 위한 MYSQL 테이블 변경 \*\*\***
->
-> webhook 기능이 추가되면서 mysql 테이블 스키마가 수정되었기 때문에, Pinpoint 2.1.1 미만 버전에서 2.1.1 버전 이상으로 업그레이드한 경우 Mysql의 'alarm\_rule' 테이블에 'webhook\_send' 컬럼을 추가해야 다.
->
-> ```
-> ALTER TABLE alarm_rule ADD COLUMN webhook_send CHAR(1) DEFAULT NULL;
-> ```
->
-> **\*\*\* Pinpoint v2.3.1로 업그레이드를 하기 위한 MYSQL 테이블 추가 생성 \*\*\***
->
-> Pinpoint v2.1.1에서는 하나의 webhook receiver로만 알람을 보낼 수 있었는데, Pinpoint v2.3.1에서부터 각 알람마다 서로 다른 webhook destination을 설정할 수 있다. 이를 위해서 두 개의 새로운 MYSQL 테이블이 추가되었으며, 아래와 같이 ‘webhook’과 ‘webhook\_send’테이블을 추가해야 한다.
->
-> ```
-> CREATE TABLE `webhook` (
->   `webhook_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
->   `alias` VARCHAR(45) NULL,
->   `url` VARCHAR(45) NOT NULL,
->   `application_id` VARCHAR(45) NULL,
->   `service_name` VARCHAR(45) NULL,
->   PRIMARY KEY (`webhook_id`)
-> );
->
-> CREATE TABLE `webhook_send` (
->   `webhook_send_info_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
->   `webhook_id` INT UNSIGNED NOT NULL,
->   `rule_id` INT UNSIGNED NOT NULL,
->   PRIMARY KEY (`webhook_send_info_id`)
-> );
-> ```
->
->
->
-> 물론 v2.3.1 이전 버전에서 바로 v2.3.1로 업그레이드하는 경우, 위의 모든 변경사항을 적용해야한다.
-
-참고로 Webhook을 전송하는 클래스(WebhookSenderImpl)는 Pinpoint에서 이미 제공하고 있으며, webHookSender bean으 Pinpoint-batch의 [applicationContext-batch-sender.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-sender.xml) 파일에 등록 되어있다.
-
-```markup
-<bean id="webHookSender" class="com.navercorp.pinpoint.web.alarm.WebhookSenderImpl">
-    <constructor-arg ref="batchConfiguration"/>
-    <constructor-arg ref="userServiceImpl"/>
-    <constructor-arg ref="restTemplate" />
-</bean>
-```
-
-#### 2.1.2) MYSQL 서버 IP 주소 설정 & table 생성
-
-**step 1**
-
-알람에 관련된 데이터를 저장하기 위해 Mysql 서버를 준비한다.
-
-**step 2**
-
-mysql 접근을 위해서 pinpoint-batch의 [jdbc-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/jdbc-root.properties) 파일에 접속 정보를 설정한다.
-
-```
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:13306/pinpoint
-jdbc.username=admin
-jdbc.password=admin
-```
-
-**step 3**
-
-mysql에 Alarm 기능에 필요한 table을 생성한다. table 스키마는 아래 파일을 참조한다.
-
-* [_CreateTableStatement-mysql.sql_](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/sql/CreateTableStatement-mysql.sql)
-* [_SpringBatchJobRepositorySchema-mysql.sql_](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/sql/SpringBatchJobRepositorySchema-mysql.sql)
-
-#### 2.1.3) pinpoint-batch 실행 방법
-
-pinpoint-batch 프로젝트는 spring boot기반으로 되어있고 아래와 같은 명령어로 실행하면 된다. 빌드후 실행파일은 pinpoint-batch 모듈의 target/deploy 폴더 하위에서 확인할 수 있다.
-
-```
-java -Dspring.profiles.active=XXXX -jar pinpoint-batch-VERSION.jar 
-
-ex) java -Dspring.profiles.active=local -jar pinpoint-batch-2.1.1.jar
-```
-
-### 2.2 pinpoint-web 설정 방법 <a id="alarm-web-configuration-ko"></a>
-
-#### 2.2.1) MYSQL 서버 IP 주소 설정
-
-사용자 알람 설정을 저장하기 위해서 pinpoint-web의 [jdbc-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/jdbc-root.properties) 파일에 mysql 접속 정보를 설정한다.
-
-```
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://localhost:13306/pinpoint
-jdbc.username=admin
-jdbc.password=admin
-```
-
-#### 2.2.2) webhook 기능 활성화
-
-사용자가 알람 설정에 webhook 기능을 적용할수 있도록 [pinpoint-web-root.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/application.yml) 파일에 webhook 기능을 활성화한다.
-
-```
-# webhook config
-pinpoint.modules.web:
-    webhook: true
-```
-
-webhook 기능을 활성화하면, 아래 그림처럼 알람 설정 화면에서 webhook을 알람 타입으로 선택할 수 있다.
-
-![](../.gitbook/assets/alarm\_select\_webhook.png)
-
-### 3. 기타 <a id="alarm-others-ko"></a>
-
-### 3.1 설정, 실행, 성능
-
-**1) Batch의 동작 주기를 조정하고 싶다면 **[_**applicationContext-batch-schedule.xml**_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/applicationContext-batch-schedule.xml)** 파일의 cron expression을 수정하면 된다.**
-
-```
-<task:scheduled-tasks scheduler="scheduler">
-    <task:scheduled ref="batchJobLauncher" method="alarmJob" cron="0 0/3 * * * *" />
-</task:scheduled-tasks>
-```
-
-**2) Alarm batch 성능을 높이는 방법은 다음과 같다.**
-
-Alarm batch 성능 튜닝을 위해서 병렬로 동작이 가능하도록 구현을 해놨다. 그래서 아래에서 언급된 조건에 해당하는 경우 설정 값을 조정한다면 성능을 향상 시킬 수 있다. 단, 병렬성을 높이면 리소스 사용률이 높아지는 것은 감안해야 한다.
-
-Alarm이 등록된 application의 개수가 많다면 [_applicationContext-alarmJob.xml_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/job/applicationContext-alarmJob.xml) 파일의 poolTaskExecutorForPartition의 pool size를 늘려주면 된다.
-
-```
-<task:executor id="poolTaskExecutorForPartition" pool-size="1" />
-```
-
-Application 각각마다 등록된 alarm의 개수가 많다면 [_applicationContext-alarmJob.xml_](https://github.com/pinpoint-apm/pinpoint/blob/master/batch/src/main/resources/job/applicationContext-alarmJob.xml) 파일에 선언된 alarmStep이 병렬로 동작되도록 설정하면 된다.
-
-```
-<step id="alarmStep" xmlns="http://www.springframework.org/schema/batch">
-    <tasklet task-executor="poolTaskExecutorForStep" throttle-limit="3">
-        <chunk reader="reader" processor="processor" writer="writer" commit-interval="1"/>
-    </tasklet>
-</step>
-<task:executor id="poolTaskExecutorForStep" pool-size="10" />
-```
-
-**3) Quickstart web을 사용한다면.**
-
-Quickstart pinpoint web은 mockDAO를 사용하기 때문에 추가한 알람 설정들이 저장되지 않는다. Mysql과 quickstart를 연동해서 사용하려면 다음의 설정들을 참고해서 수정 후 기능을 사용해야한다: [applicationContext-dao-config.xml](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/applicationContext-dao-config.xml), [jdbc.properties](https://github.com/pinpoint-apm/pinpoint/blob/master/web/src/main/resources/jdbc.properties).
-
-### 3.2 webhook 상세
-
-#### 3.2.1 **Webhook receiver 예제 프로젝트**
-
-[Slack-Receiver](https://github.com/doll6777/slack-receiver) 는 Webhook Receiver의 예제 프로젝트이다. 이 프로젝트는 Pinpoint의 webhook의 알람을 받아서 Slack으로 메시지를 전송할 수 있는 스프링 부트로 구현된 서비스이다. 이 프로젝트의 자세한 사항은 [해당 GitHub 저장소](https://github.com/doll6777/slack-receiver) 를 참고하면 된다.
-
-#### 3.2.2 webhook 페이로드 스키마 및 예시
-
-**페이로드 스키마**
-
-Key
-
-| Name          | Type      | Description              | Nullable |
-| ------------- | --------- | ------------------------ | -------- |
-| pinpointUrl   | String    | Pinpoint-web의 서버 URL 주소  | O        |
-| batchEnv      | String    | Batch 서버의 환경 변수          | X        |
-| applicationId | String    | 타겟 애플리케이션 ID             | X        |
-| serviceType   | String    | 타겟 애플리케이션 서비스 타입         | X        |
-| userGroup     | UserGroup | 유저 그룹 페이지의 유저 그룹         | X        |
-| checker       | Checker   | alarm 설정 페이지의 checker 정보 | X        |
-| unit          | String    | checker가 감지한 값의 단위       | O        |
-| threshold     | Integer   | 설정된 시간동안 체커가 감지한 값의 임계치  | X        |
-| notes         | String    | 알람 설정 페이지의 notes         | O        |
-| sequenceCount | Integer   | 알람 발생 횟수                 | X        |
-
-UserGroup
-
-| Name             | Type          | Description         | Nullable |
-| ---------------- | ------------- | ------------------- | -------- |
-| userGroupId      | String        | 유저 그룹 페이지의 유저 그룹 ID | X        |
-| userGroupMembers | UserMember\[] | 특정 유저 그룹의 멤버 정보     | X        |
-
-Checker
-
-| Name          | Type                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Nullable |
-| ------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| name          | String                      | 알람 설정 페이지의 checker 이름                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | X        |
-| type          | String                      | <p>체커가 감지한 값의 추상 타입, 다음 중 하나에 해당됨<br>"LongValueAlarmChecker" 타입은 "Slow Count", “Slow Count”, “Slow Rate”, “Error Count”, “Error Rate”, “Total Count”, “Slow Count To Callee”, “Slow Rate To Callee”, “Error Count To Callee”, “Error Rate To Callee”, “Total Count to Callee”의 추상 타입에 속한다.<br>"LongValueAgentChecker" 타입은 "Heap Usage Rate", "Jvm Cpu Usage Rate", "System Cpu Usage Rate", "File Descriptor Count"의 추상타입이다.<br>"BooleanValueAgentChecker" 타입은 "Deadlock or not"의 추상 타입이다.<br>"DataSourceAlarmListValueAgentChecker" 타입은 "DataSource Connection Usage Rate"의 추상타입이다.</p> | X        |
-| detectedValue | Integer or DetectedAgent\[] | <p>Checker가 감지한 값<br>“LongValueAlarmChecker”, “detectedValue” 타입은 Integer 타입이다.<br>"LongValueAlarmChecker", "detectedValue"이 아닌 타입은 DetectedAgents[] 타입 이다.</p>                                                                                                                                                                                                                                                                                                                                                                                                                          | X        |
-
-UserMember
-
-| Name             | Type   | Description            | Nullable |
-| ---------------- | ------ | ---------------------- | -------- |
-| id               | String | 멤버의 id                 | X        |
-| name             | String | 멤버의 name               | X        |
-| email            | String | 멤버의 email              | O        |
-| department       | String | 멤버의 department         | O        |
-| phoneNumber      | String | 멤버의 phone number       | O        |
-| phoneCountryCode | String | 멤버의 phone country code | O        |
-
-DetectedAgent
-
-| Name       | Type                                                 | Description                                                                                                                                                                                                                  | Nullable |
-| ---------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| agentId    | String                                               | Checker가 감지한 에이전트 ID                                                                                                                                                                                                         | X        |
-| agentValue | <p>Integer or<br>Boolean or<br>DataSourceAlarm[]</p> | <p>체커가 감지한 에이전트의 값<br>“LongValueAgentChecker”, “agentValue” 은 Integer 타입이다.<br>“BooleanValueAgentChecker”,“agentValue” 은 Boolean 타입이다..<br>“DataSourceAlarmListValueAgentChecker”, “agentValue”은 DataSourceAlarm[] 타입이다.</p> | X        |
-
-DataSourceAlarm
-
-| Name            | Type    | Description                              | Nullable |
-| --------------- | ------- | ---------------------------------------- | -------- |
-| databaseName    | String  | 애플리케이션에 접속한 데이터베이스 이름                    | X        |
-| connectionValue | Integer | Applicaiton의 DataSource내의 Connection 사용률 | X        |
-
-**webhook Payload 예제**
-
-LongValueAlarmChecker
-
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "TOTAL COUNT",
-   "type": "LongValueAlarmChecker",
-   "detectedValue": 33
- },
- "unit": "",
- "threshold": 15,
- "notes": "Note Example",
- "sequenceCount": 4
-}
-```
-
-LongValueAgentChecker
-
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "HEAP USAGE RATE",
-   "type": "LongValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": 8
-     }
-   ]
- },
- "unit": "%",
- "threshold": 5,
- "notes": "Note Example",
- "sequenceCount": 4
-}
-```
-
-BooleanValueAgentChecker
-
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "DEADLOCK OCCURRENCE",
-   "type": "BooleanValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": true
-     }
-   ]
- },
- "unit": "BOOLEAN",
- "threshold": 1,
- "notes": "Note Example",
- "sequenceCount": 4
-}
-```
-
-DataSourceAlarmListValueAgentChecker
-
-```javascript
-{
- "pinpointUrl": "http://pinpoint.com",
- "batchEnv": "release",
- "applicationId": "TESTAPP",
- "serviceType": "TOMCAT",
- "userGroup": {
-   "userGroupId": "Group-1",
-   "userGroupMembers": [
-     {
-       "id": "msk1111",
-       "name": "minsookim",
-       "email": "pinpoint@naver.com",
-       "department": "Platform",
-       "phoneNumber": "01012345678",
-       "phoneCountryCode": 82
-     }
-   ]
- },
- "checker": {
-   "name": "DATASOURCE CONNECTION USAGE RATE",
-   "type": "DataSourceAlarmListValueAgentChecker",
-   "detectedValue": [
-     {
-       "agentId": "test-agent",
-       "agentValue": [
-                 {
-                     "databaseName": "test",
-                     "connectionValue": 32
-                 }
-        ]
-     }
-   ]
- },
- "unit": "%",
- "threshold": 16,
- "notes": "Note Example",
- "sequenceCount": 4
-}
-```
+## 12. Alarm Batch 실행 <a id="alarm-batch-ko"></a>
+
+- 실행 파일: `pinpoint-alarm-batch-starter-<version>-exec.jar`
+- 컨테이너 이미지: `pinpoint-alarm-batch`
+- 외부 설정 파일: `-Dpinpoint.alarm.batch.config.location=<경로>`
+
+### 필수 설정
+
+| 항목 | 설정 | 비고 |
+|---|---|---|
+| MySQL | `jdbc.properties` | Web과 같은 알람 테이블을 사용해야 합니다. |
+| Spring Batch 메타데이터 | `spring.meta-datasource.*` | 지정하지 않으면 MySQL 설정과 같은 DB를 사용합니다. |
+| HBase | `hbase.properties` | |
+| Pinot | `spring.pinot-datasource.*` | |
+| Agent 통계 테이블 | `alarm.agent-stat.table.prefix`, `alarm.agent-stat.table.padding-length`, `alarm.agent-stat.table.count` | 값이 없으면 시작에 실패합니다. release 프로필에는 주석으로만 들어 있으므로 직접 지정합니다. |
+
+### 알림 설정
+
+| 항목 | 설정 | 비고 |
+|---|---|---|
+| 알림 링크 | `alarm.pinpoint.web.url` | 비어 있으면 알림에 View Details와 Alarm History 링크가 없습니다. |
+| 메일 | `alarm.email.sender`, `spring.mail.*` | `alarm.email.sender`가 비어 있으면 메일을 보내지 않습니다. |
+| 웹훅 사설 주소 허용 | `pinpoint.webhook.allowed-private-hosts`, `pinpoint.webhook.allowed-private-host-suffixes` | 기본값은 모든 사설 주소 차단 |
+| SMS | `SmsAlarmSender` 빈 | 기본 구현이 없습니다. 아래 설명을 참고합니다. |
+
+SMS 채널을 사용하려면 다음을 구현해 `SmsAlarmSender` 빈으로 등록합니다.
+
+- `SmsDispatcher`: 전화번호 목록과 메시지를 받아 실제로 SMS를 보냅니다.
+- `UserGroupPhoneResolver`: User Group 구성원의 전화번호를 찾습니다.
+
+등록하지 않으면 SMS 채널로는 알림을 보내지 않고, 실패 내용을 알람 이력에 남깁니다. 같은 룰의 다른 채널은 정상으로 발송됩니다.
+
+### 조정할 수 있는 값
+
+| 설정 | 기본값 | 설명 |
+|---|---|---|
+| `pinpoint.modules.batch.alarm.fixedDelayMs` | `10000` | 룰 검사 주기(ms) |
+| `pinpoint.modules.batch.alarm.batchSize` | `300` | 한 번에 읽는 룰 수 |
+| `pinpoint.modules.batch.alarm.worker.coreSize`, `.maxSize` | `4`, `4` | 룰 평가 스레드 수 |
+| `pinpoint.modules.batch.alarm.jobName` | `alarmEvaluationJob` | 기존 알람(`alarmJob`)과 메타데이터 스키마를 함께 쓸 때 구분하는 이름 |
+| `pinpoint.modules.batch.alarm.outbox.fixedDelayMs` | `5000` | 알림 발송 주기(ms) |
+| `pinpoint.modules.batch.alarm.outbox.batchSize` | `100` | 한 번에 보내는 알림 수 |
+| `pinpoint.modules.batch.alarm.outbox.maxAttempts` | `5` | 첫 시도를 포함한 최대 발송 시도 횟수 (1~255) |
+| `pinpoint.modules.batch.alarm.outbox.leaseSec` | `60` | 발송 중인 알림을 다른 프로세스가 가져가지 않는 시간(초) |
+| `alarm.pinpoint.web.alarm-path` | `/config/alarm` | Alarm History 링크의 경로 |
+
+> 알람 이력(`alarm_history_v2`)과 발송을 마친 대기열은 자동으로 정리되지 않습니다. 필요하면 오래된 행을 주기적으로 지웁니다.
