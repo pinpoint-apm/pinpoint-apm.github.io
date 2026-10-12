@@ -239,13 +239,11 @@ Set the example names decided in 3-1 as JVM options as follows.
 
 | Setting | Example value | Meaning |
 |---|---|---|
-| `pinpoint.modules.uid.version` | `v4` | Uses the agent identification scheme that includes service information. |
 | `pinpoint.serviceName` | `demo-shop-commerce` | The service the agent belongs to. It must be registered in Pinpoint Web first. |
 | `pinpoint.applicationName` | `Shopping-Order` | The application the agent belongs to. |
 | `pinpoint.agentName` | `shop-order-01` | A name that identifies the running instance. Optional. |
 
 ```bash
--Dpinpoint.modules.uid.version=v4
 -Dpinpoint.serviceName=demo-shop-commerce
 -Dpinpoint.applicationName=Shopping-Order
 -Dpinpoint.agentName=shop-order-01
@@ -302,13 +300,12 @@ To see that data, turn the Service feature back on and select the correct servic
 Check the following in order.
 
 1. The Pinpoint Agent is 4.0.0 or later.
-2. The agent's `pinpoint.modules.uid.version` is `v4`.
-3. The service was created before the agent.
-4. `pinpoint.serviceName` and `pinpoint.applicationName` satisfy the allowed characters and the 254-character limit.
-5. `pinpoint.serviceName` matches the registered service, including letter case.
-6. If the service was created after the agent, wait up to 10 minutes and restart the agent.
-7. The agent registration log shows no errors.
-8. The correct service and a recent time range are selected in Pinpoint Web.
+2. The service was created before the agent.
+3. `pinpoint.serviceName` and `pinpoint.applicationName` satisfy the allowed characters and the 254-character limit.
+4. `pinpoint.serviceName` matches the registered service, including letter case.
+5. If the service was created after the agent, wait up to 10 minutes and restart the agent.
+6. The agent registration log shows no errors.
+7. The correct service and a recent time range are selected in Pinpoint Web.
 
 ### 5-3. Can I use the same application name in several services?
 
@@ -637,13 +634,11 @@ Pinpoint Agent가 4.0.0보다 낮다면 업그레이드한 뒤 Service를 설정
 
 | 설정 | 예시 값 | 의미 |
 |---|---|---|
-| `pinpoint.modules.uid.version` | `v4` | Service 정보를 포함하는 Agent 식별 체계를 사용합니다. |
 | `pinpoint.serviceName` | `demo-shop-commerce` | Agent가 속할 Service입니다. Pinpoint Web에 먼저 등록돼 있어야 합니다. |
 | `pinpoint.applicationName` | `Shopping-Order` | Agent가 속할 Application입니다. |
 | `pinpoint.agentName` | `shop-order-01` | 실행 중인 인스턴스를 구분하는 이름입니다. 선택 항목입니다. |
 
 ```bash
--Dpinpoint.modules.uid.version=v4
 -Dpinpoint.serviceName=demo-shop-commerce
 -Dpinpoint.applicationName=Shopping-Order
 -Dpinpoint.agentName=shop-order-01
@@ -700,13 +695,12 @@ Service 기능을 끄면 기존 `Servermap`에서 `DEFAULT` 데이터를 조회�
 다음을 순서대로 확인합니다.
 
 1. Pinpoint Agent가 4.0.0 이상인지 확인합니다.
-2. Agent의 `pinpoint.modules.uid.version`이 `v4`인지 확인합니다.
-3. Agent보다 먼저 Service를 만들었는지 확인합니다.
-4. `pinpoint.serviceName`과 `pinpoint.applicationName`이 허용 문자와 254자 제한을 만족하는지 확인합니다.
-5. `pinpoint.serviceName`이 등록한 Service와 대소문자까지 같은지 확인합니다.
-6. Service를 Agent보다 늦게 만들었다면 최대 10분 기다린 뒤 Agent를 재기동합니다.
-7. Agent 등록 로그에서 오류가 없는지 확인합니다.
-8. Pinpoint Web에서 올바른 Service와 최근 시간 범위를 선택합니다.
+2. Agent보다 먼저 Service를 만들었는지 확인합니다.
+3. `pinpoint.serviceName`과 `pinpoint.applicationName`이 허용 문자와 254자 제한을 만족하는지 확인합니다.
+4. `pinpoint.serviceName`이 등록한 Service와 대소문자까지 같은지 확인합니다.
+5. Service를 Agent보다 늦게 만들었다면 최대 10분 기다린 뒤 Agent를 재기동합니다.
+6. Agent 등록 로그에서 오류가 없는지 확인합니다.
+7. Pinpoint Web에서 올바른 Service와 최근 시간 범위를 선택합니다.
 
 ### 5-3. 같은 Application 이름을 여러 Service에서 써도 되나요?
 
