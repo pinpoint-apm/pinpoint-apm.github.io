@@ -388,10 +388,12 @@ Upgrading to Pinpoint 4.0.0 requires schema changes.
 
 ### 7-2. MySQL
 
-- `service` table
+- Create the `service` table
   - Schema: [Service-Schema.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/service-module/src/main/resources/sql/Service-Schema.sql)
-- Alarm tables
-  - Schema: to be added
+- Create the alarm tables
+  - Tables: `alarm_template`, `alarm_template_item`, `alarm_rule_v2`, `alarm_rule_local_config`, `alarm_notification_channel`, `alarm_channel_binding`, `alarm_state`, `alarm_history_v2`, `alarm_notification_outbox`
+  - Requirements: MySQL 5.7 or later. The configuration columns use the JSON type.
+  - Schema: [CreateTableStatement-mysql.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/alarm/alarm-common/src/main/resources/sql/alarm/CreateTableStatement-mysql.sql)
 
 ### 7-3. HBase
 
@@ -783,10 +785,12 @@ Pinpoint 4.0.0 버전 업그레이드 시 스키마 변경이 필요합니다.
 
 ### 7-2. MySQL
 
-- `service` 테이블
+- `service` 테이블 생성
   - 스키마: [Service-Schema.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/service-module/src/main/resources/sql/Service-Schema.sql)
-- 알람 테이블
-  - 스키마: 추가 예정
+- 알람 관련 테이블 생성
+  - 테이블: `alarm_template`, `alarm_template_item`, `alarm_rule_v2`, `alarm_rule_local_config`, `alarm_notification_channel`, `alarm_channel_binding`, `alarm_state`, `alarm_history_v2`, `alarm_notification_outbox`
+  - 요구 사항: MySQL 5.7 이상. 설정 컬럼이 JSON 타입입니다.
+  - 스키마: [CreateTableStatement-mysql.sql](https://github.com/pinpoint-apm/pinpoint/blob/master/alarm/alarm-common/src/main/resources/sql/alarm/CreateTableStatement-mysql.sql)
 
 ### 7-3. HBase
 
