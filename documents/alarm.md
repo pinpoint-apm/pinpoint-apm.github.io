@@ -19,7 +19,7 @@ Service Alarm requires the Service Map feature. If `pinpoint.modules.web.service
 | Channel | Set for each rule | Registered once per service and shared by many rules and templates |
 | Rule registration | Register the same rule again for each application | Make a template and apply it to many applications |
 | Condition | One simple comparison on one metric | Many metrics combined with `AND`/`OR` |
-| Operator | Fixed for each checker | Select `>`, `>=`, `<`, `<=`, or `=` |
+| Operator | Fixed for each checker | Select `>`, `>=`, `<`, or `<=` |
 | Evaluation window | Fixed at 5 minutes | Set for each rule |
 | Repeat notification | Sent at the 1st, 3rd, 7th, 15th... consecutive detection | Set the interval with Action Interval |
 
@@ -73,7 +73,7 @@ On the **Rules** tab, click **Add Rule**, enter the items below, and click **Add
 
 A condition has a metric, an aggregation, a comparison operator, a threshold, and an evaluation window (Window).
 
-- Select a comparison operator from `>`, `>=`, `<`, `<=`, and `=`.
+- Select a comparison operator from `>`, `>=`, `<`, and `<=`.
 - To add a condition, click **Add Condition**.
 - To combine conditions with `AND` or `OR`, click **Add Group**.
 
@@ -266,7 +266,7 @@ The SMS, email, and webhook settings of legacy rules do not move. Register chann
 |---|---|---|
 | Management unit | Application | Application of a service |
 | Condition | One metric per rule | Combined conditions with `AND`/`OR` |
-| Comparison | Fixed for each checker (Apdex: less than or equal, connection pool: greater than, others: greater than or equal) | Select `>`, `>=`, `<`, `<=`, or `=` |
+| Comparison | Fixed for each checker (Apdex: less than or equal, connection pool: greater than, others: greater than or equal) | Select `>`, `>=`, `<`, or `<=` |
 | Evaluation window | Fixed at 5 minutes | Window for each rule |
 | Check interval | Fixed at 3 minutes | 1, 3, 5, 10, 30, 60 minutes |
 | Repeat notification | Sent at the 1st, 3rd, 7th, 15th... consecutive detection | Action Interval |
@@ -416,7 +416,7 @@ Service 알람은 Service Map 기능이 켜져 있을 때만 사용할 수 있�
 | 채널 | 룰마다 지정 | Service 단위로 등록하고 여러 룰·템플릿에서 재사용 |
 | 룰 등록 | Application마다 같은 룰을 새로 등록 | 템플릿을 만들어 여러 Application에 적용 |
 | 조건 | 단일 지표 단순 비교 | 여러 지표를 `AND`/`OR`로 결합 |
-| 연산자 | checker마다 고정 | `>`, `>=`, `<`, `<=`, `=` 중 선택 |
+| 연산자 | checker마다 고정 | `>`, `>=`, `<`, `<=` 중 선택 |
 | 평가 구간 | 5분 고정 | 룰별로 지정 |
 | 재알림 | 연속 감지 1·3·7·15...번째에 발송 | Action Interval로 재알림 간격 지정 |
 
@@ -470,7 +470,7 @@ Service 알람을 운영하려면 별도의 Alarm Batch 프로세스가 필요�
 
 조건 하나는 지표, 집계 방식, 비교 연산자, 임계값, 평가 구간(Window)으로 구성됩니다.
 
-- 비교 연산자는 `>`, `>=`, `<`, `<=`, `=` 중에서 선택합니다.
+- 비교 연산자는 `>`, `>=`, `<`, `<=` 중에서 선택합니다.
 - 조건을 더 추가하려면 **Add Condition**을 누릅니다.
 - 여러 조건을 `AND` 또는 `OR`로 묶으려면 **Add Group**을 누릅니다.
 
@@ -663,7 +663,7 @@ Service 알람을 운영하려면 별도의 Alarm Batch 프로세스가 필요�
 |---|---|---|
 | 관리 단위 | Application | Service의 Application |
 | 조건 | 룰당 지표 1개 | `AND`/`OR` 복합 조건 |
-| 비교 방식 | checker마다 고정 (Apdex는 이하, 커넥션 풀은 초과, 나머지는 이상) | `>`, `>=`, `<`, `<=`, `=` 중 선택 |
+| 비교 방식 | checker마다 고정 (Apdex는 이하, 커넥션 풀은 초과, 나머지는 이상) | `>`, `>=`, `<`, `<=` 중 선택 |
 | 평가 구간 | 5분 고정 | 룰별 Window |
 | 검사 주기 | 3분 고정 | 1, 3, 5, 10, 30, 60분 |
 | 반복 알림 | 연속 감지 1·3·7·15...번째에 발송 | Action Interval |
