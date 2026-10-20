@@ -301,7 +301,7 @@ Check the following in order.
 
 1. The Pinpoint Agent is 4.0.0 or later.
 2. The service was created before the agent.
-3. `pinpoint.serviceName` and `pinpoint.applicationName` satisfy the allowed characters and the length limit (3 to 254 characters).
+3. `pinpoint.serviceName` satisfies the allowed characters and the length limit (3 to 254 characters), and `pinpoint.applicationName` satisfies the allowed characters and the 254-character limit.
 4. `pinpoint.serviceName` matches the registered service, including letter case.
 5. If the service was created after the agent, wait up to 10 minutes and restart the agent.
 6. The agent registration log shows no errors.
@@ -698,7 +698,7 @@ Service 기능을 끄면 기존 `Servermap`에서 `DEFAULT` 데이터를 조회�
 
 1. Pinpoint Agent가 4.0.0 이상인지 확인합니다.
 2. Agent보다 먼저 Service를 만들었는지 확인합니다.
-3. `pinpoint.serviceName`과 `pinpoint.applicationName`이 허용 문자와 길이(3~254자) 제한을 만족하는지 확인합니다.
+3. `pinpoint.serviceName`이 허용 문자와 길이(3~254자) 제한을, `pinpoint.applicationName`이 허용 문자와 254자 제한을 만족하는지 확인합니다.
 4. `pinpoint.serviceName`이 등록한 Service와 대소문자까지 같은지 확인합니다.
 5. Service를 Agent보다 늦게 만들었다면 최대 10분 기다린 뒤 Agent를 재기동합니다.
 6. Agent 등록 로그에서 오류가 없는지 확인합니다.
