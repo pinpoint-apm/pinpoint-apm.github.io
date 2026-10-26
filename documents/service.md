@@ -329,13 +329,26 @@ Monitoring data is not restored.
 
 Even if you re-create it with the same name, it is registered as a new service, and the monitoring data from before the deletion is not linked.
 
-### 5-6. A connected service does not appear on the Service Map
+### 5-6. After applying 4.0.0, a called Application appears as `host:port (UNKNOWN)`
 
-Check the following.
+![Called Application shown as an UNKNOWN node when the receiving Agent is below 3.1.0](<../.gitbook/assets/service_08.png>)
 
-1. There is actual call data in the queried time range.
-2. The agents on both sides of the call are 4.0.0 or later and registered under the correct services.
-3. The connected service is within one hop of the current service.
+On the Service Map of a selected Service, the called Application appears as an UNKNOWN node (cloud icon) named `host:port`. In the transaction call tree, the two Applications may still appear together normally.
+
+**Cause**
+
+The Agent version of the called Application is lower than 3.1.0.
+
+| Calling Application | Agent of the called Application | Service Map link | Transaction call tree |
+|---|---|---|---|
+| 4.0.0, belongs to a Service | **3.0.x or lower** | **Broken** | Normal |
+| 4.0.0, belongs to a Service | 4.0.0 or 3.1.x | Normal | Normal |
+
+An Application that belongs to a Service sends its Service information along with each request. The Agent on the receiving side must read this information and report it to Pinpoint so that the link between the two Applications is drawn by Service. Reading this information is supported from Agent 3.1.0, so if the receiving Agent is 3.0.x or lower, the link appears broken.
+
+**Resolution**
+
+If the Agent version of the called Application is lower than 3.1.0, upgrade it to 3.1.0 or later. Upgrading to the latest 4.0.0 version is most recommended.
 
 # Operator Guide
 
@@ -726,13 +739,26 @@ Service 이름은 변경할 수 없습니다.
 
 같은 이름으로 다시 만들어도 새로운 Service로 등록되며, 삭제 전 모니터링 데이터는 연결되지 않습니다.
 
-### 5-6. Service Map에 연결된 Service가 보이지 않습니다
+### 5-6. 4.0.0 적용 후 호출 대상 Application이 `호스트:포트 (UNKNOWN)`으로 보입니다
 
-다음을 확인합니다.
+![호출받는 Agent가 3.1.0 미만일 때 대상이 UNKNOWN 노드로 표시된 화면](<../.gitbook/assets/service_08.png>)
 
-1. 조회 시간 범위에 실제 호출 데이터가 있는지 확인합니다.
-2. 호출 양쪽 Agent가 4.0.0 이상이고 올바른 Service로 등록됐는지 확인합니다.
-3. 연결된 Service가 현재 Service에서 한 단계 안에 있는지 확인합니다.
+Service를 선택한 Service Map에서 호출 대상 Application이 `호스트:포트` 이름의 UNKNOWN 노드(구름 아이콘)로 표시됩니다. 트랜잭션 콜트리에서는 두 Application이 정상적으로 함께 보일 수 있습니다.
+
+**원인**
+
+호출받는 Application의 Agent 버전이 3.1.0 미만이기 때문입니다.
+
+| 호출하는 Application | 호출받는 Application의 Agent | Service Map 연결 | 트랜잭션 콜트리 |
+|---|---|---|---|
+| 4.0.0, Service에 속함 | **3.0.x 이하** | **끊김** | 정상 |
+| 4.0.0, Service에 속함 | 4.0.0 또는 3.1.x | 정상 | 정상 |
+
+Service에 속한 Application은 요청을 보낼 때 자신이 속한 Service 정보를 함께 전달합니다. 요청을 받는 쪽의 Agent가 이 정보를 읽어 Pinpoint에 보고해야 두 Application 사이의 연결이 Service 기준으로 그려집니다. 이 정보를 읽는 기능은 Agent 3.1.0부터 지원하므로, 받는 쪽 Agent가 3.0.x 이하이면 연결이 끊겨 보입니다.
+
+**조치 방법**
+
+대상 Application의 Agent 버전이 3.1.0 미만이면 3.1.0 이상으로 업그레이드합니다. 4.0.0 최신 버전으로 업그레이드하는 것을 가장 추천합니다.
 
 # 운영자 가이드
 
