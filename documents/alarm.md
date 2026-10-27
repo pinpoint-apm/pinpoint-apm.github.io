@@ -285,6 +285,7 @@ The SMS, email, and webhook settings of legacy rules do not move. Register chann
 |---|---|
 | Pinpoint Web | Provides the API and the screen for rules, channels, and templates. Included without extra settings. |
 | Alarm Batch (`alarm-batch-starter`) | Checks the rules and sends notifications. Runs as a separate process. |
+| Pinpoint Batch (`batch`) | Deletes old alarm history. Optional. Refer to [Clean Up the History](alarm.md#alarm-history-cleanup). |
 | MySQL | Stores the alarm tables and the Spring Batch metadata. |
 | HBase, Pinot | Alarm Batch reads metrics from them. |
 
@@ -397,7 +398,18 @@ Without this bean, SMS channels send no notification, and the failure is recorde
 | `pinpoint.modules.batch.alarm.outbox.leaseSec` | `60` | Time (seconds) during which no other process takes a notification that is being sent |
 | `alarm.pinpoint.web.alarm-path` | `/config/alarm` | Path of the Alarm History link |
 
-> The alarm history (`alarm_history_v2`) and the sent items of the delivery queue are not deleted automatically. If necessary, delete old rows periodically.
+### Clean Up the History <a id="alarm-history-cleanup"></a>
+
+`alarmHistoryCleanupJob` of the `batch` module deletes old alarm history. It runs in Pinpoint Batch, not in Alarm Batch, and uses the MySQL of its `jdbc.properties`. It is off by default.
+
+| Setting | Default | Description |
+|---|---|---|
+| `job.cleanup.alarm.history.enable` | `false` | Turns on the job |
+| `job.cleanup.alarm.history.cron` | `0 30 3 * * *` | Run schedule |
+| `job.cleanup.alarm.history.expiration-days` | `14` | Retention (days). The job deletes the history older than this. |
+| `job.cleanup.alarm.history.chunk-size` | `5000` | Number of rows deleted at a time |
+
+The job deletes the sent and dead items of the delivery queue (`alarm_notification_outbox`) first, then the history (`alarm_history_v2`). A history with an item that waits for delivery stays until that item is sent or dead.
 
 
 # Service 알람 가이드 <a id="service-alarm-ko"></a>
@@ -682,6 +694,7 @@ Service 알람을 운영하려면 별도의 Alarm Batch 프로세스가 필요�
 |---|---|
 | Pinpoint Web | 룰, 채널, 템플릿 API와 화면을 제공합니다. 별도 설정 없이 포함됩니다. |
 | Alarm Batch (`alarm-batch-starter`) | 룰을 검사하고 알림을 보냅니다. 별도 프로세스로 실행합니다. |
+| Pinpoint Batch (`batch`) | 오래된 알람 이력을 지웁니다. 선택 사항입니다. [이력 정리](alarm.md#alarm-history-cleanup-ko)를 확인합니다. |
 | MySQL | 알람 테이블과 Spring Batch 메타데이터를 저장합니다. |
 | HBase, Pinot | Alarm Batch가 지표를 조회합니다. |
 
@@ -794,4 +807,15 @@ SMS 채널을 사용하려면 다음을 구현해 `SmsAlarmSender` 빈으로 등
 | `pinpoint.modules.batch.alarm.outbox.leaseSec` | `60` | 발송 중인 알림을 다른 프로세스가 가져가지 않는 시간(초) |
 | `alarm.pinpoint.web.alarm-path` | `/config/alarm` | Alarm History 링크의 경로 |
 
-> 알람 이력(`alarm_history_v2`)과 발송을 마친 대기열은 자동으로 정리되지 않습니다. 필요하면 오래된 행을 주기적으로 지웁니다.
+### 이력 정리 <a id="alarm-history-cleanup-ko"></a>
+
+오래된 알람 이력은 `batch` 모듈의 `alarmHistoryCleanupJob`이 지웁니다. 이 잡은 Alarm Batch가 아니라 Pinpoint Batch에서 실행되며, Pinpoint Batch의 `jdbc.properties`에 설정한 MySQL을 사용합니다. 기본값은 꺼짐입니다.
+
+| 설정 | 기본값 | 설명 |
+|---|---|---|
+| `job.cleanup.alarm.history.enable` | `false` | 정리 잡 사용 여부 |
+| `job.cleanup.alarm.history.cron` | `0 30 3 * * *` | 실행 주기 |
+| `job.cleanup.alarm.history.expiration-days` | `14` | 보관 기간(일). 이보다 오래된 이력을 지웁니다. |
+| `job.cleanup.alarm.history.chunk-size` | `5000` | 한 번에 지우는 행 수 |
+
+발송을 마친 대기열(`alarm_notification_outbox`의 `SENT`, `DEAD`)을 먼저 지우고 이력(`alarm_history_v2`)을 지웁니다. 발송을 기다리는 알림이 있는 이력은 그 알림의 발송이 끝날 때까지 남습니다.
