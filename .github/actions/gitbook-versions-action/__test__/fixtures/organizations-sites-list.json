@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "object": "site",
+      "id": "site_pinpoint",
+      "title": "Pinpoint",
+      "urls": {
+        "published": "https://pinpoint-apm.gitbook.io/pinpoint/"
+      }
+    }
+  ]
+}
