@@ -18,6 +18,7 @@ const git = simpleGit({ baseDir })
 const ReleaseNotes = require('./lib/release-notes')
 const MarkdownContents = require('./lib/markdown-contents')
 const GithubRelease = require('./lib/github-release')
+const ReleaseBranch = require('./lib/release-branch')
 
 // https://github.com/steveukx/git-js/blob/main/test/integration/branches.spec.ts
 const run = async () => {
@@ -69,8 +70,8 @@ const run = async () => {
       const disableBranch = core.getInput('disable_branch')
       const version = githubRelease.getVersion()
       if (version && githubRelease.needsBranch(templateVersion) && disableBranch.length == 0) {
-        await git.branch([version])
-        await git.push('origin', version)
+        const releaseBranchCommit = await new ReleaseBranch(git, version, githubRelease.getPublishedAt()).create(templateMarkdownFile, githubRelease.commitLog())
+        core.info(`> git push ${version} branch at ${releaseBranchCommit}.`)
       }
     }
   } catch (error) {

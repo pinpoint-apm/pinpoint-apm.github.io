@@ -32,7 +32,8 @@ class GithubRelease {
                 name: data.name,
                 body: data.body,
                 tag_name: tagName,
-                html_url: data.url
+                html_url: data.url,
+                published_at: data.published_at
             }
         }, {
             name: 'github-actions[bot]',
@@ -46,6 +47,7 @@ class GithubRelease {
         this.author = author
         this.tagName = payload.release.tag_name
         this.htmlURL = payload.release.html_url
+        this.publishedAt = payload.release.published_at
         this.version = ReleaseNotes.tagName(payload.release.tag_name)
     }
 
@@ -71,6 +73,10 @@ class GithubRelease {
 
     getTagName() {
         return this.tagName
+    }
+
+    getPublishedAt() {
+        return this.publishedAt
     }
 
     getVersion() {
