@@ -330,7 +330,7 @@ flowchart LR
 
 ## 11. Prepare the Database
 
-MySQL 5.7.8 or later is necessary, because the configuration columns of the alarm tables use the JSON type.
+MySQL 8.4 or later is recommended. The configuration columns of the alarm tables use the JSON type.
 
 Make the alarm tables with this script.
 
@@ -739,7 +739,7 @@ flowchart LR
 
 ## 11. DB 준비
 
-MySQL 5.7.8 이상이 필요합니다. 알람 테이블의 설정 컬럼이 JSON 타입이기 때문입니다.
+MySQL 8.4 이상을 권장합니다. 알람 테이블의 설정 컬럼은 JSON 타입입니다.
 
 다음 스크립트로 알람 테이블을 만듭니다.
 
