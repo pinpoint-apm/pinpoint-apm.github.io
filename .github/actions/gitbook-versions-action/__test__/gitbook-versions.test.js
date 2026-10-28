@@ -23,14 +23,21 @@ function subcommandOf(gitbookArgs) {
     return gitbookArgs.slice(0, gitbookArgs.findIndex(arg => arg.startsWith('--'))).join(' ')
 }
 
-async function fakeGitbookSite() {
+async function fakeGitbookSite({ ignoresSorts = false } = {}) {
     const responses = {
         'organizations list': await readFixture('organizations-list.json'),
         'organizations sites list': await readFixture('organizations-sites-list.json'),
         'organizations sites site-spaces list': await readFixture('site-spaces-list.json')
     }
     const addedSiteSpaceTemplate = await readFixture('site-spaces-add.json')
+    const structure = await readFixture('structure-get.json')
     const calls = []
+
+    function placeBehind({ item, position }) {
+        const siteSpaces = structure.structure
+        const moved = siteSpaces.splice(siteSpaces.findIndex(siteSpace => siteSpace.id === item.id), 1)[0]
+        siteSpaces.splice(siteSpaces.findIndex(siteSpace => siteSpace.id === position.before.id) + 1, 0, moved)
+    }
 
     async function runCommand(args, options) {
         calls.push({ args, options })
@@ -42,7 +49,18 @@ async function fakeGitbookSite() {
         if (subcommand === 'organizations sites site-spaces add') {
             const { title } = JSON.parse(args[args.indexOf('--body') + 1])
             const id = title.replace(/\./g, '_')
-            return JSON.stringify({ ...addedSiteSpaceTemplate, id: `sitesp_${id}`, title, path: title, space: { id: `space_${id}` } })
+            const siteSpace = { ...addedSiteSpaceTemplate, id: `sitesp_${id}`, title, path: title, space: { id: `space_${id}` } }
+            structure.structure.push(siteSpace)
+            return JSON.stringify(siteSpace)
+        }
+        if (subcommand === 'organizations sites structure sort') {
+            if (!ignoresSorts) {
+                placeBehind(JSON.parse(args[args.indexOf('--body') + 1]))
+            }
+            return ''
+        }
+        if (subcommand === 'organizations sites structure get') {
+            return JSON.stringify(structure)
         }
         if (responses[subcommand]) {
             return JSON.stringify(responses[subcommand])
@@ -53,31 +71,46 @@ async function fakeGitbookSite() {
     const gitbookCalls = () => calls.filter(call => call.args[0] === 'npx').map(call => call.args.slice(3))
     const writes = () => gitbookCalls().filter(args => ['organizations sites site-spaces add', 'organizations sites structure sort', 'spaces git import'].includes(subcommandOf(args)))
     const bodyOf = (args) => JSON.parse(args[args.indexOf('--body') + 1])
-    return { runCommand, calls, gitbookCalls, writes, bodyOf }
+    const sorts = () => writes().filter(args => subcommandOf(args) === 'organizations sites structure sort').map(args => bodyOf(args)).map(sort => [sort.item.id, sort.position.before.id])
+    return { runCommand, calls, gitbookCalls, writes, bodyOf, sorts }
 }
 
-test('new version is added, placed behind the next newer version and imported from its docs branch', async (t) => {
+test('new version is added and imported from its docs branch', async (t) => {
     const site = await fakeGitbookSite()
 
     const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
 
     t.deepEqual(addedVersions, ['v3.0.3'])
-    const [add, sort, gitImport] = site.writes()
+    const [add, gitImport] = site.writes()
     t.deepEqual(site.bodyOf(add), { spaceId: null, empty: true, title: 'v3.0.3' }, 'site space titled by the version')
     t.deepEqual(add.slice(-2), ['-org_pinpoint_apm', 'site_pinpoint'], 'added to the site found by its published URL')
-    t.deepEqual(site.bodyOf(sort), { item: { type: 'site-space', id: 'sitesp_v3_0_3' }, position: { before: { type: 'site-space', id: 'sitesp_v3_0_4' } } }, 'placed behind v3.0.4')
     t.deepEqual(site.bodyOf(gitImport), { url: 'https://github.com/pinpoint-apm/pinpoint-apm.github.io.git', ref: 'refs/heads/v3.0.3' }, 'imported from the v3.0.3 branch')
     t.equal(gitImport[gitImport.length - 1], 'space_v3_0_3', 'imported into the new space')
     t.end()
 })
 
-test('newest version is placed behind the default site space', async (t) => {
+test('new version re-sorts every version behind the previous one, newest first after the default site space', async (t) => {
     const site = await fakeGitbookSite()
 
-    await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.1.1'])
+    await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
 
-    const [, sort] = site.writes()
-    t.equal(site.bodyOf(sort).position.before.id, 'sitesp_latest_snapshot')
+    t.deepEqual(site.sorts(), [
+        ['sitesp_v3_0_4', 'sitesp_latest_snapshot'],
+        ['sitesp_v3_0_3', 'sitesp_v3_0_4'],
+        ['sitesp_v3_0_2', 'sitesp_v3_0_3']
+    ])
+    t.end()
+})
+
+test('order on the site that differs from the wanted order after sorting fails with both orders', async (t) => {
+    const site = await fakeGitbookSite({ ignoresSorts: true })
+
+    try {
+        await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
+        t.fail('expected an error')
+    } catch (error) {
+        t.equal(error.message, 'GitBook version order is latest-snapshot v3.0.4 v3.0.2 v3.0.3, expected latest-snapshot v3.0.4 v3.0.3 v3.0.2')
+    }
     t.end()
 })
 
@@ -87,7 +120,7 @@ test('version already on the site is not changed', async (t) => {
     const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.4'])
 
     t.deepEqual(addedVersions, [])
-    t.deepEqual(site.writes(), [])
+    t.deepEqual(site.writes(), [], 'no add, import or structure sort')
     t.end()
 })
 
@@ -101,14 +134,19 @@ test('version without a docs branch is skipped', async (t) => {
     t.end()
 })
 
-test('versions added in one run are placed against each other', async (t) => {
+test('versions added in one run are sorted once, after all are added', async (t) => {
     const site = await fakeGitbookSite()
 
-    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.1.1', 'v3.1.0'])
+    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.1.0', 'v3.1.1'])
 
-    t.deepEqual(addedVersions, ['v3.1.1', 'v3.1.0'])
-    const sorts = site.writes().filter(args => subcommandOf(args) === 'organizations sites structure sort').map(args => site.bodyOf(args))
-    t.deepEqual(sorts.map(sort => [sort.item.id, sort.position.before.id]), [['sitesp_v3_1_1', 'sitesp_latest_snapshot'], ['sitesp_v3_1_0', 'sitesp_v3_1_1']])
+    t.deepEqual(addedVersions, ['v3.1.0', 'v3.1.1'])
+    t.deepEqual(site.writes().map(args => subcommandOf(args)).slice(0, 4), ['organizations sites site-spaces add', 'spaces git import', 'organizations sites site-spaces add', 'spaces git import'], 'adds and imports before sorting')
+    t.deepEqual(site.sorts(), [
+        ['sitesp_v3_1_1', 'sitesp_latest_snapshot'],
+        ['sitesp_v3_1_0', 'sitesp_v3_1_1'],
+        ['sitesp_v3_0_4', 'sitesp_v3_1_0'],
+        ['sitesp_v3_0_2', 'sitesp_v3_0_4']
+    ])
     t.end()
 })
 

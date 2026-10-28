@@ -66,10 +66,14 @@ class GitbookVersions {
                 continue
             }
             const siteSpace = await this.gitbookJson(['organizations', 'sites', 'site-spaces', 'add', '--body', JSON.stringify({ spaceId: null, empty: true, title: version }), '--json', '--', site.organizationId, site.id])
-            await this.placeBehind(site, siteSpace, GitbookVersions.precedingSiteSpace(siteSpaces, version))
             await this.gitbook(['spaces', 'git', 'import', '--body', JSON.stringify({ url: docsRepositoryUrl, ref: `refs/heads/${version}` }), '--', siteSpace.space.id])
             siteSpaces.push(siteSpace)
             addedVersions.push(version)
+        }
+        if (addedVersions.length > 0) {
+            const wantedOrder = GitbookVersions.defaultThenNewestFirst(siteSpaces)
+            await this.sortAll(site, wantedOrder)
+            await this.verifyOrder(site, wantedOrder)
         }
         return addedVersions
     }
@@ -90,19 +94,30 @@ class GitbookVersions {
         return (await this.runCommand(['git', 'ls-remote', '--heads', 'origin', version])).trim().length > 0
     }
 
-    // structure sort `before X` puts the site space behind X in the display order
-    async placeBehind(site, siteSpace, precedingSiteSpace) {
-        const position = { before: { type: 'site-space', id: precedingSiteSpace.id } }
-        await this.gitbook(['organizations', 'sites', 'structure', 'sort', '--body', JSON.stringify({ item: { type: 'site-space', id: siteSpace.id }, position }), '--', site.organizationId, site.id])
+    static defaultThenNewestFirst(siteSpaces) {
+        const versions = siteSpaces
+            .map(siteSpace => ({ siteSpace, version: Version.parse(siteSpace.path) }))
+            .filter(candidate => candidate.version)
+            .sort((a, b) => b.version.compare(a.version))
+            .map(candidate => candidate.siteSpace)
+        return [siteSpaces.find(siteSpace => siteSpace.default), ...versions]
     }
 
-    static precedingSiteSpace(siteSpaces, version) {
-        const newVersion = Version.parse(version)
-        const newerVersions = siteSpaces
-            .map(siteSpace => ({ siteSpace, version: Version.parse(siteSpace.path) }))
-            .filter(candidate => candidate.version && candidate.version.compare(newVersion) > 0)
-            .sort((a, b) => a.version.compare(b.version))
-        return newerVersions.length > 0 ? newerVersions[0].siteSpace : siteSpaces.find(siteSpace => siteSpace.default)
+    // A single `before X` does not always land right behind X: .claude/skills/gitbook-versions/SKILL.md Ordering
+    async sortAll(site, wantedOrder) {
+        for (let i = 1; i < wantedOrder.length; i++) {
+            const position = { before: { type: 'site-space', id: wantedOrder[i - 1].id } }
+            await this.gitbook(['organizations', 'sites', 'structure', 'sort', '--body', JSON.stringify({ item: { type: 'site-space', id: wantedOrder[i].id }, position }), '--', site.organizationId, site.id])
+        }
+    }
+
+    async verifyOrder(site, wantedOrder) {
+        const { structure } = await this.gitbookJson(['organizations', 'sites', 'structure', 'get', '--json', '--', site.organizationId, site.id])
+        const expected = wantedOrder.map(siteSpace => siteSpace.path).join(' ')
+        const actual = structure.map(siteSpace => siteSpace.path).join(' ')
+        if (actual !== expected) {
+            throw new Error(`GitBook version order is ${actual}, expected ${expected}`)
+        }
     }
 
     async gitbook(args) {

@@ -81,3 +81,16 @@ test('organizations sites list gives each site id and its published URL', async 
     }
     t.end()
 })
+
+test('structure get lists the site spaces in display order with their id and path', async (t) => {
+    const { type, structure } = await readFixture('structure-get.json')
+
+    t.equal(type, 'siteSpaces', 'type')
+    t.ok(structure.length > 0, 'structure is a non-empty array')
+    for (const siteSpace of structure) {
+        t.equal(typeof siteSpace.id, 'string', `${siteSpace.path} id`)
+        t.equal(typeof siteSpace.path, 'string', `${siteSpace.path} path`)
+    }
+    t.equal(structure[0].default, true, 'default site space first')
+    t.end()
+})
