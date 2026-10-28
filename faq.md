@@ -43,7 +43,9 @@ Application names and agent ids, once registered, stay in HBase until their TTL 
 * Remove application name - `/admin/removeApplicationName.pinpoint?applicationName=$APPLICATION_NAME&password=$PASSWORD`
 * Remove agent id - `/admin/removeAgentId.pinpoint?applicationName=$APPLICATION_NAME&agentId=$AGENT_ID&password=$PASSWORD`
 
-  Note that the value for the password parameter is what you defined `admin.password` property in _pinpoint-web.properties_. Leaving this blank will allow you to call admin APIs without the password parameter.
+  Note that the value for the password parameter is what you defined `admin.password` property in _pinpoint-web.properties_. Since 4.0.1, the admin APIs are disabled until you set `admin.password`. Before 4.0.1, leaving this blank allowed you to call admin APIs without the password parameter.
+
+  If another module authorizes the admin APIs, set `admin.password.enabled=false` to skip the password check. See [pinpoint-web](https://github.com/pinpoint-apm/pinpoint/tree/master/web#admin-api).
 
 ## What are the criteria for the application name?
 
