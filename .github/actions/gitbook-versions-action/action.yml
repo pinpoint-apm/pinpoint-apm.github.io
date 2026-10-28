@@ -1,0 +1,13 @@
+name: 'GitBook versions'
+description: 'Add Pinpoint release versions to the GitBook site as version spaces imported from their docs branches'
+inputs:
+  versions:
+    description: 'Space-separated vX.Y.Z versions to add. Empty adds the release sent with the release-pinpoint dispatch, else the latest Pinpoint release.'
+    required: false
+    default: ''
+  gitbook_token:
+    description: 'GitBook personal API token with write access to the site'
+    required: true
+runs:
+  using: 'node20'
+  main: 'index.js'

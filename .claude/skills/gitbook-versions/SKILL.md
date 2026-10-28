@@ -5,7 +5,7 @@ description: GitBook CLI commands, IDs and auth for the Pinpoint docs version sp
 
 ## Site
 
-- Look up the IDs with a read-only `login`: `organizations list --json` gives the pinpoint-apm org ID (`<org>`), then `organizations sites list --json -- <org>` gives the ID of the site published at https://pinpoint-apm.gitbook.io/pinpoint/ (`<site>`).
+- Look up the IDs with a read-only `login`: `organizations list --json` gives the pinpoint-apm org ID (`<org>`), then `organizations sites list --json -- <org>` gives the ID of the site whose `urls.published` is https://pinpoint-apm.gitbook.io/pinpoint/ (`<site>`). The automation looks them up the same way on every run, so no ID is kept in the repository.
 - Each version is one site space titled and pathed `vX.Y.Z`, ordered newest first after the default site space `latest-snapshot`, which is Git Sync'd to `main`.
 - Older versions are Git Sync'd to the docs branch `vX.Y.Z` or hold content without Git Sync.
 
@@ -27,7 +27,13 @@ Prefix: `npx -y @gitbook/cli@0.32.10 organizations sites`. `<org>` and `<site>` 
 - Move a version: `structure sort --body '{"item":{"type":"site-space","id":"<siteSpaceId>"},"position":{"before":{"type":"site-space","id":"<otherSiteSpaceId>"}}}' -- <org> <site>`. `position` is required.
 - Import content from the docs branch: `npx -y @gitbook/cli@0.32.10 spaces git import --body '{"url":"https://github.com/pinpoint-apm/pinpoint-apm.github.io.git","ref":"refs/heads/vX.Y.Z"}' -- <spaceId>` → 204, import queued
 
-The JSON fields the version automation reads are recorded from the real CLI in `.github/actions/markdown-template-engine-action/__test__/fixtures/gitbook/` and checked by `gitbook-fixtures.test.js`. Re-record them when the CLI version changes.
+The JSON fields the version automation reads are recorded from the real CLI in `.github/actions/gitbook-versions-action/__test__/fixtures/` and checked by `gitbook-fixtures.test.js`. Re-record them when the CLI version changes.
+
+## Automation
+
+- The `Add GitBook version spaces` step of `Publish Pinpoint website` (`.github/workflows/applyMainMarkdownWithTemplateEngine.yml`) runs `.github/actions/gitbook-versions-action` with the `GITBOOK_TOKEN` secret, after the step that pushes the docs branch. It adds the versions in the `versions` input of a manual run, else the tag of the release sent with the `release-pinpoint` dispatch, else the latest `pinpoint-apm/pinpoint` GitHub release tag.
+- Its `lib/gitbook-versions.js` follows "Add a missing version by hand" below. It skips a version without a docs branch on `origin` or already on the site, and moves each new version `before` the next newer version (or the default site space). Its tests are in `__test__/gitbook-versions.test.js`.
+- Backfill: run the workflow by hand with `versions=vA.B.C vX.Y.Z`, then check the order with `structure get`.
 
 ## Ordering
 

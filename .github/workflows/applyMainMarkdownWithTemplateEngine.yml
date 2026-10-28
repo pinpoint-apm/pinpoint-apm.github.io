@@ -7,10 +7,12 @@ on:
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
   repository_dispatch:
     types: [release-pinpoint]
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '00 5 * * *'
   workflow_dispatch:
+    inputs:
+      versions:
+        description: 'GitBook versions to add, space-separated (e.g. v2.4.1 v2.4.2). Empty adds the latest Pinpoint release.'
+        required: false
+        default: ''
 
 jobs:
   build:
@@ -26,3 +28,8 @@ jobs:
         section_github_path: pinpoint-apm/pinpoint
       env:
         ACTIONS_STEP_DEBUG: true
+    - name: Add GitBook version spaces
+      uses: ./.github/actions/gitbook-versions-action
+      with:
+        versions: ${{ github.event.inputs.versions }}
+        gitbook_token: ${{ secrets.GITBOOK_TOKEN }}
