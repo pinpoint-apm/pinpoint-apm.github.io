@@ -32,19 +32,19 @@ The JSON fields the version automation reads are recorded from the real CLI in `
 ## Automation
 
 - The `Add GitBook version spaces` step of `Publish Pinpoint website` (`.github/workflows/applyMainMarkdownWithTemplateEngine.yml`) runs `.github/actions/gitbook-versions-action` with the `GITBOOK_TOKEN` secret, after the step that pushes the docs branch. It adds the versions in the `versions` input of a manual run, else the tag of the release sent with the `release-pinpoint` dispatch, else the latest `pinpoint-apm/pinpoint` GitHub release tag.
-- Its `lib/gitbook-versions.js` follows "Add a missing version by hand" below. It skips a version without a docs branch on `origin` or already on the site, and moves each new version `before` the next newer version (or the default site space). Its tests are in `__test__/gitbook-versions.test.js`.
-- Backfill: run the workflow by hand with `versions=vA.B.C vX.Y.Z`, then check the order with `structure get`.
+- Its `lib/gitbook-versions.js` follows "Add a missing version by hand" below. It skips a version without a docs branch on `origin` or already on the site. After adding at least one version, it re-sorts all site spaces as in Ordering and fails the run if `structure get` differs from the wanted order. Its tests are in `__test__/gitbook-versions.test.js`.
+- Backfill: run the workflow by hand with `versions=vA.B.C vX.Y.Z`.
 
 ## Ordering
 
-`structure sort` is relative to sort keys, and `structure get` lists them in reverse: `after X` puts the item in front of X in the display order, and `before X` puts it behind X. On 2026-10-28 single moves landed in unexpected places until every site space was moved once. To restore the order, sort the site spaces as wanted (default first, then versions newest first) and move each one `before` the previous one, then check with `structure get`.
+`structure sort` is relative to sort keys, and `structure get` lists them in reverse: `after X` puts the item in front of X in the display order, and `before X` puts it behind X. A single `before X` does not always land right behind X: in the 2026-10-28 backfill, v3.0.5 moved `before` v3.1.0 landed behind v3.0.3. So move every site space, not only the new one. To restore the order, sort the site spaces as wanted (default first, then versions newest first) and move each one `before` the previous one, then check with `structure get`.
 
 ## Add a missing version by hand
 
 1. `git ls-remote --heads upstream vX.Y.Z`: the docs branch must exist.
 2. `site-spaces list`: stop if a site space with path `vX.Y.Z` already exists.
 3. `site-spaces add`, then `spaces git import` into the new `space.id`.
-4. Order it (see Ordering) and check `structure get`.
+4. Re-sort all site spaces (see Ordering) and check `structure get`.
 5. Check https://pinpoint-apm.gitbook.io/pinpoint/vX.Y.Z.
 
 ## Limits

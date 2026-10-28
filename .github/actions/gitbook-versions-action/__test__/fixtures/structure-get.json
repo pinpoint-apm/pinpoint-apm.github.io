@@ -1,0 +1,35 @@
+{
+  "type": "siteSpaces",
+  "structure": [
+    {
+      "object": "site-space",
+      "id": "sitesp_latest_snapshot",
+      "title": "Latest Snapshot",
+      "path": "latest-snapshot",
+      "default": true,
+      "space": {
+        "id": "space_latest_snapshot"
+      }
+    },
+    {
+      "object": "site-space",
+      "id": "sitesp_v3_0_4",
+      "title": "v3.0.4",
+      "path": "v3.0.4",
+      "default": false,
+      "space": {
+        "id": "space_v3_0_4"
+      }
+    },
+    {
+      "object": "site-space",
+      "id": "sitesp_v3_0_2",
+      "title": "v3.0.2",
+      "path": "v3.0.2",
+      "default": false,
+      "space": {
+        "id": "space_v3_0_2"
+      }
+    }
+  ]
+}
