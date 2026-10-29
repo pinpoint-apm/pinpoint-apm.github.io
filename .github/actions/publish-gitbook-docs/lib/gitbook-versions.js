@@ -11,50 +11,20 @@ const gitbookCli = ['npx', '-y', '@gitbook/cli@0.32.10']
 const directoryWithoutRepositoryPackages = os.homedir()
 const docsRepositoryUrl = 'https://github.com/pinpoint-apm/pinpoint-apm.github.io.git'
 
-class Version {
-    static parse(text) {
-        const match = /^v(\d+)\.(\d+)\.(\d+)$/.exec(text)
-        return match ? new Version(text, match.slice(1).map(Number)) : undefined
-    }
-
-    constructor(text, numbers) {
-        this.text = text
-        this.numbers = numbers
-    }
-
-    compare(other) {
-        for (let i = 0; i < this.numbers.length; i++) {
-            if (this.numbers[i] !== other.numbers[i]) {
-                return this.numbers[i] - other.numbers[i]
-            }
-        }
-        return 0
-    }
-}
+const Version = require('./version')
 
 class GitbookVersions {
-    static async versionsToAdd(versionsInput, dispatchedPinpointRelease, fetchLatestPinpointRelease) {
-        const versions = (versionsInput || '').split(/\s+/).filter(version => version.length > 0)
-        if (versions.length > 0) {
-            return versions
-        }
-        const pinpointRelease = dispatchedPinpointRelease || await fetchLatestPinpointRelease()
-        return [GitbookVersions.versionOfTag(pinpointRelease.tag_name)]
-    }
-
-    static versionOfTag(tagName) {
-        return tagName.startsWith('v') ? tagName : `v${tagName}`
-    }
-
     constructor(runCommand, publishedSiteUrl) {
         this.runCommand = runCommand
         this.publishedSiteUrl = publishedSiteUrl
     }
 
-    async add(versions) {
+    // A version already on the site is imported again from its docs branch, so edited release notes reach it (#105)
+    async publish(versions) {
         const site = await this.findSite()
         const siteSpaces = (await this.gitbookJson(['organizations', 'sites', 'site-spaces', 'list', '--limit', '100', '--json', '--', site.organizationId, site.id])).items
-        const addedVersions = []
+        const added = []
+        const reimported = []
         for (const version of versions) {
             if (!Version.parse(version)) {
                 throw new Error(`${version} is not a vX.Y.Z version`)
@@ -62,20 +32,27 @@ class GitbookVersions {
             if (!await this.hasDocsBranch(version)) {
                 continue
             }
-            if (siteSpaces.some(siteSpace => siteSpace.path === version)) {
+            const existing = siteSpaces.find(siteSpace => siteSpace.path === version)
+            if (existing) {
+                await this.importDocsBranch(existing.space.id, version, { force: true })
+                reimported.push(version)
                 continue
             }
             const siteSpace = await this.gitbookJson(['organizations', 'sites', 'site-spaces', 'add', '--body', JSON.stringify({ spaceId: null, empty: true, title: version }), '--json', '--', site.organizationId, site.id])
-            await this.gitbook(['spaces', 'git', 'import', '--body', JSON.stringify({ url: docsRepositoryUrl, ref: `refs/heads/${version}` }), '--', siteSpace.space.id])
+            await this.importDocsBranch(siteSpace.space.id, version)
             siteSpaces.push(siteSpace)
-            addedVersions.push(version)
+            added.push(version)
         }
-        if (addedVersions.length > 0) {
+        if (added.length > 0) {
             const wantedOrder = GitbookVersions.defaultThenNewestFirst(siteSpaces)
             await this.sortAll(site, wantedOrder)
             await this.verifyOrder(site, wantedOrder)
         }
-        return addedVersions
+        return { added, reimported }
+    }
+
+    async importDocsBranch(spaceId, version, options = {}) {
+        await this.gitbook(['spaces', 'git', 'import', '--body', JSON.stringify({ url: docsRepositoryUrl, ref: `refs/heads/${version}`, ...options }), '--', spaceId])
     }
 
     async findSite() {

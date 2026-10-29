@@ -1,0 +1,17 @@
+name: 'Publish GitBook docs'
+description: 'Render the Pinpoint release notes into main.md, carry them to main and the vX.Y.Z docs branch, and add or re-import the GitBook version'
+inputs:
+  whats_new_file:
+    description: "The What's New page, main.md, whose sections are rendered"
+    required: true
+    default: './main.md'
+  versions:
+    description: 'Space-separated vX.Y.Z docs versions to publish instead of the release of this run: docs branch and GitBook version of each (backfill)'
+    required: false
+    default: ''
+  gitbook_token:
+    description: 'GitBook personal API token with write access to the site'
+    required: true
+runs:
+  using: 'node24'
+  main: 'index.js'

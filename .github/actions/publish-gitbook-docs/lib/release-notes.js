@@ -4,8 +4,6 @@
  * Apache License v2.0
  */
 
-const axios = require('axios')
-
 const whatsNewTempate = `# What's New in v__VERSION__
 __BODY__
 `
@@ -14,14 +12,6 @@ class ReleaseNotes {
     constructor(contents, version) {
         this.contents = contents
         this.version = version
-    }
-
-    getVersion() {
-        return `${this.version}`
-    }
-
-    getVersionWithV() {
-        return `v${this.version}`
     }
 
     static makeLatestReleaseNotes(release) {
@@ -47,12 +37,9 @@ class ReleaseNotes {
         return version.startsWith('v') ? version.substring(1) : version
     }
 
-    static makeOfMarkdownContents(contents) {
-        const match = /# What's New in v(?<version>[0-9.]+)/gm.exec(contents)
-        if (!match) {
-            return new ReleaseNotes(contents)
-        }
-        return new ReleaseNotes(contents, match.groups.version)
+    static getVersionWithV(markdown) {
+        const match = /# What's New in (?<version>v[0-9.]+)/m.exec(markdown)
+        return match ? match.groups.version : undefined
     }
 }
 

@@ -7,11 +7,11 @@
 'use strict'
 
 const test = require('tape')
-const MarkdownContents = require('../lib/markdown-contents')
 const ReleaseNotes = require('../lib/release-notes')
-const GithubRelease = require('../lib/github-release')
+const PinpointRelease = require('../lib/pinpoint-release')
 const fs = require("fs-extra")
-const TemplateEngine = require('../lib/template-engine')
+const path = require('path')
+const WhatsNewPage = require('../lib/whats-new-page')
 
 test('tagname check with "v"', async (t) => {
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
@@ -307,19 +307,17 @@ Additionally, the required Java version to run each Pinpoint component is given 
 <!-- </modules.md> -->`
 
 test('tagname check without "v"', async (t) => {
-    const actual = ReleaseNotes.makeOfMarkdownContents(main_md)
-    t.equal(actual.getVersion(), '2.3.0', 'parsing version matcher')
-    t.equal(actual.getVersionWithV(), 'v2.3.0', 'parsing version with v matcher')
+    t.equal(ReleaseNotes.getVersionWithV(main_md), 'v2.3.0', 'version of the What\'s New heading')
+    t.equal(ReleaseNotes.getVersionWithV('no heading'), undefined, 'no What\'s New heading')
     t.end()
 })
 
 test('github latest release notes', async (t) => {
-    const actualLatestReleaseNotes = await GithubRelease.makeByLatestGithubReleaseNotes()
-    MarkdownContents.setPinpointReadmeGithubPath('pinpoint-apm/pinpoint')
-    const actualTemplate = await fs.readFile('./main.md', 'utf8')
-    const engine = new TemplateEngine(actualTemplate)
-    const actualMarkdownContent = await engine.markdownContent(actualLatestReleaseNotes)
-    const expectedLatestReleaseNotes = await engine.markdownContentFromGithub('latestReleaseNotes.md', actualLatestReleaseNotes)
+    const actualLatestReleaseNotes = await PinpointRelease.fetchLatest()
+    const whatsNew = await fs.readFile(path.join(__dirname, '../../../../main.md'), 'utf8')
+    const page = new WhatsNewPage(whatsNew)
+    const actualMarkdownContent = await page.markdownContent(actualLatestReleaseNotes)
+    const expectedLatestReleaseNotes = await page.markdownContentFromGithub('latestReleaseNotes.md', actualLatestReleaseNotes)
     t.deepEqual(/latestReleaseNotes.md>\s-->[\n\r]([\s\S]+)\n<!--\s<\/latestReleaseNotes.md>\s/gm.exec(actualMarkdownContent)[1],
         expectedLatestReleaseNotes, 'markdown content from github')
     t.end()

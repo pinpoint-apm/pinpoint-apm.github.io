@@ -5,8 +5,7 @@ Personal, uncommitted instructions go in `~/.claude/CLAUDE.md` or `~/.claude/ski
 ## Testing
 
 - The docs are published by GitBook from this repo. Check documentation changes in the GitBook preview of the branch.
-- Changes to `.github/actions/markdown-template-engine-action` need tests in its `__test__/` directory. They use Tape and resolve paths from the repository root, so run them from there: `npx tape .github/actions/markdown-template-engine-action/__test__/*.test.js`.
-- Changes to `.github/actions/gitbook-versions-action` need tests in its `__test__/` directory. Run `npm ci` and then `npm test` in that directory.
+- Changes to `.github/actions/publish-gitbook-docs` need tests in its `__test__/` directory. Run `npm ci` and then `npm test` in that directory.
 
 ## Workflow
 

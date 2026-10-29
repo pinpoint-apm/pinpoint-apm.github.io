@@ -1,0 +1,32 @@
+name: Publish GitBook docs
+
+on:
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#repository_dispatch
+  repository_dispatch:
+    types: [release-pinpoint]
+  schedule:
+    - cron:  '00 5 * * *'
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: 'GitBook versions to publish, space-separated (e.g. v2.4.1 v2.4.2). Empty publishes the latest Pinpoint release.'
+        required: false
+        default: ''
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 24
+    - run: npm ci
+      working-directory: .github/actions/publish-gitbook-docs
+    - uses: ./.github/actions/publish-gitbook-docs
+      with:
+        whats_new_file: ./main.md
+        versions: ${{ github.event.inputs.versions }}
+        gitbook_token: ${{ secrets.GITBOOK_TOKEN }}

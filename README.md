@@ -1,6 +1,6 @@
 # Introduction
 
-[![Maven](https://img.shields.io/github/actions/workflow/status/pinpoint-apm/pinpoint/maven.yml?branch=master&label=build&logo=github)](https://github.com/pinpoint-apm/pinpoint/actions?query=workflow%3AMaven) 
+[![Maven](https://img.shields.io/github/actions/workflow/status/pinpoint-apm/pinpoint/maven.yml?branch=master&label=build&logo=github)](https://github.com/pinpoint-apm/pinpoint/actions?query=workflow%3AMaven)
 [![codecov](https://codecov.io/gh/pinpoint-apm/pinpoint/branch/master/graph/badge.svg)](https://codecov.io/gh/pinpoint-apm/pinpoint)
 
 **Pinpoint** is an APM \(Application Performance Management\) tool for large-scale distributed systems written in Java / [PHP](https://github.com/pinpoint-apm/pinpoint-c-agent). Inspired by [Dapper](http://research.google.com/pubs/pub36356.html), Pinpoint provides a solution to help analyze the overall structure of the system and how components within them are interconnected by tracing transactions across distributed applications.
@@ -17,11 +17,11 @@ You should definitely check **Pinpoint** out If you want to
 
 ## Live Demo
 
-* [demo](http://223.130.142.103:8080/main/ApiGateway@SPRING_BOOT/5m?inbound=1&outbound=4&wasOnly=false&bidirectional=false) - Here is a Demo, So that you can take a look at Pinpoint right away.
+* [demo](http://211.233.216.67:8080/serviceMap/shop-front) - Here is a Demo, So that you can take a look at Pinpoint right away.
 
 ## Want a quick tour?
 
-* [Overview](want-a-quick-tour/overview.md) / [History](want-a-quick-tour/history.md) / [Tech Details](want-a-quick-tour/techdetail.md) to get to know more about Pinpoint 
+* [Overview](want-a-quick-tour/overview.md) / [History](want-a-quick-tour/history.md) / [Tech Details](want-a-quick-tour/techdetail.md) to get to know more about Pinpoint
 * [Videos](want-a-quick-tour/videos.md) - Checkout our videos on Pinpoint
 
 {% embed url="https://youtu.be/U4EwnB34Dus" %}

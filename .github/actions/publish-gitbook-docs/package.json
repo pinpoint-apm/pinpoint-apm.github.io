@@ -1,0 +1,19 @@
+{
+  "name": "publish-gitbook-docs",
+  "version": "1.0.0",
+  "description": "Publishes the Pinpoint release notes to main, the release branch and the GitBook version",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "tape '__test__/*.test.js'"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "fs-extra": "^11.2.0",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "tape": "5.10.3"
+  }
+}
