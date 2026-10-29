@@ -43,20 +43,24 @@
   
   Pinpoint Collector now supports receiving metrics via the **OTLP protocol**. 
   Applications can send metrics using the OpenTelemetry SDK or OpenTelemetry Collector without requiring the Pinpoint Agent.
+  
+  📖 [Manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/otel_metric)
 
   ### Heatmap View
   
   A new **Heatmap** view is now available alongside Scatter Chart. 
   While Scatter Chart plots individual transactions, Heatmap provides a statistics-based visualization for faster data overview.
 
-<img width="540" height="396" alt="image" src="https://github.com/user-attachments/assets/8b35f79d-90f9-406f-a97a-25d272e8bf26" />
+![image](https://github.com/user-attachments/assets/8b35f79d-90f9-406f-a97a-25d272e8bf26)
+
+  📖 [Manual](https://pinpoint-apm.gitbook.io/pinpoint/documents/heatmap)
 
   ### Error Reason Categorization
 
   Errors are now categorized (e.g. `exception`, `http-status`, `sql`) and the category is shown on the call stack in the web UI, 
   so you can tell at a glance why a span was marked as an error.
 
-<img width="800" alt="997ae8c6-66a9-4542-8198-f77b7455a94e" src="https://github.com/user-attachments/assets/c15be8f8-4ad9-4792-ade9-609ae94107dd" />
+![997ae8c6-66a9-4542-8198-f77b7455a94e](https://github.com/user-attachments/assets/c15be8f8-4ad9-4792-ade9-609ae94107dd)
 
   Opt-in via agent configuration:
 
@@ -1095,6 +1099,7 @@
 * [#noissue] Refactor AcceptApplicationLocalCache by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/13117
 
 
+
 <!-- </latestReleaseNotes.md> -->
 
 ## Upgrade consideration
@@ -1108,6 +1113,7 @@ HBase compatibility table:
 | 2.3.x - 2.5.x    | yes       | [hbase2-module](https://github.com/pinpoint-apm/pinpoint/tree/2.3.x/hbase2-module)                                    |
 | 3.0.x            | no        | yes                                                                                                                   |
 | 3.1.x            | no        | yes                                                                                                                   |
+| 4.0.x            | no        | yes                                                                                                                   |
 
 
 <!-- </compatibilityHbase.md> -->
@@ -1116,11 +1122,12 @@ Agent compatibility to Collector table:
 
 <!-- <compatibilityPinpoint.md> -->
 
-| Agent Version | Collector 2.x.x | Collector 3.0.x | Collector 3.1.x |
-|---------------|-----------------|-----------------|-----------------|
-| 2.x.x         | yes             | yes             | yes             |
-| 3.0.x         | no              | yes             | yes             |
-| 3.1.x         | no              | no              | yes             |
+| Agent Version | Collector 2.x.x | Collector 3.0.x | Collector 3.1.x | Collector 4.0.x |
+|---------------|-----------------|-----------------|-----------------|-----------------|
+| 2.x.x         | yes             | yes             | yes             | yes             |
+| 3.0.x         | no              | yes             | yes             | yes             |
+| 3.1.x         | no              | no              | yes             | yes             |
+| 4.0.x         | no              | no              | no              | yes             |
 
 
 <!-- </compatibilityPinpoint.md> -->
@@ -1138,6 +1145,7 @@ Additionally, the required Java version to run each Pinpoint component is given 
 | 2.5.x            | 8-19  | 11        | 11  | 11    |
 | 3.0.x            | 8-21  | 17        | 17  | 17    |
 | 3.1.x            | 8-25  | 17        | 17  | 17    |
+| 4.0.x            | 8-25  | 17        | 17  | 17    |
 
 
 <!-- </compatibilityJava.md> -->
