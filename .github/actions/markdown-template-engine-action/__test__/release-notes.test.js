@@ -324,3 +324,24 @@ test('github latest release notes', async (t) => {
         expectedLatestReleaseNotes, 'markdown content from github')
     t.end()
 })
+
+test('img tags become Markdown images', (t) => {
+    const body = [
+        '<img width="1500" height="1444" alt="image" src="https://github.com/user-attachments/assets/x" />',
+        '<img src="https://a/b.png" alt="Server map">',
+        '<img src="https://a/c.png">',
+        '![x](y)',
+        '<details><summary>More</summary></details>'
+    ].join('\n')
+    const actual = ReleaseNotes.formattedReleaseNotes('4.0.0', body)
+    t.equal(actual, [
+        "# What's New in v4.0.0",
+        '![image](https://github.com/user-attachments/assets/x)',
+        '![Server map](https://a/b.png)',
+        '![](https://a/c.png)',
+        '![x](y)',
+        '<details><summary>More</summary></details>',
+        ''
+    ].join('\n'))
+    t.end()
+})
