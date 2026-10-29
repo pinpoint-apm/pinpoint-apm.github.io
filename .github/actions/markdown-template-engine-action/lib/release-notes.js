@@ -32,7 +32,15 @@ class ReleaseNotes {
 
     static formattedReleaseNotes(tagName, contents) {
         return whatsNewTempate.replace('__VERSION__', tagName)
-            .replace('__BODY__', contents)
+            .replace('__BODY__', ReleaseNotes.imgTagsToMarkdownImages(contents))
+    }
+
+    // GitBook renders <img width height> as a fixed-height inline style, which stretches the image: pinpoint-apm/pinpoint-apm.github.io#106
+    static imgTagsToMarkdownImages(contents) {
+        return contents.replace(/<img\s[^>]*?src="([^"]*)"[^>]*>/g, (imgTag, src) => {
+            const alt = /\salt="([^"]*)"/.exec(imgTag)
+            return `![${alt ? alt[1] : ''}](${src})`
+        })
     }
 
     static tagName(version) {
