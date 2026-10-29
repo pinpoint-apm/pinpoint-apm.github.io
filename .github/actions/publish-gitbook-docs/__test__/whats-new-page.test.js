@@ -7,8 +7,7 @@
 'use strict'
 
 const test = require('tape')
-const MarkdownContents = require('../lib/markdown-contents')
-const TemplateEngine = require('../lib/template-engine')
+const WhatsNewPage = require('../lib/whats-new-page')
 
 const actualMD = `
 <!-- <latestReleaseNotes.md> -->
@@ -38,10 +37,8 @@ Additionally, the required Java version to run each Pinpoint component is given 
 <!-- <modules.md> -->
 <!-- </modules.md> -->`
 
-MarkdownContents.setPinpointReadmeGithubPath('feelform/pinpoint')
-
 test('tempalte engine', async (t) => {
-    const dut = new TemplateEngine(actualMD)
+    const dut = new WhatsNewPage(actualMD)
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -55,7 +52,7 @@ test('tempalte engine', async (t) => {
 })
 
 test('markdown section test', async (t) => {
-    const dut = new TemplateEngine(actualMD)
+    const dut = new WhatsNewPage(actualMD)
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -69,7 +66,7 @@ test('markdown section test', async (t) => {
 })
 
 test('markdown from pinpoint index', async (t) => {
-    const dut = new TemplateEngine(actualMD)
+    const dut = new WhatsNewPage(actualMD)
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -375,7 +372,7 @@ Pinpoint Version | Agent | Collector | Web
 '`
 
 test('markdown releasenotes gitbook image block style', async (t) => {
-    const dut = new TemplateEngine(actualMD)
+    const dut = new WhatsNewPage(actualMD)
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'

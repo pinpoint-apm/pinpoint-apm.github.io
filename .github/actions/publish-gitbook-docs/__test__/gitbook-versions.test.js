@@ -78,9 +78,9 @@ async function fakeGitbookSite({ ignoresSorts = false } = {}) {
 test('new version is added and imported from its docs branch', async (t) => {
     const site = await fakeGitbookSite()
 
-    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
+    const { added, reimported } = await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.0.3'])
 
-    t.deepEqual(addedVersions, ['v3.0.3'])
+    t.deepEqual(added, ['v3.0.3'])
     const [add, gitImport] = site.writes()
     t.deepEqual(site.bodyOf(add), { spaceId: null, empty: true, title: 'v3.0.3' }, 'site space titled by the version')
     t.deepEqual(add.slice(-2), ['-org_pinpoint_apm', 'site_pinpoint'], 'added to the site found by its published URL')
@@ -92,7 +92,7 @@ test('new version is added and imported from its docs branch', async (t) => {
 test('new version re-sorts every version behind the previous one, newest first after the default site space', async (t) => {
     const site = await fakeGitbookSite()
 
-    await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
+    await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.0.3'])
 
     t.deepEqual(site.sorts(), [
         ['sitesp_v3_0_4', 'sitesp_latest_snapshot'],
@@ -106,7 +106,7 @@ test('order on the site that differs from the wanted order after sorting fails w
     const site = await fakeGitbookSite({ ignoresSorts: true })
 
     try {
-        await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
+        await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.0.3'])
         t.fail('expected an error')
     } catch (error) {
         t.equal(error.message, 'GitBook version order is latest-snapshot v3.0.4 v3.0.2 v3.0.3, expected latest-snapshot v3.0.4 v3.0.3 v3.0.2')
@@ -114,22 +114,27 @@ test('order on the site that differs from the wanted order after sorting fails w
     t.end()
 })
 
-test('version already on the site is not changed', async (t) => {
+test('version already on the site is imported again from its docs branch, without adding or sorting', async (t) => {
     const site = await fakeGitbookSite()
 
-    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.4'])
+    const { added, reimported } = await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.0.4'])
 
-    t.deepEqual(addedVersions, [])
-    t.deepEqual(site.writes(), [], 'no add, import or structure sort')
+    t.deepEqual(added, [])
+    t.deepEqual(reimported, ['v3.0.4'])
+    const [gitImport] = site.writes()
+    t.equal(site.writes().length, 1, 'only the import')
+    t.deepEqual(site.bodyOf(gitImport), { url: 'https://github.com/pinpoint-apm/pinpoint-apm.github.io.git', ref: 'refs/heads/v3.0.4', force: true }, 'forced import replaces the content')
+    t.equal(gitImport[gitImport.length - 1], 'space_v3_0_4', 'imported into the existing space')
     t.end()
 })
 
 test('version without a docs branch is skipped', async (t) => {
     const site = await fakeGitbookSite()
 
-    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v2.4.9'])
+    const { added, reimported } = await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v2.4.9'])
 
-    t.deepEqual(addedVersions, [])
+    t.deepEqual(added, [])
+    t.deepEqual(reimported, [])
     t.deepEqual(site.writes(), [])
     t.end()
 })
@@ -137,9 +142,9 @@ test('version without a docs branch is skipped', async (t) => {
 test('versions added in one run are sorted once, after all are added', async (t) => {
     const site = await fakeGitbookSite()
 
-    const addedVersions = await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.1.0', 'v3.1.1'])
+    const { added, reimported } = await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.1.0', 'v3.1.1'])
 
-    t.deepEqual(addedVersions, ['v3.1.0', 'v3.1.1'])
+    t.deepEqual(added, ['v3.1.0', 'v3.1.1'])
     t.deepEqual(site.writes().map(args => subcommandOf(args)).slice(0, 4), ['organizations sites site-spaces add', 'spaces git import', 'organizations sites site-spaces add', 'spaces git import'], 'adds and imports before sorting')
     t.deepEqual(site.sorts(), [
         ['sitesp_v3_1_1', 'sitesp_latest_snapshot'],
@@ -153,7 +158,7 @@ test('versions added in one run are sorted once, after all are added', async (t)
 test('GitBook CLI runs outside the repository so npx does not resolve its packages', async (t) => {
     const site = await fakeGitbookSite()
 
-    await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['v3.0.3'])
+    await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['v3.0.3'])
 
     const gitbookOptions = site.calls.filter(call => call.args[0] === 'npx').map(call => call.options.cwd)
     t.ok(gitbookOptions.length > 0 && gitbookOptions.every(cwd => cwd === os.homedir()))
@@ -165,7 +170,7 @@ test('no site published at the URL fails', async (t) => {
     const site = await fakeGitbookSite()
 
     try {
-        await new GitbookVersions(site.runCommand, 'https://example.gitbook.io/other/').add(['v3.0.3'])
+        await new GitbookVersions(site.runCommand, 'https://example.gitbook.io/other/').publish(['v3.0.3'])
         t.fail('expected an error')
     } catch (error) {
         t.equal(error.message, 'No GitBook site is published at https://example.gitbook.io/other/')
@@ -178,33 +183,10 @@ test('input that is not a vX.Y.Z version fails', async (t) => {
     const site = await fakeGitbookSite()
 
     try {
-        await new GitbookVersions(site.runCommand, publishedSiteUrl).add(['3.0.3'])
+        await new GitbookVersions(site.runCommand, publishedSiteUrl).publish(['3.0.3'])
         t.fail('expected an error')
     } catch (error) {
         t.equal(error.message, '3.0.3 is not a vX.Y.Z version')
     }
-    t.end()
-})
-
-const latestPinpointReleaseIsNewer = async () => ({ tag_name: 'v3.2.0' })
-
-test('manual run adds the versions input', async (t) => {
-    const versions = await GitbookVersions.versionsToAdd(' v2.4.1  v2.4.2 ', { tag_name: 'v3.1.3' }, latestPinpointReleaseIsNewer)
-
-    t.deepEqual(versions, ['v2.4.1', 'v2.4.2'])
-    t.end()
-})
-
-test('release dispatch adds the dispatched release, even when a newer release exists', async (t) => {
-    const versions = await GitbookVersions.versionsToAdd('', { tag_name: 'v3.1.3' }, latestPinpointReleaseIsNewer)
-
-    t.deepEqual(versions, ['v3.1.3'])
-    t.end()
-})
-
-test('manual run without the versions input adds the latest Pinpoint release', async (t) => {
-    const versions = await GitbookVersions.versionsToAdd(undefined, undefined, latestPinpointReleaseIsNewer)
-
-    t.deepEqual(versions, ['v3.2.0'])
     t.end()
 })
