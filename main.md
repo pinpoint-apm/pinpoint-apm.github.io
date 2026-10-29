@@ -38,7 +38,7 @@ Data that is not assigned to a service, such as data collected before the upgrad
 
 ### OpenTelemetry Trace Support
 
-<img width="1500" height="1444" alt="image" src="https://github.com/user-attachments/assets/55b9e821-464b-470b-990e-af10aaa63c37" />
+![image](https://github.com/user-attachments/assets/55b9e821-464b-470b-990e-af10aaa63c37)
 
 Pinpoint 4.0.0 receives OpenTelemetry traces directly. Applications instrumented with the OpenTelemetry Java agent, any OTel SDK, or the OpenTelemetry Collector appear in the same server map, transaction list and call tree as agent-collected data, without the Pinpoint agent.
 
@@ -164,7 +164,7 @@ Upgrading to 4.0.0 requires the schema changes below. See [Schema changes in 4.0
 | Component | Requirement | Notes |
 | --- | --- | --- |
 | Agent JDK | 8+ | verified on 8 / 11 / 17 / 21 / 25 |
-| Collector / Web / Batch JDK | 17+ | |
+| Collector / Web / Batch JDK | 17 | |
 | Collector for agent 4.0.0 | 4.0.0+ | with the default `uid.version=v4`; pin `v3` for older collectors |
 | MySQL | 8.4+ | new `service` and alarm tables |
 | Pinot schema | migration | `serviceName` column added to `exceptionTrace` |
