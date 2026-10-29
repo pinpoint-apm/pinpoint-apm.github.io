@@ -1,7 +1,3 @@
-> **Note** This guide is a preview published ahead of the official Pinpoint 4.0.0 release. Details may change until the release.  
-> **안내** 이 문서는 Pinpoint 4.0.0 정식 릴리스에 맞춰 공개되는 사전 공개본입니다. 릴리스 전까지 내용이 일부 변경될 수 있습니다.
-
----
 [English](alarm.md#service-alarm) | [한국어](alarm.md#service-alarm-ko)
 # Service Alarm <a id="service-alarm"></a>
 
