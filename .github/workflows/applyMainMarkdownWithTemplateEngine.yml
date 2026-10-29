@@ -23,6 +23,8 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - run: npm ci --omit=dev
+      working-directory: .github/actions/markdown-template-engine-action
     - name: Update main.md by Markdown template engin
       uses: ./.github/actions/markdown-template-engine-action
       with:
