@@ -29,7 +29,7 @@
 **[Web]** Bumped handlebars, storybook, and shell-quote to fix critical vulnerabilities
 **[Web]** Bumped vite, zod, and transitive dependencies to fix high vulnerabilities
 **[Web]** Bumped postcss-selector-parser to 7.1.7 to fix a moderate vulnerability
-**[Web]** Reject admin API calls when admin.password is not set (#14533)
+**[Web]** Reported by @Hamaecco: Reject admin API calls when admin.password is not set (#14533)
 
 ## Dependency Updates
 **[Build]** 
@@ -88,7 +88,7 @@ Binaries are attached to this release:
 * [#14512] Bump jackson from 2.21.4 to 2.21.8 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14528
 * [#14513] Bump log4j2 from 2.25.4 to 2.25.5 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14529
 * Bump snappy-java from 1.1.10.4 to 1.1.10.12 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14532
-* [#14533] Reject admin API calls when admin.password is not set by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/14531
+* [#14533] Reject admin API calls when admin.password is not set by @ga-ram in https://github.com/pinpoint-apm/pinpoint/pull/14531 
 * [#14534] Switch the alarm modules from thymeleaf to thymeleaf-spring6 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14535
 * [#14517] Bump spring data from 3.5.11 to 3.5.13 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14536
 * [#14519] Bump spring cloud from 4.3.0 to 4.3.3 by @emeroad in https://github.com/pinpoint-apm/pinpoint/pull/14537
