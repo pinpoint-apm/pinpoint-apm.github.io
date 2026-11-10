@@ -12,6 +12,7 @@ const PinpointRelease = require('../lib/pinpoint-release')
 const fs = require("fs-extra")
 const path = require('path')
 const WhatsNewPage = require('../lib/whats-new-page')
+const { fetchFixtureText } = require('./fake-pinpoint-github')
 
 test('tagname check with "v"', async (t) => {
     const actual = (await ReleaseNotes.makeLatestReleaseNotes({
@@ -313,9 +314,11 @@ test('tagname check without "v"', async (t) => {
 })
 
 test('github latest release notes', async (t) => {
-    const actualLatestReleaseNotes = await PinpointRelease.fetchLatest()
+    const latestRelease = JSON.parse(await fs.readFile(path.join(__dirname, 'fixtures/releases-latest.json'), 'utf8'))
+    const actualLatestReleaseNotes = await PinpointRelease.fetchLatest(async () => latestRelease)
     const whatsNew = await fs.readFile(path.join(__dirname, '../../../../main.md'), 'utf8')
     const page = new WhatsNewPage(whatsNew)
+    page.fetchText = fetchFixtureText
     const actualMarkdownContent = await page.markdownContent(actualLatestReleaseNotes)
     const expectedLatestReleaseNotes = await page.markdownContentFromGithub('latestReleaseNotes.md', actualLatestReleaseNotes)
     t.deepEqual(/latestReleaseNotes.md>\s-->[\n\r]([\s\S]+)\n<!--\s<\/latestReleaseNotes.md>\s/gm.exec(actualMarkdownContent)[1],
@@ -334,12 +337,63 @@ test('img tags become Markdown images', (t) => {
     const actual = ReleaseNotes.formattedReleaseNotes('4.0.0', body)
     t.equal(actual, [
         "# What's New in v4.0.0",
-        '![image](https://github.com/user-attachments/assets/x)',
-        '![Server map](https://a/b.png)',
-        '![](https://a/c.png)',
-        '![x](y)',
+        '![image](https://github.com/user-attachments/assets/x)  ',
+        '![Server map](https://a/b.png)  ',
+        '![](https://a/c.png)  ',
+        '![x](y)  ',
         '<details><summary>More</summary></details>',
         ''
     ].join('\n'))
+    t.end()
+})
+
+test('line breaks of a release body become hard line breaks', (t) => {
+    const body = [
+        '## Improvements',
+        '**[Agent]** Propagate unsampled traces across Reactor subscribe and retry (#14594)',
+        '**[Web]** Added a search box to the sidebar service selector',
+        '',
+        '## Dependency Updates',
+        '**[Build]** ',
+        '- Spring Boot 3.5.14 → 3.5.16',
+        '- Spring Shell 3.4.2 → 3.4.3',
+        '**[Build]**',
+        '- log4j2 2.25.4 → 2.25.5',
+        '',
+        'Already broken  ',
+        'Already broken\\',
+        'Already broken<br>',
+        'Last line',
+        '- Item',
+        '  ```properties',
+        '  profiler.interceptor.exception.guard.codegen=true',
+        '  profiler.reactor.subscriber.instrument=false',
+        '  ```',
+        'After code'
+    ].join('\r\n')
+    const actual = ReleaseNotes.softLineBreaksToHardLineBreaks(body)
+    t.equal(actual, [
+        '## Improvements  ',
+        '**[Agent]** Propagate unsampled traces across Reactor subscribe and retry (#14594)  ',
+        '**[Web]** Added a search box to the sidebar service selector',
+        '',
+        '## Dependency Updates  ',
+        '**[Build]**   ',
+        '- Spring Boot 3.5.14 → 3.5.16  ',
+        '- Spring Shell 3.4.2 → 3.4.3  ',
+        '**[Build]**  ',
+        '- log4j2 2.25.4 → 2.25.5',
+        '',
+        'Already broken  ',
+        'Already broken\\',
+        'Already broken<br>',
+        'Last line  ',
+        '- Item  ',
+        '  ```properties',
+        '  profiler.interceptor.exception.guard.codegen=true',
+        '  profiler.reactor.subscriber.instrument=false',
+        '  ```',
+        'After code'
+    ].join('\r\n'))
     t.end()
 })

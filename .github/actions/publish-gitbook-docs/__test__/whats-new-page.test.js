@@ -8,6 +8,7 @@
 
 const test = require('tape')
 const WhatsNewPage = require('../lib/whats-new-page')
+const { fetchFixtureText } = require('./fake-pinpoint-github')
 
 const actualMD = `
 <!-- <latestReleaseNotes.md> -->
@@ -39,6 +40,7 @@ Additionally, the required Java version to run each Pinpoint component is given 
 
 test('tempalte engine', async (t) => {
     const dut = new WhatsNewPage(actualMD)
+    dut.fetchText = fetchFixtureText
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -53,6 +55,7 @@ test('tempalte engine', async (t) => {
 
 test('markdown section test', async (t) => {
     const dut = new WhatsNewPage(actualMD)
+    dut.fetchText = fetchFixtureText
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -67,6 +70,7 @@ test('markdown section test', async (t) => {
 
 test('markdown from pinpoint index', async (t) => {
     const dut = new WhatsNewPage(actualMD)
+    dut.fetchText = fetchFixtureText
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'
@@ -373,6 +377,7 @@ Pinpoint Version | Agent | Collector | Web
 
 test('markdown releasenotes gitbook image block style', async (t) => {
     const dut = new WhatsNewPage(actualMD)
+    dut.fetchText = fetchFixtureText
     const actual = await dut.markdownContent({
         getTagName: function () {
             return 'v1.0'

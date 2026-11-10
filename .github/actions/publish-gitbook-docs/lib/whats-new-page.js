@@ -10,14 +10,6 @@ const ReleaseNotes = require('./release-notes')
 const pinpointGithubRepository = 'pinpoint-apm/pinpoint'
 const readmeSectionFiles = ['compatibilityHbase.md', 'compatibilityJava.md', 'compatibilityPinpoint.md', 'compatibilityFlink.md', 'compatibilityPinot.md']
 
-async function fetchText(url) {
-    const response = await fetch(url)
-    if (!response.ok) {
-        throw new Error(`${url} failed with status ${response.status}`)
-    }
-    return response.text()
-}
-
 class WhatsNewPage {
     constructor(whatsNew) {
         this.whatsNew = whatsNew
@@ -55,13 +47,21 @@ class WhatsNewPage {
         if (readmeSectionFiles.includes(filename)) {
             return this.readmeSection(filename)
         }
-        return fetchText(`https://raw.githubusercontent.com/${pinpointGithubRepository}/master/doc/${filename}`)
+        return this.fetchText(`https://raw.githubusercontent.com/${pinpointGithubRepository}/master/doc/${filename}`)
     }
 
     async readmeSection(filename) {
-        this.readme ??= await fetchText(`https://raw.githubusercontent.com/${pinpointGithubRepository}/master/README.md`)
+        this.readme ??= await this.fetchText(`https://raw.githubusercontent.com/${pinpointGithubRepository}/master/README.md`)
         const match = RegExp(`^<!--\\s<${filename}>\\s-->$\\s(?<body>[\\s\\S]*)^<!--\\s<\\/${filename}>\\s-->`, 'gm').exec(this.readme)
         return match ? match.groups.body : undefined
+    }
+
+    async fetchText(url) {
+        const response = await fetch(url)
+        if (!response.ok) {
+            throw new Error(`${url} failed with status ${response.status}`)
+        }
+        return response.text()
     }
 }
 
