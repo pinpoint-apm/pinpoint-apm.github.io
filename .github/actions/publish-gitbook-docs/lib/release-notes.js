@@ -22,7 +22,28 @@ class ReleaseNotes {
 
     static formattedReleaseNotes(tagName, contents) {
         return whatsNewTempate.replace('__VERSION__', tagName)
-            .replace('__BODY__', ReleaseNotes.imgTagsToMarkdownImages(contents))
+            .replace('__BODY__', ReleaseNotes.softLineBreaksToHardLineBreaks(ReleaseNotes.imgTagsToMarkdownImages(contents)))
+    }
+
+    // https://spec.commonmark.org/0.31.2/#hard-line-breaks
+    static softLineBreaksToHardLineBreaks(contents) {
+        const lines = contents.split(/(?<=\n)/)
+        let inFencedCode = false
+        return lines.map((line, index) => {
+            const isFence = /^\s*(```|~~~)/.test(line)
+            if (isFence) {
+                inFencedCode = !inFencedCode
+            }
+            const text = line.replace(/\r?\n$/, '')
+            const lineEnding = line.substring(text.length)
+            const nextLine = lines[index + 1]
+            const breaksBeforeNextLine = text.trim() !== '' && nextLine !== undefined && nextLine.trim() !== ''
+            const endsWithHardBreak = / {2}$|\\$|<br\s*\/?>$/.test(text)
+            if (isFence || inFencedCode || !breaksBeforeNextLine || endsWithHardBreak) {
+                return line
+            }
+            return `${text}  ${lineEnding}`
+        }).join('')
     }
 
     // GitBook renders <img width height> as a fixed-height inline style, which stretches the image: pinpoint-apm/pinpoint-apm.github.io#106
