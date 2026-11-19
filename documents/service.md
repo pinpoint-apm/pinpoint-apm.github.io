@@ -57,6 +57,7 @@ With the Service feature, an application is identified by the `Service + Applica
 | Separate query scope | Only the data of the applications in the selected service is viewed. |
 | Duplicate application names allowed | The same application name can be used in different services. |
 | Call relationships | Calls with other services are checked on the Service Map. |
+| Infrastructure | System metric host groups are also separated by service. Telegraf sets the service with the `serviceName` header. See [System Metrics](system_metric.md#install-and-configure-telegraf-agent). |
 
 ### 1-2. Selecting a Service
 
@@ -467,6 +468,7 @@ Service 기능을 사용하면 Application은 이름만이 아니라 `Service + 
 | 조회 범위 분리 | 선택한 Service에 속한 Application의 데이터만 조회합니다. |
 | Application 이름 중복 허용 | Service가 다르면 같은 Application 이름을 사용할 수 있습니다. |
 | 호출 관계 확인 | 다른 Service와의 호출을 Service Map에서 확인합니다. |
+| Infrastructure | System metric의 서버 그룹도 Service별로 나뉩니다. Telegraf는 `serviceName` 헤더로 Service를 설정합니다. [System Metrics](system_metric.md#system-metrics-ko)를 참고하세요. |
 
 ### 1-2. Service 선택
 
