@@ -77,15 +77,21 @@ Telegraf collects below metrics information on the host machine:
                  
                  [outputs.http.headers]
                  hostGroupName = {applicationName}
+                 serviceName = {serviceName}
                  Content-Type = "application/json"  
     ```
   - `url`: substitute `{PINPOINT_COLLECTOR_IP}` to your Pinpoint collector address so that telegraf can send collected metrics to Pinpoint collector
   - `hostGroupName`: this value will be used as the key in Pinpoint web when querying the metrics details. It is recommended to use your applicationName already used in Pinpoint.
+  - `serviceName` (optional, Pinpoint v4.1.0 or later): the [service](service.md#service) that the host group belongs to. Pinpoint web shows the host group only when this service is selected.
+    - If you omit it, the collector stores the metrics in the `DEFAULT` service. `default` is also stored as `DEFAULT`.
+    - Use 3 to 254 characters of letters, digits, `.`, `_`, and `-`. The collector rejects other values with `400 Bad Request`.
 
 
 ## 4 View Collected System Metrics Data
 1. Click `Infrastructure` on the side bar menu in Pinpoint web.
 2. Search for the hostGroupName you have configured for Telegraf agents as described [in 3.5](#install-and-configure-telegraf-agent).
+   - The list shows only the host groups of the selected service. Select the service set in the `serviceName` header.
+   - Metrics collected before v4.1.0 have no service. They are shown in the `DEFAULT` service until they expire.
 3. A list of hosts will be displayed on the left, and you can view the system metrics data by clicking each of them.
 
 ![](<../.gitbook/assets/system_metric_03.png>)
@@ -177,16 +183,22 @@ telegraf agent를 통해 수집된 시스템 메트릭은 다음과 같다.
                    
                    [outputs.http.headers]
                    hostGroupName = {applicationName}
+                   serviceName = {serviceName}
                    Content-Type = "application/json"
         ```
     - `url`: {PINPOINT_COLLECTOR_IP} 자리에 데이터를 수집하는 collector의 주소를 설정한다.
     - `outputs.http.headers`은 서버 그룹의 key와 Content-Type을 설정한다.
       -  `hostGroupName`: {applicationName}에 설정한 값을 key로 pinpoint-web에서 데이터를 조회할 수 있다. 핀포인트를 이미 사용 중이라면 application을 추적할 때 agent 설정 값으로 사용했던 applicationName을 사용하는 것을 추천한다.
+      -  `serviceName` (선택, Pinpoint v4.1.0 이상): 서버 그룹이 속한 [service](service.md#service-ko)를 설정한다. pinpoint-web에서는 이 service를 선택했을 때만 서버 그룹이 보인다.
+         - 생략하면 collector는 `DEFAULT` service로 저장한다. `default`도 `DEFAULT`로 저장한다.
+         - 영문자, 숫자, `.`, `_`, `-`로 3~254자를 사용한다. 다른 값은 collector가 `400 Bad Request`로 거부한다.
 
 # 4 데이터 조회
 
 - pinpoint-web에서 왼쪽 `Infrastructure` 메뉴를 선택하여 system metric 화면으로 이동한다.
 - 상단의 select box에서 telegraf.conf 파일에 설정한 hostGroupName 값을 찾아서 선택한다.
+  - 목록에는 선택한 service의 서버 그룹만 나온다. `serviceName` 헤더에 설정한 service를 선택해야 한다.
+  - v4.1.0 이전에 수집한 메트릭에는 service가 없다. 이 데이터는 보관 기간이 끝날 때까지 `DEFAULT` service에서 보인다.
 - 아래와 같이 왼쪽에 호스트 목록이 나오고, 호스트를 선택해서 system metric 데이터를 확인할 수 있다.
 
 ![](<../.gitbook/assets/system_metric_03.png>)
