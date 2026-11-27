@@ -120,6 +120,7 @@ For example, one incoming request calls the DB three times and an external API o
 Channels work as follows.
 
 - If you select a user group without recipients, a warning appears in the channel list and in the channel selection of rules and templates.
+- By default, a user can select any user group. Set `alarm.channel.member-check.enabled=true` in Pinpoint Web to let a user select only the groups that the user is a member of. `ROLE_ADMIN` can set any group through the API. The editors still show `ROLE_ADMIN` only the groups that the admin is a member of. Without a login module, the check refuses every group.
 - Many rules and templates in the same service can share one channel.
 - When you change a channel, all later notifications through that channel use the change.
 
@@ -529,6 +530,7 @@ Service 알람을 운영하려면 별도의 Alarm Batch 프로세스가 필요�
 채널은 다음과 같이 동작합니다.
 
 - 수신자가 없는 User Group을 선택하면 채널 목록과 룰·템플릿의 채널 선택 화면에 경고가 표시됩니다.
+- 기본적으로 사용자는 모든 User Group을 선택할 수 있습니다. Pinpoint Web에 `alarm.channel.member-check.enabled=true`를 설정하면 사용자가 자신이 속한 그룹만 선택할 수 있습니다. `ROLE_ADMIN`은 API로 모든 그룹을 지정할 수 있습니다. 다만 화면에는 `ROLE_ADMIN`에게도 자신이 속한 그룹만 보입니다. 로그인 모듈이 없으면 검사가 모든 그룹을 거부합니다.
 - 채널은 같은 Service의 여러 룰과 템플릿에서 재사용할 수 있습니다.
 - 채널 정보를 수정하면 그 채널을 사용하는 이후 알림에 모두 반영됩니다.
 
